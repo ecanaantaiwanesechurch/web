@@ -7,6 +7,8 @@
     '/en/gatherings/sermons',
     '/growth/videos',
     '/fellowships/mm/nfl/nfl-videos',
+    '/events/2024-mm-gospel-night',
+    '/events/2023-mm-gospel-night',
     'srcdoc'
   ];
 

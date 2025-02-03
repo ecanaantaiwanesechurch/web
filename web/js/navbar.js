@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const logoUrl = 'https://cdn.jsdelivr.net/gh/ethankao/canaan@main/web/static/logo.png';
+  const logoUrl = 'https://cdn.jsdelivr.net/gh/ecanaantaiwanesechurch/web@main/web/static/logo.png';
   const navbarItems = [
     {
       en: 'About Us',
