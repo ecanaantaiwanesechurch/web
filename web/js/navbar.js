@@ -136,6 +136,11 @@
           en: 'Testimony (Video)',
           zh: '見證分享 (影音)',
           enLink: '/growth/videos'
+        },
+        {
+          en: 'Special Events',
+          zh: '特別聚會',
+          enLink: '/growth/special-events'
         }
       ]
     },
