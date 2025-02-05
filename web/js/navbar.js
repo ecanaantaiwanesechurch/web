@@ -128,6 +128,16 @@
           zhLink: '/growth/sunday-school'
         },
         {
+          en: 'Basic Christianity',
+          zh: '基要真理',
+          enLink: '/growth/basic-christianity'
+        },
+        {
+          en: 'Discipleship',
+          zh: '門徒訓練',
+          enLink: '/growth/discipleship'
+        },        
+        {
           en: 'Blog',
           zh: '文章分享',
           enLink: '/growth/blog'
