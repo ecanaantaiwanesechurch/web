@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const logoUrl = 'https://cdn.jsdelivr.net/gh/ecanaantaiwanesechurch/web@main/web/static/logo.png';
+  const logoUrl = 'https://cdn.jsdelivr.net/gh/ecanaantaiwanesechurch/web@main/web/static/logo.jpg';
   const navbarItems = [
     {
       en: 'About Us',
@@ -136,7 +136,7 @@
           en: 'Discipleship',
           zh: '門徒訓練',
           enLink: '/growth/discipleship'
-        },        
+        },
         {
           en: 'Blog',
           zh: '文章分享',
