@@ -172,6 +172,7 @@
   .notion-collection-gallery.highlight {
     display: flex!important;
     grid-template-columns:none!important;
+    flex-flow: wrap;
   }
 
   .notion-collection-gallery.highlight .notion-collection-card {}
