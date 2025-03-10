@@ -69,21 +69,24 @@
 
 /* Main Page */
 
-/* .notion-collection-gallery.highlight {
+.notion-collection-gallery.highlight {
   display: flex!important;
   grid-template-columns:none!important;
-}*/
+  flex-flow: wrap;
+  width: 80%;
+}
 
+/* special first child tall
 .notion-collection-gallery.highlight {
   display: grid!important;
   grid-template-columns:1fr 1fr!important;
 }
 
-/* special first child tall */
 .notion-collection-gallery.highlight .notion-collection-card:nth-child(1) {
   grid-row: 1 / 4;
   grid-column: 1;
 }
+*/
 
 .notion-collection-gallery.highlight .notion-collection-card__property-list {
   display: none!important;
@@ -173,6 +176,7 @@
     display: flex!important;
     grid-template-columns:none!important;
     flex-flow: wrap;
+    width: 100%;
   }
 
   .notion-collection-gallery.highlight .notion-collection-card {}
