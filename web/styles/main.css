@@ -73,6 +73,10 @@ h3 {
     opacity: 0!important;
 }
 
+.notion-numbered-list {
+  list-style: numeric;
+}
+
 /*--------- NAVBAR ---------*/
 
 .super-navbar {
@@ -674,6 +678,11 @@ h3 {
     --heading2-size: calc(var(--heading-size) * 1)!important;
     --heading3-size: calc(var(--heading-size) * 0.8)!important;
   }
+}
+
+/* link pages */
+#block-mmlinks.notion-root {
+  text-align: center;
 }
 
 /*R00T*/
