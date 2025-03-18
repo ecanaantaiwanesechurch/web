@@ -58,7 +58,7 @@ const sundaySchoolConfigs = [
     notionPage: '2256f869672640509fde648116bd5b7d',
     importedField: 'H'
   },
-    { // 有意思的使徒信經
+  { // 有意思的使徒信經
     sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
     tab: '2025Q1 慕道班-有意思的使徒信經',
     notionPage: '19eba8467b7a80ec8772c9b580cce359',
