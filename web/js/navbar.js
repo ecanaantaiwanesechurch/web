@@ -106,6 +106,11 @@
               en: 'Announcements',
               zh: '最新公告',
               enLink: '/ministries/childrens-ministry/announcements',
+            },
+            {
+              en: '2025 VBS Summer Camp',
+              zh: '2025 VBS 聖經夏令營',
+              enLink: '/events/2025-vps-summer-camp',
             }
           ]
         },
