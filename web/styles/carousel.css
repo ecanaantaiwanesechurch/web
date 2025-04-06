@@ -1,0 +1,30 @@
+/* Carousel in highlight pages (gallery) */
+
+.carousel .notion-collection-card__property-list {
+  display: none!important;
+}
+
+.carousel .notion-collection-card {
+  max-width: 100%;
+  width: auto;
+  box-shadow: none !important;
+  background: transparent!important;
+  border: none !important;
+}
+
+.carousel .carousel-item__anchor {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+  color: transparent!important;
+}
+
+.carousel .carousel-item img {
+  width: auto;
+  height: 'fit-content';
+  object-fit: contain;
+  max-height: 32rem;
+  max-width: 26rem;
+  border-radius: var(--callout-border-radii)!important;
+}

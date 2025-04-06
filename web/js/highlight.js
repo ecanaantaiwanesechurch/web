@@ -57,9 +57,52 @@
     if (gallery.length === 0) { return; }
 
     gallery.forEach((item) => {
-      const className = item.className.replace(targetClassName, 'notion-collection-gallery highlight');
+      const className = item.className.replace(targetClassName, 'carousel rounded-box w-full');
       item.className = className;
+      updateGalleryItems(item);
     })
   }
 
+  function updateGalleryItems(gallery) {
+    if (!gallery) { return; }
+
+    const itemTargetClassName = 'notion-collection-card gallery';
+    const galleryItems = Array.from(gallery.getElementsByClassName(itemTargetClassName));
+
+    if (galleryItems.length === 0) { return; }
+
+    galleryItems.forEach((item) => {
+      const className = item.className.replace(itemTargetClassName, 'carousel-item px-1 items-center');
+      item.className = className;
+      updateGalleryItemLink(item);
+      updateGalleryItemImage(item);
+    });
+  }
+
+  function updateGalleryItemLink(item) {
+    if (!item) { return; }
+
+    const targetClassName = 'notion-collection-card__anchor';
+    const items = Array.from(item.getElementsByClassName(targetClassName));
+
+    if (items.length === 0) { return; }
+
+    items.forEach((link) => {
+      const className = link.className.replace(targetClassName, 'carousel-item__anchor');
+      link.className = className;
+    });
+  }
+
+  function updateGalleryItemImage(item) {
+    if (!item) { return; }
+
+    const items = Array.from(item.getElementsByTagName('img'));
+
+    if (items.length === 0) { return; }
+
+    items.forEach((image) => {
+      image.className = '';
+      image.style = '';
+    });
+  }
 })();
