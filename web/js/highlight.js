@@ -75,7 +75,6 @@
       const className = item.className.replace(itemTargetClassName, 'carousel-item px-1');
       item.className = className;
       updateGalleryItemLink(item);
-      updateGalleryItemImage(item);
     });
   }
 
@@ -88,21 +87,29 @@
     if (items.length === 0) { return; }
 
     items.forEach((link) => {
-      const className = link.className.replace(targetClassName, 'carousel-item__anchor');
+      const className = link.className.replace(targetClassName, '');
       link.className = className;
+      const image = findGalleryItemImage(item);
+      if (image) {
+        link.innerText = '';
+        link.appendChild(image);
+      }
     });
   }
 
-  function updateGalleryItemImage(item) {
+  function findGalleryItemImage(item) {
     if (!item) { return; }
 
     const items = Array.from(item.getElementsByTagName('img'));
 
     if (items.length === 0) { return; }
 
+    var ret;
     items.forEach((image) => {
       image.className = '';
       image.style = '';
+      ret = image;
     });
+    return ret;
   }
 })();
