@@ -57,7 +57,7 @@
     if (gallery.length === 0) { return; }
 
     gallery.forEach((item) => {
-      const className = item.className.replace(targetClassName, 'carousel rounded-box w-full');
+      const className = item.className.replace(targetClassName, 'carousel rounded-box w-full items-center');
       item.className = className;
       updateGalleryItems(item);
     })
@@ -72,7 +72,7 @@
     if (galleryItems.length === 0) { return; }
 
     galleryItems.forEach((item) => {
-      const className = item.className.replace(itemTargetClassName, 'carousel-item px-1 items-center');
+      const className = item.className.replace(itemTargetClassName, 'carousel-item px-1');
       item.className = className;
       updateGalleryItemLink(item);
       updateGalleryItemImage(item);
