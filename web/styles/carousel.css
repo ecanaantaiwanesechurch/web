@@ -20,3 +20,14 @@
   max-width: 26rem;
   border-radius: var(--callout-border-radii)!important;
 }
+
+/* Mobile */
+@media (max-width: 880px) {
+  .carousel .carousel-item {
+    max-width: 90%;
+  }
+
+  .carousel .carousel-item img {
+    max-width: 100%;
+  }
+}
