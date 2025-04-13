@@ -64,12 +64,24 @@ const sundaySchoolConfigs = [
     notionPage: '19eba8467b7a80ec8772c9b580cce359',
     importedField: 'H'
   },
+  { // 智慧何處尋/雅歌
+    sheet: '1SDvjfNm3ksoy4lUjSxdQWKIKIRv8rObMI6p1mI97RWw',
+    tab: '2025Q2 智慧何處尋/雅歌',
+    notionPage: '1d4ba8467b7a809fb9fdfc3a525eb6ba',
+    importedField: 'I'
+  },
 ];
 
-async function syncSundaySchools() {
+async function syncSundaySchools(body = {}) {
   const auth = await gBase.authorize();
   const notion = await nWorker.createNotionClient();
-  for (const config of sundaySchoolConfigs) {
+  var targetConfigs;
+  if (body.tab && body.sheet) {
+    targetConfigs = sundaySchoolConfigs.filter((config) => config.tab === body.tab && config.sheet === body.sheet);
+  } else {
+    targetConfigs = sundaySchoolConfigs;
+  }
+  for (const config of targetConfigs) {
     try {
       // const tabName = '2024';
       const records = await gWorker.fetchSundaySchoolSheetRecords(auth, config.sheet, config.tab);

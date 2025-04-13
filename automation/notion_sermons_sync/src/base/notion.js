@@ -292,12 +292,14 @@ async function updateMMPage(notion, pageId, databaseRecord) {
 async function createSundaySchoolRecord(notion, database_id, record, isEnglish) {
   const handoutText = isEnglish ? '📄 Handout' : '📄 講義';
   const recordingText = isEnglish ? '▶️  Recording' : '▶️  錄音';
+  const videoText = isEnglish ? '▶️  Video' : '▶️  影片';
   const propEntries = [
     [ 'Date', { date: { start: record.date } } ],
     [ 'Title', titleBlock(record.title) ],
     [ 'Speakers', multiSelect(record.speakers) ],
     [ 'Handout', linkText(handoutText, record.handoutLink) ],
     [ 'Recording', linkText(recordingText, record.audioLink) ],
+    [ 'Video', linkText(videoText, record.videoLink) ],
     [ 'Verses', multiSelect(record.verses) ],
     [ 'Tags', multiSelect(record.tags) ],
   ].filter(n => !!n[1]);

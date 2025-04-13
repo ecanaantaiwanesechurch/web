@@ -15,7 +15,7 @@ functions.http('syncSermons', async (req, res) => {
   logAuth(req, `syncSermons ${req.body}`);
   try {
     await syncSermons(req.body);
-    const tabName = req.body?.tabName || '';
+    const tabName = req.body?.tab || '';
     res.send(`Sync Sermons Done. ${tabName}`);
   } catch(error) {
     console.log(error);
@@ -24,9 +24,9 @@ functions.http('syncSermons', async (req, res) => {
 });
 
 functions.http('syncSundaySchools', async (req, res) => {
-  logAuth(req, 'syncSundaySchools');
+  logAuth(req, `syncSundaySchools ${req.body?.tab} ${req.body?.sheet}`);
   try {
-    await syncSundaySchools();
+    await syncSundaySchools(req.body);
     res.send('Sync Sunday Schools Done.');
   } catch(error) {
     console.log(error);
