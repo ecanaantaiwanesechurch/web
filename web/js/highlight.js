@@ -57,8 +57,7 @@
     if (gallery.length === 0) { return; }
 
     gallery.forEach((item) => {
-      const className = item.className.replace(targetClassName, 'carousel rounded-box w-full items-center');
-      item.className = className;
+      item.className = 'carousel rounded-box w-full items-center';
       updateGalleryItems(item);
     })
   }

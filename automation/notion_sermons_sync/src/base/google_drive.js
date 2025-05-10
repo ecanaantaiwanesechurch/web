@@ -25,5 +25,6 @@ async function listFiles(auth, fileId) {
 
 
 export default {
-  listAlbumFiles
+  listAlbumFiles,
+  listFiles
 }
