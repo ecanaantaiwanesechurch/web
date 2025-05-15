@@ -46,6 +46,11 @@
           zh: '主日信息',
           enLink: '/en/gatherings/sermons',
           zhLink: '/sermons'
+        },
+        {
+          en: '2025 All Church Retreat',
+          zh: '2025 全教會退修會',
+          enLink: 'https://retreat.ecanaan.org/'
         }
       ]
     },
