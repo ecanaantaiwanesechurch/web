@@ -14,11 +14,6 @@
           zhLink: '/about-us/our-story'
         },
         {
-          en: 'Mission Support',
-          zh: '宣教支持',
-          enLink: '/about-us/mission-support'
-        },
-        {
           en: 'Careers',
           zh: '徵人啟事',
           enLink: '/about-us/careers'
@@ -124,6 +119,27 @@
           zh: '家庭事工',
           enLink: '/en/ministries/family-ministry',
           zhLink: '/ministries/family-ministry',
+        },
+        {
+          en: 'Missions',
+          zh: '宣教事工',
+          items: [
+            {
+              en: 'Mission Support',
+              zh: '宣教支持',
+              enLink: '/missions/mission-support'
+            },
+            {
+              en: '2025 STM Directory',
+              zh: '2025 短宣名錄',
+              enLink: '/missions/2025-stm-directory'
+            },
+            {
+              en: '2025 STM Support Letters',
+              zh: '2025 短宣代禱',
+              enLink: '/missions/2025-stm-support-letters'
+            },
+          ]
         },
       ]
     },
