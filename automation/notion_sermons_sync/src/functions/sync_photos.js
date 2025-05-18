@@ -35,6 +35,11 @@ const defaultConfig = {
       albumTitle: 'CTCC CM',
       target: 'cmgallery',
       fileId: '1jBazHd2J-Da1sGHooOApPhUbIXW9ZaOu',
+    },
+    {
+      albumTitle: 'CTCC Dance Team',
+      target: 'ccdancegallery',
+      fileId: '1zzqHz6o0GqqMiVeyT9_oZJh9HDXEZomt',
     }
   ],
   pageId: '140ba8467b7a80b4ada4c51047ad9b67'

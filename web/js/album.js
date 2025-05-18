@@ -12,6 +12,7 @@
     'emgallery',
     'ymgallery',
     'cmgallery',
+    'ccdanceteamgallery',
   ];
 
   if (document.readyState === "loading") {
