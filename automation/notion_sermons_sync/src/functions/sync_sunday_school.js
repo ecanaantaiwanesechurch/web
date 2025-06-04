@@ -117,6 +117,10 @@ async function syncSundaySchools(body = {}) {
 
       for (const r of records) {
         try {
+          if (!r.handoutLink && !r.audioLink) {
+            continue;
+          }
+
           console.log(`Importing Sermon: ${JSON.stringify(r)}`);
           const pageId = await nWorker.createSundaySchoolRecord(notion, database.id, r, config.isEnglish);
           await gWorker.markRecordIsImported(auth, config.sheet, config.tab, r.rowIndex, config.importedField, pageId);
