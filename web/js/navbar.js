@@ -139,6 +139,11 @@
               zh: '2025 短宣代禱',
               enLink: '/missions/2025-stm-support-letters'
             },
+            {
+              en: '2025 STM Updates',
+              zh: '2025 STM 最新消息',
+              enLink: '/missions/2025-stm-updates'
+            },
           ]
         },
       ]
