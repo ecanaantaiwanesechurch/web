@@ -11,7 +11,8 @@ async function listFiles(auth, fileId) {
   const drive = google.drive({version: 'v3', auth });
   const res = await drive.files.list({
     q: `'${fileId}' in parents and trashed = false`,
-    fields: 'nextPageToken, files(id, name, mimeType, thumbnailLink, webViewLink, webContentLink, imageMediaMetadata)',
+    fields: 'nextPageToken, files(id, name, mimeType, thumbnailLink, webViewLink, webContentLink, imageMediaMetadata, modifiedTime)',
+    orderBy: 'modifiedTime desc',
     spaces: 'drive',
     pageSize: 50,
   });
