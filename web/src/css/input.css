@@ -23,8 +23,8 @@
 }
 
 /* New navbar dropdown styles */
-.w-smenu { 
-  width: 20rem; 
+.w-smenu {
+  width: 20rem;
 }
 
 /* Smooth transitions for navbar elements */
@@ -74,4 +74,24 @@
 .hidden.md\\:block ul li button,
 .hidden.md\\:block ul li div {
   white-space: nowrap;
+}
+
+/* Super carousel */
+
+.notion-callout.bg-brown-light .notion-collection-card__content {
+  display: none;
+}
+
+.carousel-indicators {
+  display: none;
+}
+
+.notion-callout.bg-brown-light .notion-collection-gallery.small {
+  width: auto !important;
+  margin: auto;
+  max-height: 30em;
+}
+
+.notion-callout.bg-brown-light .notion-collection-gallery .notion-collection-card__cover {
+  object-fit: contain!important;
 }

@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tailwindcss -i ./src/css/input.css -o ./static/component.css"
+    "build": "npx tailwindcss -i ./src/css/input.css -o ./static/component.css",
+    "build-js": "vite build && cp dist/bundle.min.js static/",
+    "build-all": "npm run build && npm run build-js"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +20,7 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
-    "tailwindcss": "^4.1.12"
+    "tailwindcss": "^4.1.12",
+    "vite": "^7.1.3"
   }
 }
