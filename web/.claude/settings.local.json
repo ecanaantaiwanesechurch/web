@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv:*)",
+      "Bash(grep:*)",
+      "Bash(npm view:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "WebSearch",
+      "WebFetch(domain:daisyui.com)",
+      "Bash(rm:*)",
+      "Bash(node:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -143,9 +143,9 @@
               en: '2025 STM Updates',
               zh: '2025 STM 最新消息',
               enLink: '/missions/2025-stm-updates'
-            },
+            }
           ]
-        },
+        }
       ]
     },
     {
@@ -222,9 +222,8 @@
     }
   ];
 
-  const ctas = [];
-
-  const zhEnPathes = [
+  // Path mappings for language switching
+  const zhEnPaths = [
     ['/zh', '/en'],
     ['/fellowships/tm/cupertino', '/en/fellowships/tm/cupertino'],
     ['/fellowships/tm/fremont', '/en/fellowships/tm/fremont'],
@@ -240,318 +239,522 @@
   const entries = navbarItems
     .concat(navbarItems.flatMap((item) => item.items || []))
     .filter((item) => item.zhLink != null && item.enLink != null)
-    .map((item) => [ item.zhLink, item.enLink ])
-    .concat(zhEnPathes);
+    .map((item) => [item.zhLink, item.enLink])
+    .concat(zhEnPaths);
 
   const toEnPaths = Object.fromEntries(entries);
+  const toZhPaths = Object.fromEntries(entries.map(([key, value]) => [value, key]));
 
-  const toZhPaths = Object.fromEntries(
-    entries.map(([key, value]) => [value, key])
-  );
+  // State management and caching
+  const state = {
+    mobileMenuOpen: false,
+    lastRenderedLanguage: null,
+    cachedElements: {},
+    resizeTimeout: null
+  };
 
-  // DOM observation
+  // Utility functions
+  const utils = {
+    debounce: (func, wait) => {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    },
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bootstrap);
-  } else {
-    bootstrap();
+    getElement: (selector) => {
+      if (!state.cachedElements[selector]) {
+        state.cachedElements[selector] = document.querySelector(selector);
+      }
+      return state.cachedElements[selector];
+    },
+
+    // Calculate optimal height for mobile menu based on content
+    calculateMobileMenuHeight: () => {
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (!mobileMenu) return null;
+
+      const ul = mobileMenu.querySelector('ul');
+      const contentHeight = ul ? ul.scrollHeight : 0;
+      const padding = parseInt(getComputedStyle(document.documentElement).fontSize) * 0.5; // py-2 = 0.5rem top + 0.5rem bottom
+      const neededHeight = contentHeight + padding;
+      const viewportHeight = window.innerHeight;
+      const maxAllowed = viewportHeight * 0.8;
+
+      // Get default min height from CSS custom property or fallback
+      const minHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--mobile-menu-min-height')) ||
+                       Math.min(24 * parseInt(getComputedStyle(document.documentElement).fontSize), viewportHeight * 0.6);
+
+      return Math.max(Math.min(neededHeight, maxAllowed), minHeight);
+    }
+  };
+
+  // Initialize navbar
+  function init() {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bootstrap);
+    } else {
+      bootstrap();
+    }
   }
 
   function bootstrap() {
     window.addEventListener('popstate', updateNavbar);
+    window.addEventListener('hashchange', updateNavbar);
 
-    (function(history) {
-      var _pushState = history.pushState;
-      history.pushState = function() {
-        const ret = _pushState.apply(history, arguments);
-        updateNavbar()
-        return ret;
-      };
-    })(window.history);
-
-    if (MutationObserver) {
-      const root = document.getElementsByClassName('super-root')[0];
-      if (root) {
-        const rootObserver = new MutationObserver(() => {
-          updateLinks();
-        });
-        rootObserver.observe(root, {
-          childList: true,
-          subtree: true
-        })
-      }
-    }
+    // Override history.pushState to detect navigation
+    const originalPushState = history.pushState;
+    history.pushState = function() {
+      const ret = originalPushState.apply(history, arguments);
+      updateNavbar();
+      return ret;
+    };
 
     updateNavbar();
   }
 
-  // Navbar HTML
-
-  function itemLi(item) {
-    if (item.items) {
-      return detailsItem(item);
-    }
-
-    let content;
-    if (item.url) {
-      content = `<a href="${item.url}">${item.text}</a>`;
-    } else {
-      content = `<a>${item.text}</a>`;
-    }
-    return `      <li>${content}</li>`
+  function getCurrentLanguage() {
+    // Always check current URL for language, don't cache this
+    return window.location.hash === '#en' || window.location.pathname.startsWith('/en');
   }
 
-  function dropdownItem(item) {
-    const itemsTag = item.items.map(itemLi).join('\n  ');
+  function getItemUrl(item, isEn) {
+    if (item.language) {
+      const currentPath = window.location.pathname;
+      // Language button shows opposite language
+      // If currently English (isEn=true), button shows "中文" and should go to Chinese (no hash)
+      // If currently Chinese (isEn=false), button shows "English" and should go to English (#en)
+      const mapping = isEn ? toZhPaths : toEnPaths;
+      let url = mapping[currentPath] || currentPath;
+      const finalUrl = isEn ? url : `${url}#en`;
+      return finalUrl;
+    }
+
+    let url = isEn ? item.enLink || item.zhLink : item.zhLink || item.enLink;
+    if (isEn && url && !url.startsWith('http')) {
+      url = `${url}#en`;
+    }
+    return url;
+  }
+
+  function createDropdownItem(item, isEn) {
+    const text = isEn ? item.en : item.zh;
+
+    if (item.items && item.items.length > 0) {
+      // Handle nested dropdown items with inline expansion
+      const nestedItems = item.items.map(subItem => {
+        const subUrl = getItemUrl(subItem, isEn);
+        const subText = isEn ? subItem.en : subItem.zh;
+        return `
+          <li>
+            <a href="${subUrl || '#'}" class="px-6 py-2 text-gray-600 hover:bg-gray-50 block border-l-2 border-gray-200 ml-4">
+              ${subText}
+            </a>
+          </li>
+        `;
+      }).join('');
+
+      return `
+        <li class="relative group/nested">
+          <div class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer flex items-center justify-between desktop-nested-dropdown-toggle">
+            <span>${text}</span>
+            <svg class="w-4 h-4 ml-2 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+          <ul class="dropdown-closed transition-all duration-200 bg-gray-50">
+            ${nestedItems}
+          </ul>
+        </li>
+      `;
+    }
+
+    const url = getItemUrl(item, isEn);
     return `
       <li>
-      <div class="dropdown dropdown-hover">
-      <div tabindex="0">${item.text}</div>
-      <ul tabindex="0" class="menu dropdown-content p-2 z-[12] shadow bg-base-100 rounded-box min-w-32 max-2-80 w-max">
-  ${itemsTag}
-      </ul>
-      </div>
+        <a href="${url || '#'}" class="px-4 py-2 text-gray-700 hover:bg-gray-100 block whitespace-nowrap">
+          ${text}
+        </a>
       </li>
     `;
   }
 
-  function navbarMenu(items) {
-    let itemsTag = items
-      .map(item => {
-        if (item.items) {
-          return dropdownItem(item);
-        }
-        return itemLi(item);
-      })
-      .join('\n');
+  function createNavItem(item, isEn) {
+    const text = isEn ? item.en : item.zh;
 
-    return `
-    <ul class="menu lg:menu-lg menu-horizontal px-1">
-      ${itemsTag}
-    </ul>`;
-  }
-
-  function detailsItem(item) {
-    const itemsTag = item.items.map(itemLi).join('\n  ');
-    return `
-     <li>
-     <details>
-     <summary>${item.text}</summary>
-     <ul class="p-2 z-[12] md:min-w-32 md:max-2-80 md:w-max">
-  ${itemsTag}
-     </ul>
-     </details>
-     </li>`;
-  }
-
-  function dropdown(items) {
-    let itemsTag = items
-      .map(item => {
-        if (item.items) {
-          return detailsItem(item);
-        }
-        return itemLi(item);
-      })
-      .join('\n');
-
-    return `
-    <div class="dropdown dropdown-bottom dropdown-end">
-      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden md:hidden pe-0">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-      </div>
-      <ul tabindex="0" class="dropdown-content z-[12] menu menu-lg mt-3 p-2 shadow bg-base-100 rounded-box w-smenu">
-${itemsTag}
-      </ul>
-    </div>`;
-  }
-
-  function itemConfig(isEn, item, index) {
-    let url, addHash = isEn;
     if (item.language) {
-      addHash = !isEn;
-      url = window.location.pathname;
-      const mapping = addHash ? toEnPaths: toZhPaths;
-      url = mapping[url] || url;
-    } else {
-      url = isEn ? item.enLink || item.zhLink : item.zhLink || item.enLink;
+      const url = getItemUrl(item, isEn);
+      return `
+        <li class="relative">
+          <a href="${url || '#'}"
+             class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base">
+            ${text}
+          </a>
+        </li>
+      `;
     }
-    if (addHash && url) {
-      url = `${url}#en`;
+
+    if (item.items && item.items.length > 0) {
+      let sortedItems = [...item.items];
+      if (isEn) {
+        sortedItems = sortedItems.sort((a, b) => {
+          return a.enOrder - b.enOrder;
+        });
+      }
+
+      const dropdownItems = sortedItems.map(subItem => createDropdownItem(subItem, isEn)).join('');
+
+      return `
+        <li class="relative group">
+          <button class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base">
+            ${text}
+          </button>
+          <ul class="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 w-max">
+            ${dropdownItems}
+          </ul>
+        </li>
+      `;
     }
 
-    const items = item.items ?
-      item.items.map((i, index) => itemConfig(isEn, i, index))
-      : undefined;
+    const url = getItemUrl(item, isEn);
+    return `
+      <li>
+        <a href="${url || '#'}"
+           class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base">
+          ${text}
+        </a>
+      </li>
+    `;
+  }
 
-    let sortedItems;
-    if (isEn && items) {
-      sortedItems = items.sort((a, b) => { return a.enOrder - b.enOrder; })
+  function createMobileNavItem(item, isEn) {
+    const text = isEn ? item.en : item.zh;
+
+    if (item.language) {
+      const url = getItemUrl(item, isEn);
+      return `
+        <li>
+          <a href="${url || '#'}"
+             class="block px-4 py-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100 text-base">
+            ${text}
+          </a>
+        </li>
+      `;
     }
-    const enOrder = item.enOrder !== undefined ? item.enOrder : index;
-    return {
-      text: isEn ? item.en : item.zh,
-      url: url,
-      items: sortedItems || items,
-      enOrder: enOrder
-    };
-  }
 
-  function navbarStart(url, logoUrl) {
+    if (item.items && item.items.length > 0) {
+      let sortedItems = [...item.items];
+      if (isEn) {
+        sortedItems = sortedItems.sort((a, b) => {
+          return a.enOrder - b.enOrder;
+        });
+      }
+
+      const subItems = sortedItems.map(subItem => {
+        const subText = isEn ? subItem.en : subItem.zh;
+
+        if (subItem.items && subItem.items.length > 0) {
+          // Handle nested items in mobile
+          const nestedItems = subItem.items.map(nestedItem => {
+            const nestedUrl = getItemUrl(nestedItem, isEn);
+            const nestedText = isEn ? nestedItem.en : nestedItem.zh;
+            return `
+              <li>
+                <a href="${nestedUrl || '#'}"
+                   class="block px-8 py-2 text-gray-600 hover:bg-gray-50">
+                  ${nestedText}
+                </a>
+              </li>
+            `;
+          }).join('');
+
+          return `
+            <li>
+              <button class="w-full px-6 py-2 text-left text-gray-600 hover:bg-gray-50 flex items-center justify-between mobile-nested-dropdown-toggle bg-gray-50">
+                ${subText}
+                <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <ul class="dropdown-closed transition-all duration-200 bg-gray-50">
+                ${nestedItems}
+              </ul>
+            </li>
+          `;
+        }
+
+        const subUrl = getItemUrl(subItem, isEn);
+        return `
+          <li>
+            <a href="${subUrl || '#'}"
+               class="block px-6 py-2 text-gray-600 hover:bg-gray-50">
+              ${subText}
+            </a>
+          </li>
+        `;
+      }).join('');
+
+      return `
+        <li class="border-b border-gray-100">
+          <button class="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 flex items-center justify-between mobile-dropdown-toggle text-base">
+            ${text}
+            <svg class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+          <ul class="dropdown-closed transition-all duration-200">
+            ${subItems}
+          </ul>
+        </li>
+      `;
+    }
+
+    const url = getItemUrl(item, isEn);
     return `
-  <div class="navbar-start" >
-    <a href="${url}">
-    <img alt="Logo" width="96" height="40" decoding="async" data-nimg="1" style="color:transparent;object-fit:contain;object-position:left" src="${logoUrl}" />
-    </a>
-  </div>`;
+      <li>
+        <a href="${url || '#'}"
+           class="block px-4 py-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100 text-base">
+          ${text}
+        </a>
+      </li>
+    `;
   }
 
-  function navbarCenter(items) {
-    const menu = navbarMenu(items);
-    return `
-  <div class="navbar-center hidden lg:flex md:flex">
-${menu}
-  </div>`;
-  }
+  function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.querySelector('.hamburger-icon');
+    const closeIcon = document.querySelector('.close-icon');
 
-  function navbarEnd(ctas, items) {
-    const buttons = ctas
-      .map((cta) => `    <a class="btn  btn-neutral bg-[#462a6f] px-6 h-8 min-h-8" href="${cta.url}">${cta.text}</a>`)
-      .join('\n');
+    state.mobileMenuOpen = !state.mobileMenuOpen;
 
-    const dropdownTag = dropdown(items);
-    return `
-  <div class="navbar-end">
-${buttons}
-${dropdownTag}
-  </div>`;
-  }
+    // Batch DOM updates with animations
+    if (state.mobileMenuOpen) {
+      // Show menu
+      mobileMenu.classList.remove('hidden');
+      hamburgerIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
 
-  function navbar(isEn) {
-    //const isEn = window.location.hash === '#en' || window.location.pathname === '/en';
-    const configs = navbarItems.map((item) => itemConfig(isEn, item));
-    const ctasConfig = ctas.map((item) => itemConfig(isEn, item));
-
-    const url = isEn ? '/en' : '/zh';
-    const start = navbarStart(url, logoUrl);
-    const center = navbarCenter(configs);
-    const end = navbarEnd(ctasConfig, configs);
-    return `
-${start}
-${center}
-${end}
-`;
-  }
-
-  function updateLanguageSwitcher(nav, isEn) {
-    Array.from(nav.getElementsByTagName('a'))
-      .filter((item) => item.innerText.trim() === 'English' || item.innerText.trim() === '中文')
-      .forEach((item) => {
-        const href = window.location.pathname;
-        updateLinkItem(item, href, item.getAttribute('href'), !isEn)
+      // Trigger animation
+      requestAnimationFrame(() => {
+        mobileMenu.classList.remove('opacity-0', 'scale-95');
+        mobileMenu.classList.add('opacity-100', 'scale-100');
       });
+    } else {
+      // Hide menu with animation
+      mobileMenu.classList.remove('opacity-100', 'scale-100');
+      mobileMenu.classList.add('opacity-0', 'scale-95');
+      hamburgerIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+
+      // Wait for animation to complete before hiding
+      setTimeout(() => {
+        if (!state.mobileMenuOpen) {
+          mobileMenu.classList.add('hidden');
+        }
+      }, 200);
+    }
+  }
+
+  function setupDropdowns() {
+    // Handle mobile main dropdown toggles
+    const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+    mobileDropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const submenu = this.nextElementSibling;
+        const icon = this.querySelector('svg');
+
+        if (submenu.classList.contains('dropdown-closed')) {
+          // Expand submenu
+          submenu.classList.remove('dropdown-closed');
+          submenu.classList.add('dropdown-open');
+          icon.style.transform = 'rotate(180deg)';
+        } else {
+          // Collapse submenu
+          submenu.classList.remove('dropdown-open');
+          submenu.classList.add('dropdown-closed');
+          icon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+
+    // Handle mobile nested dropdown toggles
+    const mobileNestedDropdownToggles = document.querySelectorAll('.mobile-nested-dropdown-toggle');
+    mobileNestedDropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const submenu = this.nextElementSibling;
+        const icon = this.querySelector('svg');
+
+        if (submenu.classList.contains('dropdown-closed')) {
+          // Expand nested submenu
+          submenu.classList.remove('dropdown-closed');
+          submenu.classList.add('dropdown-open');
+          icon.style.transform = 'rotate(180deg)';
+        } else {
+          // Collapse nested submenu
+          submenu.classList.remove('dropdown-open');
+          submenu.classList.add('dropdown-closed');
+          icon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+
+    // Handle desktop nested dropdown toggles
+    const desktopNestedDropdownToggles = document.querySelectorAll('.desktop-nested-dropdown-toggle');
+    desktopNestedDropdownToggles.forEach(toggle => {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const submenu = this.nextElementSibling;
+        const icon = this.querySelector('svg');
+
+        if (submenu.classList.contains('dropdown-closed')) {
+          // Expand nested submenu
+          submenu.classList.remove('dropdown-closed');
+          submenu.classList.add('dropdown-open');
+          icon.style.transform = 'rotate(180deg)';
+        } else {
+          // Collapse nested submenu
+          submenu.classList.remove('dropdown-open');
+          submenu.classList.add('dropdown-closed');
+          icon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
   }
 
   function updateNavbar() {
-    const nav = document.getElementsByTagName('nav')[0];
-    if (!nav) { return; }
+    const navContainer = document.getElementById('navbar-container');
+    if (!navContainer) return;
 
-    const isEn = window.location.hash === '#en' || window.location.pathname === '/en';
-    const loc = isEn ? 'en' : 'zh';
-    if (nav.classList.length > 0 && nav.getAttribute('loc') == loc) {
-      updateLanguageSwitcher(nav, isEn);
-      return;
+    const isEn = getCurrentLanguage();
+
+    // Check if we need to re-render (language changed)
+    if (state.lastRenderedLanguage === isEn && navContainer.innerHTML) {
+      return; // No changes needed
     }
 
-    nav.className = 'navbar bg-base-100 py-2';
-    nav.setAttribute('data-theme', 'light');
-    nav.setAttribute('loc', loc);
-    const html = navbar(isEn);
-    nav.innerHTML = html;
+    state.lastRenderedLanguage = isEn;
+    const homeUrl = isEn ? '/en' : '/zh';
+    const navItems = navbarItems.map(item => createNavItem(item, isEn)).join('');
+    const mobileNavItems = navbarItems.map(item => createMobileNavItem(item, isEn)).join('');
 
-    updateFooterIcons();
-  }
+    const navbarHTML = `
+      <nav class="bg-white shadow-md relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+              <a href="${homeUrl}" class="flex items-center">
+                <img src="${logoUrl}" alt="Logo" class="h-10 w-auto object-contain">
+              </a>
+            </div>
 
-  function updateFooterIcons() {
-    const footerIconContainer = document.getElementsByClassName('super-footer__icons')[0];
-    if (!footerIconContainer) { return; }
+            <!-- Desktop Navigation -->
+            <div class="hidden md:block">
+              <ul class="flex items-center space-x-1">
+                ${navItems}
+              </ul>
+            </div>
 
-    const icons = footerIconContainer.getElementsByTagName('a');
-    if (!icons) { return; }
+            <!-- Mobile menu button -->
+            <div class="md:hidden">
+              <button id="mobile-menu-toggle" class="p-2 text-gray-700 hover:text-blue-600 focus:outline-none">
+                <svg class="w-6 h-6 hamburger-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <svg class="w-6 h-6 close-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
 
-    const lastIcon = icons[icons.length - 1];
-    const href = lastIcon.href || '';
-    if (href.includes('tithe.ly')) { return; }
-
-    const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="24px" height="24px"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-  <title>Give</title>
-  <path fill="#434240" d="M256 416c114.9 0 208-93.1 208-208S370.9 0 256 0 48 93.1 48 208s93.1 208 208 208zM233.8 97.4V80.6c0-9.2 7.4-16.6 16.6-16.6h11.1c9.2 0 16.6 7.4 16.6 16.6v17c15.5 .8 30.5 6.1 43 15.4 5.6 4.1 6.2 12.3 1.2 17.1L306 145.6c-3.8 3.7-9.5 3.8-14 1-5.4-3.4-11.4-5.1-17.8-5.1h-38.9c-9 0-16.3 8.2-16.3 18.3 0 8.2 5 15.5 12.1 17.6l62.3 18.7c25.7 7.7 43.7 32.4 43.7 60.1 0 34-26.4 61.5-59.1 62.4v16.8c0 9.2-7.4 16.6-16.6 16.6h-11.1c-9.2 0-16.6-7.4-16.6-16.6v-17c-15.5-.8-30.5-6.1-43-15.4-5.6-4.1-6.2-12.3-1.2-17.1l16.3-15.5c3.8-3.7 9.5-3.8 14-1 5.4 3.4 11.4 5.1 17.8 5.1h38.9c9 0 16.3-8.2 16.3-18.3 0-8.2-5-15.5-12.1-17.6l-62.3-18.7c-25.7-7.7-43.7-32.4-43.7-60.1 .1-34 26.4-61.5 59.1-62.4zM480 352h-32.5c-19.6 26-44.6 47.7-73 64h63.8c5.3 0 9.6 3.6 9.6 8v16c0 4.4-4.3 8-9.6 8H73.6c-5.3 0-9.6-3.6-9.6-8v-16c0-4.4 4.3-8 9.6-8h63.8c-28.4-16.3-53.3-38-73-64H32c-17.7 0-32 14.3-32 32v96c0 17.7 14.3 32 32 32h448c17.7 0 32-14.3 32-32v-96c0-17.7-14.3-32-32-32z"/>
-</svg>
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full right-4 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-y-auto transform transition-all duration-200 ease-in-out opacity-0 scale-95 w-80 max-w-[calc(100vw-2rem)] max-h-[80vh]">
+          <ul class="py-2">
+            ${mobileNavItems}
+          </ul>
+        </div>
+      </nav>
     `;
 
-    const giving = document.createElement('a');
-    giving.href = 'https://tithe.ly/give_new/www/#/tithely/give-one-time/775254';
-    giving.innerHTML = svg;
-    giving.target = '_blank';
-    giving.rel = 'noopener noreferrer';
+    navContainer.innerHTML = navbarHTML;
 
-    footerIconContainer.insertBefore(giving, lastIcon.nextSibling);
-  }
-
-  // Update Page Links
-
-  function updateLinkItem(item, href, currentHref, toEnglish) {
-    if (!item || !href) {
-      return;
+    // Setup event listeners
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', toggleMobileMenu);
     }
 
-    if (toEnglish) {
-      const path = toEnPaths[href];
-      if (path) {
-        item.setAttribute('href', path + '#en');
-      } else if (!href.endsWith('#en')) {
-        item.setAttribute('href', href + '#en');
-      } else if (href !== currentHref){
-        item.setAttribute('href', href);
-      }
-      item.addEventListener('click', (event) => {
-        event.stopImmediatePropagation();
-      }, true);
-    } else {
-      if (href.endsWith('#en')) {
-        href = href.replace(/#en$/, '');
-      }
-      const path = toZhPaths[href];
-      if (path) {
-        item.setAttribute('href', path);
-      } else if (href !== currentHref) {
-        item.setAttribute('href', href);
-      }
-    }
-  }
+    setupDropdowns();
 
+    // Handle language button clicks
+    navContainer.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (link) {
+        // Check if this is a language toggle button
+        const isLanguageButton = link.textContent.trim() === 'English' || link.textContent.trim() === '中文';
 
-  function updateLinks() {
-    const isEn = window.location.hash === '#en' || window.location.pathname === '/en';
-    updatePageLinks(isEn)
-  }
+        if (isLanguageButton) {
+          e.preventDefault(); // Prevent default navigation
 
-  function updatePageLinks(isEn) {
-    // links in page content
-    const content = document.getElementsByTagName('main')[0];
-    const footer = document.getElementsByClassName('super-footer')[0];
+          const targetUrl = new URL(link.href);
+          const currentUrl = new URL(window.location.href);
 
-    const contentLinks = content ? Array.from(content.getElementsByTagName('a')) : [];
-    const footerLinks = footer ? Array.from(footer.getElementsByTagName('a')) : [];
-
-    contentLinks.concat(footerLinks)
-      .forEach((item) => {
-        const href = item.getAttribute('href');
-        if (!href || !href.startsWith('/')) {
-          return;
+          // Only update if URL is different
+          if (targetUrl.pathname !== currentUrl.pathname || targetUrl.hash !== currentUrl.hash) {
+            // Check if only hash is different (same page)
+            if (targetUrl.pathname === currentUrl.pathname) {
+              // Just update the hash without page reload
+              window.location.hash = targetUrl.hash;
+            } else {
+              // Different page, navigate normally
+              window.location.href = link.href;
+            }
+          }
         }
+      }
+    });
 
-        updateLinkItem(item, href, href, isEn);
-      });
+    // Close mobile menu when clicking outside (with event delegation)
+    document.addEventListener('click', function(e) {
+      if (state.mobileMenuOpen && !e.target.closest('#mobile-menu') && !e.target.closest('#mobile-menu-toggle')) {
+        toggleMobileMenu();
+      }
+    });
+
+    // Close mobile menu on window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768 && state.mobileMenuOpen) {
+        toggleMobileMenu();
+      }
+    });
   }
+
+  // Public API
+  window.NewNavbar = {
+    init: init,
+    updateNavbar: updateNavbar,
+    getCurrentLanguage: getCurrentLanguage,
+    toggleMobileMenu: toggleMobileMenu,
+    // Cleanup method for memory management
+    destroy: () => {
+      // Clear cached elements
+      state.cachedElements = {};
+      // Remove event listeners would go here if we tracked them
+    }
+  };
+
+  // Auto-initialize
+  init();
 })();

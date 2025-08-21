@@ -31,9 +31,20 @@ npm run build  # Compiles Tailwind: src/css/input.css → static/component.css
 - Content paths include both local JS and automation gallery generator
 - Theme extensions for church branding
 
-## Language Support
+## Navigation System
 
-The navbar system supports bilingual content with automatic path mapping:
+**Smooth Dropdown Animations**:
+- Max-height animations (200ms) with top-to-bottom expansion
+- Semantic CSS classes: `dropdown-closed` ↔ `dropdown-open`
+- Mobile container height: 80vh to accommodate nested dropdowns
+- Dynamic desktop dropdown width with `w-max`
+
+**Language Support**:
 - Hash-based language switching (`#en` for English)
 - Path translations between `/zh` and `/en` routes
 - Dynamic link updates for page navigation
+- Menu item ordering: `enOrder` property controls English mode sequence
+
+**Technical Notes**:
+- Try to make css change with tailwind css
+- no trailing whitespace on edit

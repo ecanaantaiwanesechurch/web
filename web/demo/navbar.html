@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Navigation Bar Demo</title>
+    <link href="../static/component.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Navigation Container -->
+    <div id="navbar-container"></div>
+
+    <!-- Demo Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-6">New Navigation Bar Demo</h1>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Features</h2>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span><strong>Mobile-Responsive:</strong> Hamburger menu for mobile devices with smooth animations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span><strong>Dropdown Menus:</strong> Hover-activated dropdowns on desktop, click-activated on mobile</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span><strong>Bilingual Support:</strong> Automatic language switching between Chinese and English</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span><strong>Tailwind CSS:</strong> Clean, modern design with utility-first CSS framework</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span><strong>Accessible:</strong> Keyboard navigation and screen reader support</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Navigation Structure</h2>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li>🏠 <strong>Logo</strong> - Links to home page</li>
+                            <li>📖 <strong>About Us</strong> - Our Story, Careers, Resources</li>
+                            <li>⛪ <strong>Worship Services</strong> - Gathering info, Sermons, Retreat</li>
+                            <li>🤝 <strong>Ministries</strong> - Multi-level dropdowns:
+                                <ul class="ml-4 mt-1 space-y-1 text-xs">
+                                    <li>• English Ministry → Home, Announcements</li>
+                                    <li>• Children's Ministry → Home, Sunday Programs, Announcements, VBS Camp</li>
+                                    <li>• Missions → Support, STM Directory, Support Letters, Updates</li>
+                                </ul>
+                            </li>
+                            <li>📚 <strong>Growth</strong> - Sunday School, Basic Christianity, Blog</li>
+                            <li>👥 <strong>Fellowships</strong> - English, Taiwanese, Mandarin</li>
+                            <li>🌐 <strong>Language Toggle</strong> - Switch between 中文/English</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-blue-50 rounded-lg">
+                <h2 class="text-xl font-semibold text-blue-800 mb-3">Testing Instructions</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-medium text-blue-700 mb-2">Desktop Testing:</h3>
+                        <ul class="text-blue-600 space-y-1 text-sm">
+                            <li>• Hover over menu items to see dropdowns</li>
+                            <li>• Click the language toggle to switch languages</li>
+                            <li>• Test keyboard navigation with Tab key</li>
+                            <li>• Verify dropdown positioning and visibility</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-medium text-blue-700 mb-2">Mobile Testing:</h3>
+                        <ul class="text-blue-600 space-y-1 text-sm">
+                            <li>• Resize browser window or use device dev tools</li>
+                            <li>• Click hamburger menu to open/close</li>
+                            <li>• Tap dropdown items to expand submenus</li>
+                            <li>• Test touch interactions and scrolling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="simulateLanguageSwitch()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    Switch to Chinese (Demo)
+                </button>
+                <button onclick="window.location.reload()"
+                        class="ml-4 bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    Reload Page
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Load the navbar JavaScript -->
+    <script src="../js/navbar.js"></script>
+
+    <script>
+        // Demo function to simulate language switching
+        function simulateLanguageSwitch() {
+            console.log('Current hash:', window.location.hash);
+            if (window.location.hash === '#en') {
+                console.log('Switching to Chinese');
+                window.location.hash = '';
+            } else {
+                console.log('Switching to English');
+                window.location.hash = '#en';
+            }
+        }
+
+        // Log navbar events for debugging
+        console.log('New Navbar Demo loaded');
+        console.log('Current language:', window.location.hash === '#en' ? 'English' : 'Chinese');
+
+        // Add some demo content scrolling behavior
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('nav');
+            if (navbar) {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('shadow-lg');
+                } else {
+                    navbar.classList.remove('shadow-lg');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

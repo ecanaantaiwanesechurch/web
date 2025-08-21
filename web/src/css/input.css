@@ -1,7 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui";
+@source "./js/**/*.js";
+@source "../automation/notion_sermons_sync/src/base/gallery.js";
 
+@theme {
+  --spacing-smenu: calc(100vw - 2 * var(--column-spacing) + 10pt);
+}
+
+/* Custom navbar styles */
 .navbar {
   max-width: var(--layout-max-width);
   margin-left: auto;
@@ -14,4 +20,58 @@
   .navbar {
     width: calc(100% - var(--padding-left-mobile) - var(--padding-right-mobile));
   }
+}
+
+/* New navbar dropdown styles */
+.w-smenu { 
+  width: 20rem; 
+}
+
+/* Smooth transitions for navbar elements */
+.navbar a,
+.navbar button,
+.navbar svg,
+.navbar ul {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Dropdown hover effects */
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+.group:hover .group-hover\:visible {
+  visibility: visible;
+}
+
+/* Prevent dropdown flicker on hover transitions */
+.group:hover > ul {
+  display: block;
+}
+
+/* Mobile menu specific styles to prevent conflicts */
+#mobile-menu button svg {
+  transition: transform 0.2s ease-in-out !important;
+}
+
+/* Fix dropdown animations - use max-height for smooth collapse */
+#mobile-menu ul.dropdown-closed,
+.desktop-nested-dropdown-toggle + ul.dropdown-closed {
+  max-height: 0;
+  overflow: hidden;
+  transform-origin: top;
+}
+
+#mobile-menu ul.dropdown-open,
+.desktop-nested-dropdown-toggle + ul.dropdown-open {
+  max-height: 75vh; /* 75% of viewport height */
+  overflow: hidden;
+  transform-origin: top;
+}
+
+/* Prevent text wrapping in desktop dropdowns */
+.hidden.md\\:block ul li a,
+.hidden.md\\:block ul li button,
+.hidden.md\\:block ul li div {
+  white-space: nowrap;
 }
