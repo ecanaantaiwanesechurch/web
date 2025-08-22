@@ -13,6 +13,13 @@
   aspect-ratio: 16/9;
   height: auto !important;
   min-height: 0 !important;
+  width: 65%;
+}
+
+@media (max-width: 880px) {
+  .notion-collection-card.gallery .player {
+    width: 100%;
+  }
 }
 
 .notion-collection-gallery.medium {

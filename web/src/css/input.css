@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./main.css"
+@import "./gallery.css"
 @plugin "daisyui";
 @source "./js/**/*.js";
 @source "../automation/notion_sermons_sync/src/base/gallery.js";
@@ -93,5 +95,5 @@
 }
 
 .notion-callout.bg-brown-light .notion-collection-gallery .notion-collection-card__cover {
-  object-fit: contain!important;
+  object-fit: contain !important;
 }
