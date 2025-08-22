@@ -357,7 +357,7 @@
         const subText = isEn ? subItem.en : subItem.zh;
         return `
           <li>
-            <a href="${subUrl || '#'}" class="px-6 py-2 text-gray-600 hover:bg-gray-50 block border-l-2 border-gray-200 ml-4">
+            <a href="${subUrl || '#'}" class="px-6 py-3 text-gray-600 hover:bg-gray-50 block border-l-2 border-gray-200 ml-4 text-base">
               ${subText}
             </a>
           </li>
@@ -382,7 +382,7 @@
     const url = getItemUrl(item, isEn);
     return `
       <li>
-        <a href="${url || '#'}" class="px-4 py-2 text-gray-700 hover:bg-gray-100 block whitespace-nowrap">
+        <a href="${url || '#'}" class="px-4 py-3 text-gray-700 hover:bg-gray-100 block whitespace-nowrap text-base">
           ${text}
         </a>
       </li>
@@ -397,7 +397,7 @@
       return `
         <li class="relative">
           <a href="${url || '#'}"
-             class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base">
+             class="px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg">
             ${text}
           </a>
         </li>
@@ -416,7 +416,7 @@
 
       return `
         <li class="relative group">
-          <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base cursor-pointer">
+          <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg cursor-pointer">
             ${text}
           </div>
           <ul class="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-32 w-max">
@@ -430,7 +430,7 @@
     return `
       <li>
         <a href="${url || '#'}"
-           class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base">
+           class="px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg">
           ${text}
         </a>
       </li>
@@ -697,11 +697,11 @@
     const navbarHTML = `
       <nav class="bg-white relative pb-2">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center h-16">
+          <div class="flex justify-between items-center h-20">
             <!-- Logo -->
             <div class="flex-shrink-0">
               <a href="${homeUrl}" class="flex items-center">
-                <img src="${logoUrl}" alt="Logo" class="h-10 w-auto object-contain">
+                <img src="${logoUrl}" alt="Logo" class="w-auto object-contain" style="height: 48px;">
               </a>
             </div>
 

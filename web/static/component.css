@@ -28,6 +28,8 @@
     --text-sm--line-height: calc(1.25 / 0.875);
     --text-base: 1rem;
     --text-base--line-height: calc(1.5 / 1);
+    --text-lg: 1.125rem;
+    --text-lg--line-height: calc(1.75 / 1.125);
     --text-xl: 1.25rem;
     --text-xl--line-height: calc(1.75 / 1.25);
     --text-3xl: 1.875rem;
@@ -799,11 +801,8 @@
   .h-6 {
     height: calc(var(--spacing) * 6);
   }
-  .h-10 {
-    height: calc(var(--spacing) * 10);
-  }
-  .h-16 {
-    height: calc(var(--spacing) * 16);
+  .h-20 {
+    height: calc(var(--spacing) * 20);
   }
   .max-h-\[80vh\] {
     max-height: 80vh;
@@ -980,9 +979,6 @@
   }
   .p-8 {
     padding: calc(var(--spacing) * 8);
-  }
-  .px-3 {
-    padding-inline: calc(var(--spacing) * 3);
   }
   .px-4 {
     padding-inline: calc(var(--spacing) * 4);
@@ -1190,10 +1186,10 @@
       padding-inline: calc(var(--spacing) * 8);
     }
   }
-  .lg\:text-base {
+  .lg\:text-lg {
     @media (width >= 64rem) {
-      font-size: var(--text-base);
-      line-height: var(--tw-leading, var(--text-base--line-height));
+      font-size: var(--text-lg);
+      line-height: var(--tw-leading, var(--text-lg--line-height));
     }
   }
 }
