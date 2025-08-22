@@ -1237,6 +1237,20 @@
 .hidden.md\\:block ul li a, .hidden.md\\:block ul li button, .hidden.md\\:block ul li div {
   white-space: nowrap;
 }
+.notion-callout.bg-brown-light .notion-collection-card__content {
+  display: none;
+}
+.carousel-indicators {
+  display: none;
+}
+.notion-callout.bg-brown-light .notion-collection-gallery.small {
+  width: auto !important;
+  margin: auto;
+  max-height: 30em;
+}
+.notion-callout.bg-brown-light .notion-collection-gallery .notion-collection-card__cover {
+  object-fit: contain !important;
+}
 @layer base {
   :where(:root),:root:has(input.theme-controller[value=light]:checked),[data-theme=light] {
     color-scheme: light;

@@ -1,7 +1,12 @@
 'use strict';
 
 (() => {
-  const logoUrl = 'https://cdn.jsdelivr.net/gh/ecanaantaiwanesechurch/web@main/web/static/logo.jpg';
+  const getLogoUrl = (isEn) => {
+    if (isEn) {
+      return 'https://cdn.jsdelivr.net/gh/ecanaantaiwanesechurch/web@main/web/static/logo_en.png';
+    }
+    return 'https://cdn.jsdelivr.net/gh/ecanaantaiwanesechurch/web@main/web/static/logo_zh.png';
+  };
   const navbarItems = [
     {
       en: 'About Us',
@@ -644,6 +649,7 @@
 
     state.lastRenderedLanguage = isEn;
     const homeUrl = isEn ? '/en' : '/zh';
+    const logoUrl = getLogoUrl(isEn);
     const navItems = navbarItems.map(item => createNavItem(item, isEn)).join('');
     const mobileNavItems = navbarItems.map(item => createMobileNavItem(item, isEn)).join('');
 
