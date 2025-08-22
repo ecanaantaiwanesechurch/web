@@ -397,7 +397,7 @@
       return `
         <li class="relative">
           <a href="${url || '#'}"
-             class="px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg">
+             class="px-2 lg:px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg whitespace-nowrap">
             ${text}
           </a>
         </li>
@@ -416,7 +416,7 @@
 
       return `
         <li class="relative group">
-          <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg cursor-pointer">
+          <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="px-2 lg:px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg cursor-pointer whitespace-nowrap">
             ${text}
           </div>
           <ul class="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-32 w-max">
@@ -430,7 +430,7 @@
     return `
       <li>
         <a href="${url || '#'}"
-           class="px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg">
+           class="px-2 lg:px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg whitespace-nowrap">
           ${text}
         </a>
       </li>
