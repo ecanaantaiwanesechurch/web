@@ -366,7 +366,7 @@
 
       return `
         <li class="relative group/nested">
-          <div class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer flex items-center justify-between desktop-nested-dropdown-toggle">
+          <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer flex items-center justify-between desktop-nested-dropdown-toggle">
             <span>${text}</span>
             <svg class="w-4 h-4 ml-2 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -416,10 +416,10 @@
 
       return `
         <li class="relative group">
-          <button class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base">
+          <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="px-3 py-2 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-base cursor-pointer">
             ${text}
-          </button>
-          <ul class="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 w-max">
+          </div>
+          <ul class="absolute left-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 min-w-32 w-max">
             ${dropdownItems}
           </ul>
         </li>
@@ -480,12 +480,12 @@
 
           return `
             <li>
-              <button class="w-full px-6 py-2 text-left text-gray-600 hover:bg-gray-50 flex items-center justify-between mobile-nested-dropdown-toggle bg-gray-50">
+              <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="w-full px-6 py-2 text-left text-gray-600 hover:bg-gray-50 flex items-center justify-between mobile-nested-dropdown-toggle bg-gray-50 cursor-pointer">
                 ${subText}
                 <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
-              </button>
+              </div>
               <ul class="dropdown-closed transition-all duration-200 bg-gray-50">
                 ${nestedItems}
               </ul>
@@ -506,12 +506,12 @@
 
       return `
         <li class="border-b border-gray-100">
-          <button class="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 flex items-center justify-between mobile-dropdown-toggle text-base">
+          <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 flex items-center justify-between mobile-dropdown-toggle text-base cursor-pointer">
             ${text}
             <svg class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
-          </button>
+          </div>
           <ul class="dropdown-closed transition-all duration-200">
             ${subItems}
           </ul>
@@ -532,10 +532,17 @@
 
   function toggleMobileMenu() {
     const mobileMenu = document.getElementById('mobile-menu');
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
     const hamburgerIcon = document.querySelector('.hamburger-icon');
     const closeIcon = document.querySelector('.close-icon');
 
     state.mobileMenuOpen = !state.mobileMenuOpen;
+
+    // Update aria attributes
+    if (mobileToggle) {
+      mobileToggle.setAttribute('aria-expanded', state.mobileMenuOpen);
+      mobileToggle.setAttribute('aria-label', state.mobileMenuOpen ? 'Close mobile menu' : 'Open mobile menu');
+    }
 
     // Batch DOM updates with animations
     if (state.mobileMenuOpen) {
@@ -569,22 +576,34 @@
     // Handle mobile main dropdown toggles
     const mobileDropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
     mobileDropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', function(e) {
+      const handleToggle = function(e) {
         e.preventDefault();
 
         const submenu = this.nextElementSibling;
         const icon = this.querySelector('svg');
+        const isExpanded = submenu.classList.contains('dropdown-open');
 
         if (submenu.classList.contains('dropdown-closed')) {
           // Expand submenu
           submenu.classList.remove('dropdown-closed');
           submenu.classList.add('dropdown-open');
           icon.style.transform = 'rotate(180deg)';
+          this.setAttribute('aria-expanded', 'true');
         } else {
           // Collapse submenu
           submenu.classList.remove('dropdown-open');
           submenu.classList.add('dropdown-closed');
           icon.style.transform = 'rotate(0deg)';
+          this.setAttribute('aria-expanded', 'false');
+        }
+      };
+
+      toggle.addEventListener('click', handleToggle);
+      
+      // Add keyboard support
+      toggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleToggle.call(this, e);
         }
       });
     });
@@ -592,7 +611,7 @@
     // Handle mobile nested dropdown toggles
     const mobileNestedDropdownToggles = document.querySelectorAll('.mobile-nested-dropdown-toggle');
     mobileNestedDropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', function(e) {
+      const handleNestedToggle = function(e) {
         e.preventDefault();
 
         const submenu = this.nextElementSibling;
@@ -603,11 +622,22 @@
           submenu.classList.remove('dropdown-closed');
           submenu.classList.add('dropdown-open');
           icon.style.transform = 'rotate(180deg)';
+          this.setAttribute('aria-expanded', 'true');
         } else {
           // Collapse nested submenu
           submenu.classList.remove('dropdown-open');
           submenu.classList.add('dropdown-closed');
           icon.style.transform = 'rotate(0deg)';
+          this.setAttribute('aria-expanded', 'false');
+        }
+      };
+
+      toggle.addEventListener('click', handleNestedToggle);
+      
+      // Add keyboard support
+      toggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleNestedToggle.call(this, e);
         }
       });
     });
@@ -615,7 +645,7 @@
     // Handle desktop nested dropdown toggles
     const desktopNestedDropdownToggles = document.querySelectorAll('.desktop-nested-dropdown-toggle');
     desktopNestedDropdownToggles.forEach(toggle => {
-      toggle.addEventListener('click', function(e) {
+      const handleDesktopToggle = function(e) {
         e.preventDefault();
 
         const submenu = this.nextElementSibling;
@@ -626,11 +656,22 @@
           submenu.classList.remove('dropdown-closed');
           submenu.classList.add('dropdown-open');
           icon.style.transform = 'rotate(180deg)';
+          this.setAttribute('aria-expanded', 'true');
         } else {
           // Collapse nested submenu
           submenu.classList.remove('dropdown-open');
           submenu.classList.add('dropdown-closed');
           icon.style.transform = 'rotate(0deg)';
+          this.setAttribute('aria-expanded', 'false');
+        }
+      };
+
+      toggle.addEventListener('click', handleDesktopToggle);
+      
+      // Add keyboard support
+      toggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleDesktopToggle.call(this, e);
         }
       });
     });
@@ -673,14 +714,14 @@
 
             <!-- Mobile menu button -->
             <div class="md:hidden">
-              <button id="mobile-menu-toggle" class="p-2 text-gray-700 hover:text-blue-600 focus:outline-none">
+              <div id="mobile-menu-toggle" role="button" tabindex="0" aria-expanded="false" aria-label="Open mobile menu" class="p-2 text-gray-700 hover:text-blue-600 focus:outline-none cursor-pointer">
                 <svg class="w-6 h-6 hamburger-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
                 <svg class="w-6 h-6 close-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
-              </button>
+              </div>
             </div>
           </div>
         </div>
@@ -700,6 +741,14 @@
     const mobileToggle = document.getElementById('mobile-menu-toggle');
     if (mobileToggle) {
       mobileToggle.addEventListener('click', toggleMobileMenu);
+      
+      // Add keyboard support for mobile toggle
+      mobileToggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleMobileMenu();
+        }
+      });
     }
 
     setupDropdowns();

@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "../../styles/main.css";
+@import "../../styles/gallery.css";
 @plugin "daisyui";
 @source "./js/**/*.js";
 @source "../automation/notion_sermons_sync/src/base/gallery.js";
