@@ -83,7 +83,24 @@
         {
           "en": "Youth Ministry",
           "zh": "青少事工",
-          "enLink": "/ministries/youth-ministry"
+          "enLink": "/ministries/youth-ministry",
+          "items": [
+            {
+              "en": "Home",
+              "zh": "主頁",
+              "enLink": "/ministries/youth-ministry"
+            },
+            {
+              "en": "Activities",
+              "zh": "團契活動",
+              "enLink": "/ministries/youth-ministry/activities"
+            },
+            {
+              "en": "Latest Updates",
+              "zh": "最新消息",
+              "enLink": "/ministries/youth-ministry/updates"
+            }
+          ]
         },
         {
           "en": "Children's Ministry",
@@ -125,17 +142,6 @@
               "en": "Mission Support",
               "zh": "宣教支持",
               "enLink": "/missions/mission-support"
-            },
-            {
-              "en": "Short-Term Mission",
-              "zh": "短期宣教",
-              "items": [
-                {
-                  "en": "2025 STM Directory",
-                  "zh": "2025 短宣名錄",
-                  "enLink": "/missions/2025-stm-directory"
-                }
-              ]
             },
             {
               "en": "2025 STM Directory",

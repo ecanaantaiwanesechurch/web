@@ -83,7 +83,24 @@
         {
           "en": "Youth Ministry",
           "zh": "青少事工",
-          "enLink": "/ministries/youth-ministry"
+          "enLink": "/ministries/youth-ministry",
+          "items": [
+            {
+              "en": "Home",
+              "zh": "主頁",
+              "enLink": "/ministries/youth-ministry"
+            },
+            {
+              "en": "Activities",
+              "zh": "團契活動",
+              "enLink": "/ministries/youth-ministry/activities"
+            },
+            {
+              "en": "Latest Updates",
+              "zh": "最新消息",
+              "enLink": "/ministries/youth-ministry/updates"
+            }
+          ]
         },
         {
           "en": "Children's Ministry",
