@@ -479,7 +479,7 @@ class NavbarEditor {
                     <button class="edit-item bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600">
                         Edit
                     </button>
-                    <button class="add-child bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600">Add Child</button>
+                    ${level < 2 ? '<button class="add-child bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600">Add Child</button>' : ''}
                 </div>
             </div>
         `;
@@ -487,7 +487,7 @@ class NavbarEditor {
         div.innerHTML = content;
 
         // Add event listeners
-        div.querySelector('.edit-item').addEventListener('click', () => this.editItem(item, index, level));
+        div.querySelector('.edit-item').addEventListener('click', () => this.editItem(item, index, level, parentIndex));
         div.querySelector('.move-up').addEventListener('click', () => this.moveItemUp(index, level, parentIndex));
         div.querySelector('.move-down').addEventListener('click', () => this.moveItemDown(index, level, parentIndex));
         const addChildBtn = div.querySelector('.add-child');
@@ -698,8 +698,8 @@ class NavbarEditor {
         this.autoSaveConfig();
     }
 
-    editItem(item, index, level) {
-        this.currentEditingItem = { item, index, level };
+    editItem(item, index, level, parentIndex = null) {
+        this.currentEditingItem = { item, index, level, parentIndex };
         this.openModal(item);
     }
 
@@ -742,13 +742,32 @@ class NavbarEditor {
     deleteCurrentItem() {
         if (!this.currentEditingItem) return;
 
-        const { index, level } = this.currentEditingItem;
+        const { index, level, parentIndex } = this.currentEditingItem;
 
         if (level === 0) {
+            // Delete top-level item
             this.navbarConfig.navbarItems.splice(index, 1);
-        } else {
-            // Handle nested item deletion
-            // This would need more complex logic for deep nesting
+        } else if (level === 1 && parentIndex !== null) {
+            // Delete first-level nested item
+            const parentItem = this.navbarConfig.navbarItems[parentIndex];
+            if (parentItem && parentItem.items) {
+                parentItem.items.splice(index, 1);
+                // Remove items array if empty
+                if (parentItem.items.length === 0) {
+                    delete parentItem.items;
+                }
+            }
+        } else if (level === 2 && parentIndex !== null) {
+            // Delete second-level nested item
+            // Need to find the parent of the parent for level 2 items
+            // This requires more complex tracking, but for now we'll handle basic cases
+            const parentPath = this.findParentPath(this.currentEditingItem.item);
+            if (parentPath) {
+                parentPath.items.splice(index, 1);
+                if (parentPath.items.length === 0) {
+                    delete parentPath.items;
+                }
+            }
         }
 
         this.renderNavItems();
@@ -756,6 +775,28 @@ class NavbarEditor {
         this.updateJsonPreview();
         this.autoSaveConfig();
         this.closeModal();
+    }
+
+    findParentPath(targetItem) {
+        // Helper function to find the parent of a deeply nested item
+        const findInItems = (items) => {
+            for (const item of items) {
+                if (item.items) {
+                    for (const subItem of item.items) {
+                        if (subItem === targetItem) {
+                            return item;
+                        }
+                        if (subItem.items) {
+                            const found = findInItems([subItem]);
+                            if (found) return found;
+                        }
+                    }
+                }
+            }
+            return null;
+        };
+        
+        return findInItems(this.navbarConfig.navbarItems);
     }
 
     addNewItem() {

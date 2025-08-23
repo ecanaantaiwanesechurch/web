@@ -4,9 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Church website repository with two main components:
+Church website repository with three main components:
 - `web/` - Frontend website (Tailwind CSS + vanilla JS)  
 - `automation/` - Data sync functions (Google APIs ↔ Notion)
+- `tools/` - Desktop configuration editor (Electron app)
 
 ## Repository Structure
 
@@ -19,6 +20,10 @@ Church website repository with two main components:
 │   └── notion_sermons_sync/  # Sync functions (see automation/notion_sermons_sync/CLAUDE.md)
 │       ├── src/base/     # API clients
 │       └── src/functions/    # Sync implementations
+├── tools/                 # Desktop navbar configuration editor
+│   ├── main.js           # Electron main process
+│   ├── navbar-editor.js  # Editor logic
+│   └── navbar-config.json # Default configuration
 └── README.md
 ```
 
@@ -27,6 +32,7 @@ Church website repository with two main components:
 Navigate to the specific directory for detailed commands:
 - **Frontend work**: `cd web/` (see `web/CLAUDE.md`)
 - **Automation work**: `cd automation/notion_sermons_sync/` (see `automation/notion_sermons_sync/CLAUDE.md`)
+- **Configuration editor**: `cd tools/` then `npm start` (Electron app for editing navbar)
 
 ## Project Context
 

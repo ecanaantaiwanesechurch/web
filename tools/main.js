@@ -139,7 +139,7 @@ ipcMain.handle('save-config-file', async (event, filePath, content) => {
 // JSON-specific handlers
 ipcMain.handle('load-json-file', async (event, filePath) => {
   try {
-    const jsonPath = filePath || path.join(__dirname, 'navbar-config.json');
+    const jsonPath = filePath || path.join(__dirname, '../web/config/navbar-config.json');
     const data = await fs.readFile(jsonPath, 'utf8');
     const jsonData = JSON.parse(data);
     return { success: true, data: jsonData };

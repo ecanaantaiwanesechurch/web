@@ -20,10 +20,6 @@
           "zh": "教會資源",
           "enLink": "/en/about-us/resources",
           "zhLink": "/about-us/resources"
-        },
-        {
-          "en": "New Child",
-          "zh": "新子項目"
         }
       ]
     },
@@ -70,6 +66,7 @@
           "en": "English Ministry",
           "zh": "英語事工",
           "enLink": "/ministries/english-ministry",
+          "enOrder": 0,
           "items": [
             {
               "en": "Home",
@@ -81,8 +78,7 @@
               "zh": "最新公告",
               "enLink": "/ministries/english-ministry/announcements"
             }
-          ],
-          "zhLink": "/test"
+          ]
         },
         {
           "en": "Youth Ministry",
