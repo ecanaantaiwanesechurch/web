@@ -133,3 +133,7 @@ notion_token.json
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Electron
+tools/dist/
+tools/node_modules/

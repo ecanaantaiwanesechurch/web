@@ -1,0 +1,42 @@
+{
+  "name": "canaan-web-config",
+  "version": "1.0.0",
+  "description": "Canaan Web Config - Desktop app for managing church website configuration",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "dist": "electron-builder --publish=never"
+  },
+  "keywords": ["canaan", "church", "web", "config", "navbar", "editor", "electron"],
+  "author": "Canaan Taiwanese Church",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "org.ecanaan.web-config",
+    "productName": "Canaan Web Config",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "navbar-editor.html",
+      "navbar-editor.js",
+      "navbar-config.json"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
