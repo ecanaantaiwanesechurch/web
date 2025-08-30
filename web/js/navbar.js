@@ -371,7 +371,7 @@
       };
 
       toggle.addEventListener('click', handleToggle);
-      
+
       // Add keyboard support
       toggle.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -405,7 +405,7 @@
       };
 
       toggle.addEventListener('click', handleNestedToggle);
-      
+
       // Add keyboard support
       toggle.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -439,7 +439,7 @@
       };
 
       toggle.addEventListener('click', handleDesktopToggle);
-      
+
       // Add keyboard support
       toggle.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -513,7 +513,7 @@
     const mobileToggle = document.getElementById('mobile-menu-toggle');
     if (mobileToggle) {
       mobileToggle.addEventListener('click', toggleMobileMenu);
-      
+
       // Add keyboard support for mobile toggle
       mobileToggle.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -583,7 +583,8 @@
 
     const giving = document.createElement('a');
     giving.href = 'https://tithe.ly/give_new/www/#/tithely/give-one-time/775254';
-    giving.innerHTML = '<img src="/static/donation.svg" alt="Give" width="24" height="24">';
+    giving.innerHTML = '<svg data-v-c759af74="" viewBox="0 0 43 45" height="24" width="24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-aquamarine"><path xmlns="http://www.w3.org/2000/svg" d="M21.5592 22.6139C25.2962 21.076 28.1132 17.7722 28.4582 13.8987L28.5157 13.0443C28.5157 7.8038 25.8136 3.13291 21.6167 0C17.4199 3.13291 14.5453 7.8038 14.5453 13.0443L14.6028 13.8987C14.9477 17.7722 17.7648 21.076 21.5592 22.6139ZM19.777 28.7089C19.547 27.9114 19.2596 27.1709 18.8571 26.4304C18.0523 24.7215 16.8449 23.2405 15.3502 22.1013C13.1655 20.3924 10.3484 19.424 7.58885 19.424H0C0 20.3924 0 21.3038 0 22.2722C0.0574913 23.924 0.517421 25.5759 1.20732 27.057C2.01219 28.7658 3.21951 30.2468 4.71429 31.3861C6.84146 33.0949 9.60104 34.1772 12.3606 34.1772H19.9495C19.9495 32.1835 20.0645 29.7342 19.777 28.7089ZM23.9164 26.4304C23.5714 27.1709 23.2265 27.9114 22.9965 28.7089C22.824 29.5063 22.824 31.1582 22.824 32.8101C22.824 33.2658 22.824 33.7215 22.824 34.1772V36.7975L22.4791 44.5443H23.9164C23.9164 44.3165 23.9739 44.0316 23.9739 43.8038C24.0888 41.6392 24.2613 39.3038 24.5488 37.3671C24.8937 35.2025 27.2509 34.2911 28.9756 34.2342H30.4129C33.1725 34.2342 35.8746 33.1519 38.0592 31.443C39.554 30.3038 40.7613 28.8228 41.5662 27.1139C42.3136 25.6329 42.716 23.981 42.7735 22.3291C42.7735 21.9873 42.7735 21.7025 42.7735 21.3608C42.7735 20.7342 42.7735 20.1076 42.7735 19.481H35.1847C32.4251 19.481 29.608 20.4494 27.4233 22.1582C25.9286 23.2975 24.7213 24.7785 23.9164 26.4304Z" fill="rgb(91, 217, 164"></path></svg>';
+    //giving.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgb(91, 217, 164)" stroke-width="2"><path d="M11 20a7 7 0 0 1-7-7v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a7 7 0 0 0 7 7"/><path d="M13 20a7 7 0 0 0 7-7v-3a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3a7 7 0 0 1-7 7"/><path d="M16 7.5c0-1.38-1.12-2.5-2.5-2.5S11 6.12 11 7.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5z"/></svg>';
     giving.target = '_blank';
     giving.rel = 'noopener noreferrer';
 
