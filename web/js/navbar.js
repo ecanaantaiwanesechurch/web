@@ -525,6 +525,8 @@
 
     setupDropdowns();
 
+    updateFooterIcons();
+
     // Handle language button clicks
     navContainer.addEventListener('click', function(e) {
       const link = e.target.closest('a');
@@ -566,6 +568,26 @@
         toggleMobileMenu();
       }
     });
+  }
+
+  function updateFooterIcons() {
+    const footerIconContainer = document.getElementsByClassName('super-footer__icons')[0];
+    if (!footerIconContainer) { return; }
+
+    const icons = footerIconContainer.getElementsByTagName('a');
+    if (!icons) { return; }
+
+    const lastIcon = icons[icons.length - 1];
+    const href = lastIcon.href || '';
+    if (href.includes('tithe.ly')) { return; }
+
+    const giving = document.createElement('a');
+    giving.href = 'https://tithe.ly/give_new/www/#/tithely/give-one-time/775254';
+    giving.innerHTML = '<img src="/static/donation.svg" alt="Give" width="24" height="24">';
+    giving.target = '_blank';
+    giving.rel = 'noopener noreferrer';
+
+    footerIconContainer.insertBefore(giving, lastIcon.nextSibling);
   }
 
   // Public API
