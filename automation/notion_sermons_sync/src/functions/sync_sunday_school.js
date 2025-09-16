@@ -4,48 +4,6 @@ import nWorker from '../base/notion.js';
 import { sleep }  from '../base/utils.js';
 
 const sundaySchoolConfigs = [
-//  { // 2024 Q1 約書亞記
-//    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-//    tab: '2024 Q1 約書亞記',
-//    notionPage: '6c2ea71bcbbd418abdf9511875de40ad',
-//    importedField: 'H'
-//  },
-//  { // 舊約聖經人物
-//    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-//    tab: '2024 Q4 舊約聖經人物',
-//    notionPage: '7246406bc3db431f8d412e87e5dde435',
-//    importedField: 'H'
-//  },
-//  { // 基督徒生活造就
-//    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-//    tab: '2024 Q4 基督徒生活造就',
-//    notionPage: '0f82d566bb7449c4a2ad210574a3f97f',
-//    importedField: 'H'
-//  },
-//  { // 2025 Q1 聖經人物
-//    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-//    tab: '2025Q1 慕道班-聖經人物',
-//    notionPage: 'ac83c938aee4416cb3b61b1c2f709b07',
-//    importedField: 'H'
-//  },
-//  { // 登山寶訓
-//    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-//    tab: '2025Q1 信徒班-登山寶訓',
-//    notionPage: '1acba8467b7a8074861ec2ff0b91fb14',
-//    importedField: 'H'
-//  },
-//  { // 以弗所書
-//    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-//    tab: '2025Q1 信徒班-以弗所書',
-//    notionPage: 'fd7555a59b21416b9e93d34ec9a5bae5',
-//    importedField: 'H'
-//  },
-//  { // 聖經人物
-//    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-//    tab: '2025Q1 慕道班-聖經人物',
-//    notionPage: 'ac83c938aee4416cb3b61b1c2f709b07',
-//    importedField: 'H'
-//  },
 //  { // 但以理+約瑟
 //    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
 //    tab: '2025Q2 信徒班-但以理+約瑟',
@@ -70,17 +28,35 @@ const sundaySchoolConfigs = [
 //    notionPage: '1d4ba8467b7a809fb9fdfc3a525eb6ba',
 //    importedField: 'I'
 //  },
-   { // 聖經老實說
-   sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-   tab: '2025Q3 信徒/慕道班-聖經老實說',
-   notionPage: '207ba8467b7a80ca969defc77ad8e07a',
-   importedField: 'H'
+//  { // 聖經老實說
+//   sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
+//   tab: '2025Q3 信徒/慕道班-聖經老實說',
+//   notionPage: '207ba8467b7a80ca969defc77ad8e07a',
+//   importedField: 'H'
+//  },
+//  { // 關係建造課程第四系列：化解衝突，追求和睦
+//     sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
+//     tab: '2025Q3 關係建造課程第四系列-化解衝突，追求和睦',
+//     notionPage: '207ba8467b7a80cf9353c736d30726eb',
+//     importedField: 'H'
+//  },
+   { // 希伯來書
+      sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
+      tab: '2025Q4 信徒班-希伯來書',
+      notionPage: '26fba8467b7a800e9059f87a1e81257d',
+      importedField: 'H'
    },
-   { // 關係建造課程第四系列：化解衝突，追求和睦
-     sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
-     tab: '2025Q3 關係建造課程第四系列-化解衝突，追求和睦',
-     notionPage: '207ba8467b7a80cf9353c736d30726eb',
-     importedField: 'H'
+   { // 羅馬書下
+      sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
+      tab: '2025Q4 信徒班-羅馬書下',
+      notionPage: '26fba8467b7a80babf4ac0ba55959f2a',
+      importedField: 'H'
+   },
+   { // 登山寶訓
+      sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
+      tab: '2025Q4 慕道班-登山寶訓',
+      notionPage: '26fba8467b7a8046aa58c33dd8d46100',
+      importedField: 'H'
    }
 ];
 
