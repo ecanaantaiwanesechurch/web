@@ -120,11 +120,6 @@
               "en": "Announcements",
               "zh": "最新公告",
               "enLink": "/ministries/childrens-ministry/announcements"
-            },
-            {
-              "en": "2025 VBS Summer Camp",
-              "zh": "2025 VBS 聖經夏令營",
-              "enLink": "/events/2025-vps-summer-camp"
             }
           ]
         },
@@ -196,6 +191,11 @@
           "en": "Special Events",
           "zh": "特別聚會",
           "enLink": "/growth/special-events"
+        },
+        {
+          "en": "CTCC 45",
+          "zh": "CTCC 45",
+          "enLink": "/ctcc-45"
         }
       ]
     },
