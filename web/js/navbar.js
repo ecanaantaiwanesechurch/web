@@ -209,15 +209,17 @@
     `;
   }
 
-  function createMobileNavItem(item, isEn) {
+  function createMobileNavItem(item, isEn, index, totalItems) {
     const text = isEn ? item.en : item.zh;
+    const isLastItem = index === totalItems - 1;
+    const borderClass = isLastItem ? '' : 'border-b border-gray-100';
 
     if (item.language) {
       const url = getItemUrl(item, isEn);
       return `
         <li>
           <a href="${url || '#'}"
-             class="block px-4 py-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100 text-base">
+             class="block px-4 py-3 text-gray-700 hover:bg-gray-50 ${borderClass} text-base">
             ${text}
           </a>
         </li>
@@ -277,7 +279,7 @@
       }).join('');
 
       return `
-        <li class="border-b border-gray-100">
+        <li class="${borderClass}">
           <div role="button" tabindex="0" aria-expanded="false" aria-haspopup="true" class="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 flex items-center justify-between mobile-dropdown-toggle text-base cursor-pointer">
             ${text}
             <svg class="w-5 h-5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -295,7 +297,7 @@
     return `
       <li>
         <a href="${url || '#'}"
-           class="block px-4 py-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100 text-base">
+           class="block px-4 py-3 text-gray-700 hover:bg-gray-50 ${borderClass} text-base">
           ${text}
         </a>
       </li>
@@ -464,7 +466,7 @@
     const homeUrl = isEn ? '/en' : '/zh';
     const logoUrl = getLogoUrl(isEn);
     const navItems = navbarItems.map(item => createNavItem(item, isEn)).join('');
-    const mobileNavItems = navbarItems.map(item => createMobileNavItem(item, isEn)).join('');
+    const mobileNavItems = navbarItems.map((item, index) => createMobileNavItem(item, isEn, index, navbarItems.length)).join('');
 
     const navbarHTML = `
       <nav class="bg-white relative pb-2">
@@ -500,7 +502,7 @@
 
         <!-- Mobile Navigation -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-full right-4 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-y-auto transform transition-all duration-200 ease-in-out opacity-0 scale-95 w-80 max-w-[calc(100vw-2rem)] max-h-[80vh]">
-          <ul class="py-2">
+          <ul>
             ${mobileNavItems}
           </ul>
         </div>
