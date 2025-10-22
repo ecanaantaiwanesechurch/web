@@ -48,45 +48,67 @@
   }
 
   function vimeoHref(href) {
+    if (!href) {
+      return null;
+    }
     if (/player/.test(href)) {
       return href;
     }
-    const url = new URL(href);
-    if (url.pathname) {
-      const paths = url.pathname.split('/');
-      if (paths.length > 2) {
-        return `https://player.vimeo.com/video/${paths[1]}?h=${paths[2]}`;
+    try {
+      const url = new URL(href);
+      if (url.pathname) {
+        const paths = url.pathname.split('/');
+        if (paths.length > 2) {
+          return `https://player.vimeo.com/video/${paths[1]}?h=${paths[2]}`;
+        }
       }
+      return `https://player.vimeo.com/video${url.pathname}`;
+    } catch (e) {
+      return null;
     }
-    return `https://player.vimeo.com/video${url.pathname}`;
   }
 
   function youtubeHref(href) {
+    if (!href) {
+      return null;
+    }
     if (/embed/.test(href)) {
       return href;
     }
-    const url = new URL(href);
+    try {
+      const url = new URL(href);
 
-    if (url.host === 'youtu.be') {
-      return `https://www.youtube.com/embed${url.pathname}`
+      if (url.host === 'youtu.be') {
+        return `https://www.youtube.com/embed${url.pathname}`;
+      }
+
+      const v = url.searchParams.get('v');
+      if (!v) {
+        return null;
+      }
+
+      return `https://www.youtube.com/embed/${v}`;
+    } catch (e) {
+      return null;
     }
-
-    const v = url.searchParams.get('v');
-    if (!v) { return null; }
-
-    return `https://www.youtube.com/embed/${v}`
   }
 
   function playerData(card) {
-    if (!card) { return {}; }
+    if (!card) {
+      return {};
+    }
 
     const image = card.getElementsByTagName('img')[0];
     const prop = card.getElementsByClassName('notion-property__url')[0]
 
-    if (!image || !prop) { return { image }; }
+    if (!image || !prop) {
+      return { image };
+    }
 
     const link = prop.getElementsByTagName('a')[0];
-    if (!link) { return { image }; }
+    if (!link) {
+      return { image };
+    }
 
     const href = link.getAttribute('href') || '';
 
@@ -102,24 +124,32 @@
 
   function updatePlayer() {
     const allowed = allowedPrefix.some((prefix) => window.location.pathname.startsWith(prefix));
-    if (!allowed) { return; }
+
+    if (!allowed) {
+      return;
+    }
 
     const targetClassName = 'notion-collection-card gallery';
     const cards = Array.from(document.getElementsByClassName(targetClassName));
 
-    if (cards.length === 0) { return; }
+    if (cards.length === 0) {
+      return;
+    }
 
-    cards.forEach((card) => {
+    cards.forEach((card, index) => {
       const { image, url } = playerData(card);
 
-      if (!image) { return; }
+      if (!image) {
+        return;
+      }
 
-      if (image.getAttribute('_obs') != null) { return; }
-
-      image.setAttribute('_obs', '1');
-      image.className = `${image.className} player`
+      if (image.getAttribute('_obs') != null) {
+        return;
+      }
 
       if (url) {
+        image.setAttribute('_obs', '1');
+        image.className = `${image.className} player`
         visibilityObserver.observe(card);
       }
     });
@@ -127,8 +157,9 @@
 
   function createVideoPlayer(card) {
     const { image, url } = playerData(card);
-    if (!image || !url) { return; }
-
+    if (!image || !url) {
+      return;
+    }
 
     const iframe = document.createElement('iframe');
     iframe.setAttribute('src', url);
