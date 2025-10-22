@@ -577,7 +577,7 @@
     if (!footerIconContainer) { return; }
 
     const icons = footerIconContainer.getElementsByTagName('a');
-    if (!icons) { return; }
+    if (icons.length == 0) { return; }
 
     const lastIcon = icons[icons.length - 1];
     const href = lastIcon.href || '';
