@@ -7,10 +7,20 @@
     '/en/gatherings/sermons',
     '/growth/videos',
     '/fellowships/mm/nfl/nfl-videos',
-    '/events/2024-mm-gospel-night',
-    '/events/2023-mm-gospel-night',
+    '/events/*-mm-gospel-night',
     'srcdoc'
   ];
+
+  // Convert wildcard patterns to regex
+  const allowedPatterns = allowedPrefix
+    .filter(prefix => prefix.includes('*'))
+    .map(prefix => {
+      const escaped = prefix.replace(/[.+?^${}()|[\]\\]/g, '\\$&');
+      const pattern = escaped.replace(/\*/g, '.*');
+      return new RegExp(`^${pattern}`);
+    });
+
+  const allowedPrefixes = allowedPrefix.filter(prefix => !prefix.includes('*'));
 
   const visibilityObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -123,7 +133,9 @@
   }
 
   function updatePlayer() {
-    const allowed = allowedPrefix.some((prefix) => window.location.pathname.startsWith(prefix));
+    const allowed =
+      allowedPrefixes.some((prefix) => window.location.pathname.startsWith(prefix)) ||
+      allowedPatterns.some((pattern) => pattern.test(window.location.pathname));
 
     if (!allowed) {
       return;

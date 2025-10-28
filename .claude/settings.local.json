@@ -4,7 +4,9 @@
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:docs.anthropic.com)",
       "Bash(node:*)",
-      "WebSearch"
+      "WebSearch",
+      "WebFetch(domain:www.ecanaan.org)",
+      "WebFetch(domain:vite.dev)"
     ],
     "deny": [],
     "ask": []
