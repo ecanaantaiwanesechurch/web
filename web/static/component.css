@@ -1807,6 +1807,9 @@ h3 {
   aspect-ratio: 16/9;
   height: auto !important;
   min-height: 0 !important;
+  width: 100%;
+}
+.notion-collection-gallery.large .notion-collection-card.gallery .player {
   width: 65%;
 }
 @media (max-width: 880px) {
