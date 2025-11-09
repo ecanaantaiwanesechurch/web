@@ -30,47 +30,6 @@
     resizeTimeout: null
   };
 
-  // Utility functions
-  const utils = {
-    debounce: (func, wait) => {
-      let timeout;
-      return function executedFunction(...args) {
-        const later = () => {
-          clearTimeout(timeout);
-          func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-      };
-    },
-
-    getElement: (selector) => {
-      if (!state.cachedElements[selector]) {
-        state.cachedElements[selector] = document.querySelector(selector);
-      }
-      return state.cachedElements[selector];
-    },
-
-    // Calculate optimal height for mobile menu based on content
-    calculateMobileMenuHeight: () => {
-      const mobileMenu = document.getElementById('mobile-menu');
-      if (!mobileMenu) return null;
-
-      const ul = mobileMenu.querySelector('ul');
-      const contentHeight = ul ? ul.scrollHeight : 0;
-      const padding = parseInt(getComputedStyle(document.documentElement).fontSize) * 0.5; // py-2 = 0.5rem top + 0.5rem bottom
-      const neededHeight = contentHeight + padding;
-      const viewportHeight = window.innerHeight;
-      const maxAllowed = viewportHeight * 0.8;
-
-      // Get default min height from CSS custom property or fallback
-      const minHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--mobile-menu-min-height')) ||
-                       Math.min(24 * parseInt(getComputedStyle(document.documentElement).fontSize), viewportHeight * 0.6);
-
-      return Math.max(Math.min(neededHeight, maxAllowed), minHeight);
-    }
-  };
-
   // Initialize navbar
   function init() {
     if (document.readyState === "loading") {
@@ -127,9 +86,10 @@
       const nestedItems = item.items.map(subItem => {
         const subUrl = getItemUrl(subItem, isEn);
         const subText = isEn ? subItem.en : subItem.zh;
+        const targetAttr = subItem.target ? `target="${subItem.target}" rel="noopener noreferrer"` : '';
         return `
           <li>
-            <a href="${subUrl || '#'}" class="px-6 py-3 text-gray-600 hover:bg-gray-50 block border-l-2 border-gray-200 ml-4 text-base">
+            <a href="${subUrl || '#'}" ${targetAttr} class="px-6 py-3 text-gray-600 hover:bg-gray-50 block border-l-2 border-gray-200 ml-4 text-base">
               ${subText}
             </a>
           </li>
@@ -152,9 +112,10 @@
     }
 
     const url = getItemUrl(item, isEn);
+    const targetAttr = item.target ? `target="${item.target}" rel="noopener noreferrer"` : '';
     return `
       <li>
-        <a href="${url || '#'}" class="px-4 py-3 text-gray-700 hover:bg-gray-100 block whitespace-nowrap text-base">
+        <a href="${url || '#'}" ${targetAttr} class="px-4 py-3 text-gray-700 hover:bg-gray-100 block whitespace-nowrap text-base">
           ${text}
         </a>
       </li>
@@ -199,9 +160,10 @@
     }
 
     const url = getItemUrl(item, isEn);
+    const targetAttr = item.target ? `target="${item.target}" rel="noopener noreferrer"` : '';
     return `
       <li>
-        <a href="${url || '#'}"
+        <a href="${url || '#'}" ${targetAttr}
            class="px-2 lg:px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-base lg:text-lg whitespace-nowrap">
           ${text}
         </a>
@@ -242,9 +204,10 @@
           const nestedItems = subItem.items.map(nestedItem => {
             const nestedUrl = getItemUrl(nestedItem, isEn);
             const nestedText = isEn ? nestedItem.en : nestedItem.zh;
+            const targetAttr = nestedItem.target ? `target="${nestedItem.target}" rel="noopener noreferrer"` : '';
             return `
               <li>
-                <a href="${nestedUrl || '#'}"
+                <a href="${nestedUrl || '#'}" ${targetAttr}
                    class="block px-8 py-2 text-gray-600 hover:bg-gray-50">
                   ${nestedText}
                 </a>
@@ -268,9 +231,10 @@
         }
 
         const subUrl = getItemUrl(subItem, isEn);
+        const targetAttr = subItem.target ? `target="${subItem.target}" rel="noopener noreferrer"` : '';
         return `
           <li>
-            <a href="${subUrl || '#'}"
+            <a href="${subUrl || '#'}" ${targetAttr}
                class="block px-6 py-2 text-gray-600 hover:bg-gray-50">
               ${subText}
             </a>
@@ -294,9 +258,10 @@
     }
 
     const url = getItemUrl(item, isEn);
+    const targetAttr = item.target ? `target="${item.target}" rel="noopener noreferrer"` : '';
     return `
       <li>
-        <a href="${url || '#'}"
+        <a href="${url || '#'}" ${targetAttr}
            class="block px-4 py-3 text-gray-700 hover:bg-gray-50 ${borderClass} text-base">
           ${text}
         </a>
