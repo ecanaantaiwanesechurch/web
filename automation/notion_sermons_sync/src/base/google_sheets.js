@@ -108,8 +108,55 @@ function createHeaderMap(headerRow) {
   return Object.fromEntries(headerRow.map((value, index) => [index, toCamelCase(value)]));
 }
 
+async function fetchSchoolConfigSheet(auth, spreadsheetId, tab = 'Config') {
+  const sheets = google.sheets({ version: 'v4', auth });
+  try {
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${tab}!A1:E`
+    });
+    const rows = res.data.values;
+    if (!rows || rows.length === 0) {
+      console.log(`No config data found in ${tab}.`);
+      return [];
+    }
+
+    const valueMap = createHeaderMap(rows.shift());
+    const configs = rows
+      .map((row) => {
+        if (row.length === 0) return null;
+        return Object.fromEntries(
+          row.map((value, index) => [valueMap[index], value ? value.trim() : ''])
+        );
+      })
+      .filter(config => {
+        if (!config || !config.sheet || !config.tab || !config.notionPage || !config.importedField) {
+          if (config) {
+            console.log(`Skipping invalid config row - missing required fields: ${JSON.stringify(config)}`);
+          }
+          return false;
+        }
+        return true;
+      })
+      .map(config => ({
+        sheet: config.sheet,
+        tab: config.tab,
+        notionPage: config.notionPage,
+        importedField: config.importedField,
+        isEnglish: config.english?.toLowerCase() === 'true' || config.english === '1'
+      }));
+
+    console.log(`Loaded ${configs.length} valid config(s) from sheet`);
+    return configs;
+  } catch (error) {
+    console.log(`Failed to fetch config sheet: ${error.message}`);
+    return [];
+  }
+}
+
 export default {
   fetchSheetRecords,
   fetchSundaySchoolSheetRecords,
-  markRecordIsImported
+  markRecordIsImported,
+  fetchSchoolConfigSheet
 }

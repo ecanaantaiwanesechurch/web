@@ -3,6 +3,9 @@ import gWorker from '../base/google_sheets.js';
 import nWorker from '../base/notion.js';
 import { sleep }  from '../base/utils.js';
 
+const CONFIG_SHEET_ID = process.env.CONFIG_SHEET_ID || '1yWGbQ_G6Gtujhs6P7hZOd2MUHel9ZbkmPONBQvQFkSA';
+const CONFIG_TAB = 'Config';
+
 const sundaySchoolConfigs = [
 //  { // 但以理+約瑟
 //    sheet: '1MBCCmEcH1Or-xb6cQxdJSZIMvNxcY1yxsj44CYkn8k8',
@@ -63,11 +66,20 @@ const sundaySchoolConfigs = [
 async function syncSundaySchools(body = {}) {
   const auth = await gBase.authorize();
   const notion = await nWorker.createNotionClient();
+
+  let configs = await gWorker.fetchSchoolConfigSheet(auth, CONFIG_SHEET_ID, CONFIG_TAB);
+  if (!configs || configs.length === 0) {
+    console.log('No valid config from sheet, using local fallback config');
+    configs = sundaySchoolConfigs;
+  } else {
+    console.log('Using config from Google Sheet');
+  }
+
   var targetConfigs;
   if (body.tab && body.sheet) {
-    targetConfigs = sundaySchoolConfigs.filter((config) => config.tab === body.tab && config.sheet === body.sheet);
+    targetConfigs = configs.filter((config) => config.tab === body.tab && config.sheet === body.sheet);
   } else {
-    targetConfigs = sundaySchoolConfigs;
+    targetConfigs = configs;
   }
   for (const config of targetConfigs) {
     try {
