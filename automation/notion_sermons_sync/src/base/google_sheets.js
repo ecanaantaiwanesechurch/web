@@ -154,9 +154,151 @@ async function fetchSchoolConfigSheet(auth, spreadsheetId, tab = 'Config') {
   }
 }
 
+async function fetchCalendarConfig(auth, spreadsheetId, tab = 'CalendarConfig') {
+  const sheets = google.sheets({ version: 'v4', auth });
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    range: `${tab}!A1:E`
+  });
+  const rows = res.data.values;
+  if (!rows || rows.length === 0) {
+    console.log(`No config data found in ${tab}.`);
+    return [];
+  }
+
+  const valueMap = createHeaderMap(rows.shift());
+  const configs = rows
+    .map((row) => {
+      if (row.length === 0) return null;
+      return Object.fromEntries(
+        row.map((value, index) => [valueMap[index], value ? value.trim() : ''])
+      );
+    })
+    .filter(config => {
+      if (!config || !config.eventsSheet || !config.eventsTab || !config.metadataTab || !config.notionPage) {
+        if (config) {
+          console.log(`Skipping invalid config row - missing required fields: ${JSON.stringify(config)}`);
+        }
+        return false;
+      }
+      return true;
+    })
+    .map(config => ({
+      eventsSheet: config.eventsSheet,
+      eventsTab: config.eventsTab,
+      metadataTab: config.metadataTab,
+      notionPage: config.notionPage,
+      type: config.type || 'ministry'
+    }));
+
+  console.log(`Loaded ${configs.length} valid calendar config(s) from sheet`);
+  return configs;
+}
+
+async function fetchCalendarEvents(auth, spreadsheetId, tab, type = 'ministry') {
+  const sheets = google.sheets({ version: 'v4', auth });
+
+  // Different ranges for different types
+  const range = type === 'fellowship' ? `${tab}!A1:F` : `${tab}!A1:E`;
+
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    range
+  });
+  const rows = res.data.values;
+  if (!rows || rows.length === 0) {
+    console.log(`No event data found in ${tab}.`);
+    throw new Error(`No event data found in ${tab}`);
+  }
+
+  const valueMap = createHeaderMap(rows.shift());
+  const events = rows
+    .map((row, index) => { return rowToRecord(row, index, valueMap) })
+    .filter(n => n);
+
+  // Filter based on type - different required fields
+  if (type === 'fellowship') {
+    return events.filter(n => n.churchActivity || n.fellowshipActivity);
+  } else {
+    return events.filter(n => n.eventName);
+  }
+}
+
+async function fetchSheetModifiedTime(auth, spreadsheetId) {
+  const drive = google.drive({ version: 'v3', auth });
+  try {
+    const res = await drive.files.get({
+      fileId: spreadsheetId,
+      fields: 'modifiedTime'
+    });
+    return res.data.modifiedTime;
+  } catch (error) {
+    console.log(`Failed to fetch sheet modified time: ${error.message}`);
+    throw error;
+  }
+}
+
+async function fetchCalendarMetadata(auth, spreadsheetId, tab) {
+  const sheets = google.sheets({ version: 'v4', auth });
+  try {
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: `${tab}!A1:B`
+    });
+    const rows = res.data.values;
+    if (!rows || rows.length === 0) {
+      console.log(`No metadata found in ${tab}.`);
+      return { title: 'Event Calendar', created: 'N/A', updated: 'N/A', monthNotes: {} };
+    }
+
+    // Skip header row and convert to object
+    const metadata = {};
+    const monthNotes = {};
+
+    rows.slice(1).forEach(row => {
+      if (row.length >= 2) {
+        const key = row[0].trim();
+        const value = row[1].trim();
+
+        // Check if this is a month note (pattern: "Month YYYY")
+        const monthPattern = /^(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}$/;
+        if (monthPattern.test(key)) {
+          monthNotes[key] = value;
+        } else {
+          metadata[key.toLowerCase()] = value;
+        }
+      }
+    });
+
+    // Use current date if Updated is missing
+    const today = new Date();
+    const currentDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+
+    return {
+      title: metadata.title || 'Event Calendar',
+      subtitle: metadata.subtitle || '',
+      created: metadata.created || null,
+      updated: metadata.updated || currentDate,
+      mode: metadata.mode || 'all',
+      padding: metadata.padding || 'default',
+      monthNotes
+    };
+  } catch (error) {
+    console.log(`Failed to fetch metadata: ${error.message}`);
+    // Use current date for updated
+    const today = new Date();
+    const currentDate = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+    return { title: 'Event Calendar', subtitle: '', created: null, updated: currentDate, mode: 'all', padding: 'default', monthNotes: {} };
+  }
+}
+
 export default {
   fetchSheetRecords,
   fetchSundaySchoolSheetRecords,
   markRecordIsImported,
-  fetchSchoolConfigSheet
+  fetchSchoolConfigSheet,
+  fetchCalendarConfig,
+  fetchCalendarEvents,
+  fetchCalendarMetadata,
+  fetchSheetModifiedTime
 }

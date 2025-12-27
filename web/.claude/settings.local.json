@@ -10,7 +10,8 @@
       "WebFetch(domain:daisyui.com)",
       "Bash(rm:*)",
       "Bash(node:*)",
-      "WebFetch(domain:www.ecanaan.org)"
+      "WebFetch(domain:www.ecanaan.org)",
+      "WebFetch(domain:docs.google.com)"
     ],
     "deny": [],
     "ask": []

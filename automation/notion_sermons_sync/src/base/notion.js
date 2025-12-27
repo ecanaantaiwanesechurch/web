@@ -379,6 +379,67 @@ async function updateAlumb(notion, album, pageId) {
   console.log(`Updating album ${title} Done. ${album.items?.length} ${response.id}`);
 }
 
+async function updateCalendar(notion, html, metadata, pageId, sheetModifiedTime) {
+  console.log(`Updating Event Calendar`);
+
+  // Find the code block containing "Event Calendar" or the calendar title
+  const blocks = await notion.blocks.children.list({
+    block_id: pageId,
+    page_size: 50,
+  });
+
+  const target = blocks?.results?.find(r => {
+    const content = r.code?.rich_text?.[0]?.plain_text || '';
+    return r.type === 'code' && (content.includes('Event Calendar') || content.includes(metadata.title));
+  });
+
+  if (!target) {
+    console.error(`Not able to find code block with "Event Calendar" or "${metadata.title}"`);
+    return;
+  }
+
+  // Extract existing metadata to preserve Created date and check for changes
+  const content = target.code?.rich_text[0]?.text?.content || '';
+  const reg = /%%(.*)%%(.*)%%(.*)%%/.exec(content);
+  const existingCreated = reg?.[1] || metadata.created;
+  const currentUpdated = metadata.updated;
+  const existingSheetModifiedTime = reg?.[2] || '_NO';
+
+  // Check if sheet has been modified since last sync
+  if (existingSheetModifiedTime === sheetModifiedTime) {
+    console.log(`Sheet not modified since last sync (${sheetModifiedTime}). Skipping update.`);
+    return;
+  }
+
+  console.log(`Sheet has changes. Previous: ${existingSheetModifiedTime}, Current: ${sheetModifiedTime}`);
+
+  // Build metadata comment: %%Created%%SheetModifiedTime%%Updated%%
+  const metadataLine = `<!-- %%${existingCreated}%%${sheetModifiedTime}%%${currentUpdated}%% -->`;
+
+  await sleep(350);
+
+  // Build full content with super-embed prefix
+  const fullContent = `super-embed:  <!-- Event Calendar -->\n${metadataLine}\n${html}`;
+
+  // Chunk and prepare rich_text
+  const chunks = chunkString(fullContent, 2000);
+  const rich_text = chunks.map(chunk => {
+    return {
+      text: { content: chunk }
+    }
+  });
+
+  // Update the code block
+  const response = await notion.blocks.update({
+    block_id: target.id,
+    code: {
+      rich_text
+    }
+  });
+
+  console.log(`Event Calendar updated. ${response.id}`);
+}
+
 function chunkString(str, chunkSize) {
   const chunks = [];
   for (let i = 0; i < str.length; i += chunkSize) {
@@ -395,4 +456,5 @@ export default {
   updateAlumb,
   updateMMPage,
   updateSermonHighlight,
+  updateCalendar,
 };

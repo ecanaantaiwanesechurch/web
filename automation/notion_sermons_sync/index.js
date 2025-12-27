@@ -3,6 +3,7 @@ import { syncSermons } from './src/functions/sync_sermons.js';
 import { syncSundaySchools } from './src/functions/sync_sunday_school.js';
 import { syncVideos } from './src/functions/sync_videos.js';
 import { syncPhotos } from './src/functions/sync_photos.js';
+import { syncCalendar } from './src/functions/sync_calendar.js';
 import { parseJwt } from './src/base/utils.js';
 
 
@@ -53,5 +54,16 @@ functions.http('syncPhotos', async (req, res) => {
   } catch(error) {
     console.log(error);
     res.send('Sync Photos Failed.');
+  }
+});
+
+functions.http('syncCalendar', async (req, res) => {
+  logAuth(req, 'syncCalendar');
+  try {
+    await syncCalendar(req.body);
+    res.send('Sync Calendar Done.');
+  } catch(error) {
+    console.log(error);
+    res.send('Sync Calendar Failed.');
   }
 });

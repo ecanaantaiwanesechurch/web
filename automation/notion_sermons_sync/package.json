@@ -21,10 +21,12 @@
     "test sermons": "npx @google-cloud/functions-framework --target=syncSermons",
     "test videos": "npx @google-cloud/functions-framework --target=syncVideos",
     "test photos": "npx @google-cloud/functions-framework --target=syncPhotos",
+    "test calendar": "npx @google-cloud/functions-framework --target=syncCalendar",
     "deploy schools": "gcloud functions deploy schools_sync --gen2 --runtime=nodejs22 --region=us-west1 --source=.  --entry-point=syncSundaySchools --trigger-http",
     "deploy sermons": "gcloud functions deploy sermons_sync --gen2 --runtime=nodejs22 --region=us-west1 --source=.  --entry-point=syncSermons --trigger-http",
     "deploy videos": "gcloud functions deploy videos_sync --gen2 --runtime=nodejs22 --region=us-west1 --source=.  --entry-point=syncVideos --trigger-http",
-    "deploy photos": "gcloud functions deploy photos_sync --gen2 --runtime=nodejs22 --region=us-west1 --source=.  --entry-point=syncPhotos --trigger-http"
+    "deploy photos": "gcloud functions deploy photos_sync --gen2 --runtime=nodejs22 --region=us-west1 --source=.  --entry-point=syncPhotos --trigger-http",
+    "deploy calendar": "gcloud functions deploy calendar_sync --gen2 --runtime=nodejs22 --region=us-west1 --source=.  --entry-point=syncCalendar --trigger-http"
   },
   "author": "",
   "license": "ISC"

@@ -4,6 +4,7 @@
 @plugin "daisyui";
 @source "./js/**/*.js";
 @source "../../../automation/notion_sermons_sync/src/base/gallery.js";
+@source "../../../automation/notion_sermons_sync/src/base/calendar.js";
 
 @theme {
   --spacing-smenu: calc(100vw - 2 * var(--column-spacing) + 10pt);
