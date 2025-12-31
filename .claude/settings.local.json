@@ -6,7 +6,12 @@
       "Bash(node:*)",
       "WebSearch",
       "WebFetch(domain:www.ecanaan.org)",
-      "WebFetch(domain:vite.dev)"
+      "WebFetch(domain:vite.dev)",
+      "Bash(cat:*)",
+      "Bash(npm view:*)",
+      "WebFetch(domain:daisyui.com)",
+      "Bash(grep:*)",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []
