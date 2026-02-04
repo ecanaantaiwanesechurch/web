@@ -100,13 +100,13 @@ function eventCardHtml(event, type = 'ministry') {
   const styleClass = event.style ? event.style.trim() : '';
 
   return `
-    <div class="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-      <div class="card-body">
+    <div class="dui-card bg-white shadow-lg hover:shadow-xl transition-shadow">
+      <div class="dui-card-body">
         <div class="flex items-start justify-between mb-3">
-          <div class="badge badge-lg bg-[#5d3881] text-white border-0">${event.parsed.display}</div>
+          <div class="dui-badge dui-badge-lg bg-[#5d3881] text-white border-0">${event.parsed.display}</div>
           <div class="text-xs uppercase" style="color: #37352F; opacity: 0.5">${event.parsed.dayOfWeek}</div>
         </div>
-        <h3 class="card-title text-lg mb-2 ${styleClass}" style="color: #37352F">${event.eventName}</h3>
+        <h3 class="dui-card-title text-lg mb-2 ${styleClass}" style="color: #37352F">${event.eventName}</h3>
         ${hasDetails ? `<p class="text-sm mb-3" style="color: #37352F; opacity: 0.7">${event.details.replace(/\n/g, '<br>')}</p>` : ''}
         ${hasTime ? `
           <div class="flex items-center text-sm" style="color: #37352F; opacity: 0.6">
@@ -131,13 +131,13 @@ function fellowshipEventCardHtml(event) {
   const subtitle = event.churchActivity && hasFellowshipActivity ? event.fellowshipActivity : '';
 
   return `
-    <div class="card bg-white shadow-lg hover:shadow-xl transition-shadow">
-      <div class="card-body">
+    <div class="dui-card bg-white shadow-lg hover:shadow-xl transition-shadow">
+      <div class="dui-card-body">
         <div class="flex items-start justify-between mb-3">
-          <div class="badge badge-lg bg-[#5d3881] text-white border-0">${event.parsed.display}</div>
+          <div class="dui-badge dui-badge-lg bg-[#5d3881] text-white border-0">${event.parsed.display}</div>
           <div class="text-xs uppercase" style="color: #37352F; opacity: 0.5">${event.parsed.dayOfWeek}</div>
         </div>
-        <h3 class="card-title text-lg mb-2" style="color: #37352F">${mainTitle}</h3>
+        <h3 class="dui-card-title text-lg mb-2" style="color: #37352F">${mainTitle}</h3>
         ${subtitle ? `<p class="text-sm mb-3 italic" style="color: #37352F; opacity: 0.6">${subtitle}</p>` : ''}
         ${(hasLeader || hasDetail) ? `
           <div class="space-y-2">

@@ -11,7 +11,15 @@
       "Bash(rm:*)",
       "Bash(node:*)",
       "WebFetch(domain:www.ecanaan.org)",
-      "WebFetch(domain:docs.google.com)"
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:defiant-barber-575.notion.site)",
+      "Bash(find:*)",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "WebFetch(domain:sites.super.so)",
+      "Bash(curl:*)",
+      "Bash(npm outdated:*)",
+      "Bash(ls:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
