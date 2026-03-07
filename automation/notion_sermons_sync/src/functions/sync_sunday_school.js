@@ -64,7 +64,7 @@ const sundaySchoolConfigs = [
 ];
 
 async function syncSundaySchools(body = {}) {
-  const auth = await gBase.authorize();
+  const auth = await gBase.authorizeServiceAccount();
   const notion = await nWorker.createNotionClient();
 
   let configs = await gWorker.fetchSchoolConfigSheet(auth, CONFIG_SHEET_ID, CONFIG_TAB);

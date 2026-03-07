@@ -14,7 +14,7 @@ const defaultConfig = {
 async function syncVideos(options = {}) {
   const config = { ...defaultConfig, ...options };
   try {
-    const auth = await gBase.authorize();
+    const auth = await gBase.authorizeServiceAccount();
     const records = await gWorker.fetchSheetRecords(auth, config.sheet, config.tabName);
 
     if (records.length == 0) {

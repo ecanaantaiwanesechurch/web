@@ -16,7 +16,7 @@ const defaultCalendarConfig = [{
 }];
 
 async function syncCalendar(body = {}) {
-  const auth = await gBase.authorize();
+  const auth = await gBase.authorizeServiceAccount();
   const notion = await nWorker.createNotionClient();
 
   // Fetch config with fallback

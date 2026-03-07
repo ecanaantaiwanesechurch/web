@@ -49,7 +49,7 @@ async function syncPhotos(options = {}) {
   const config = { ...defaultConfig, ...options };
   try {
     console.log(`Fetcing albums: ${config.albums.map(n => n.albumTitle)}`);
-    const auth = await gBase.authorize();
+    const auth = await gBase.authorizeServiceAccount();
     const albums = await gDrive.listAlbumFiles(auth, config.albums);
     // const albums = await gPhotos.fetchAlumbs(auth, config.albums);
 

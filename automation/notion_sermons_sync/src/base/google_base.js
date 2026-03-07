@@ -12,6 +12,7 @@ const SCOPES = [
 ];
 const TOKEN_FILE = 'token.json';
 const CREDENTIALS_FILE = 'credentials.json';
+const SERVICE_ACCOUNT_FILE = 'service-account.json';
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -67,6 +68,19 @@ async function authorize() {
   return client;
 }
 
+/**
+ * Authorize using a service account key file.
+ * Used for Sheets/Drive access (all functions except photos).
+ */
+async function authorizeServiceAccount() {
+  const auth = new google.auth.GoogleAuth({
+    keyFile: filePath(SERVICE_ACCOUNT_FILE),
+    scopes: SCOPES,
+  });
+  return auth.getClient();
+}
+
 export default {
-  authorize
+  authorize,
+  authorizeServiceAccount
 }
