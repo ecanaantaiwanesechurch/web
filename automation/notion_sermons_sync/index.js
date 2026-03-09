@@ -13,7 +13,7 @@ function logAuth(req, name) {
 }
 
 functions.http('syncSermons', async (req, res) => {
-  logAuth(req, `syncSermons ${req.body}`);
+  logAuth(req, `syncSermons ${JSON.stringify(req.body)}`);
   try {
     await syncSermons(req.body);
     const tabName = req.body?.tab || '';
