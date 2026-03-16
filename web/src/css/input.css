@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "../../styles/main.css";
 @import "../../styles/gallery.css";
+@import "../../styles/directory.css";
 @plugin "daisyui" {
   prefix: "dui-";
 }

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Co-Worker Directory Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../static/component.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f4;
+            padding: 40px 20px;
+        }
+        .demo-container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+        }
+        :root {
+            --color-bg-default: #fff;
+            --color-border-default: #e5e5e5;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>Family Ministry Co-Workers</h1>
+        <p class="subtitle">家庭事工同工</p>
+
+        <div class="notion-callout bg-orange-light">
+            <div class="notion-callout__content">
+                <div class="notion-collection inline">
+                    <div class="notion-collection-gallery small" id="directory-gallery">
+
+                        <!-- Featured: Jamie Hsieh -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=56" alt="Jamie Hsieh"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Jamie Hsieh</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">薛尹旻</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox checked"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Featured: Mimi Liao -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=47" alt="Mimi Liao"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Mimi Liao</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">廖明理</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox checked"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Jen-Feng Fang -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=60" alt="Jen-Feng Fang"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Jen-Feng Fang</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">方禎鋒</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Li-Yuan Shih -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=32" alt="Li-Yuan Shih"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Li-Yuan Shih</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">施麗媛</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Jennifer Jan -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=44" alt="Jennifer Jan"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Jennifer Jan</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">柯佩貞</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paul Sun -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=53" alt="Paul Sun"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Paul Sun</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">孫殿榮</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Michelle Sun -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=26" alt="Michelle Sun"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Michelle Sun</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">張婉琪</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chien-I Liao -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=59" alt="Chien-I Liao"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Chien-I Liao</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">廖健溢</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sharly Chang -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=29" alt="Sharly Chang"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Sharly Chang</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">張馨毓</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paohsuan Huang -->
+                        <div class="notion-collection-card gallery no-click">
+                            <span><img class="notion-collection-card__cover small" src="https://i.pravatar.cc/200?img=25" alt="Paohsuan Huang"></span>
+                            <div class="notion-collection-card__content notion-collection-card__property-list">
+                                <div class="notion-property notion-property__title notion-collection-card__property title notion-semantic-string">Paohsuan Huang</div>
+                                <p class="notion-property notion-property__text notion-collection-card__property notion-semantic-string">黃寶萱</p>
+                                <div class="notion-property notion-property__checkbox notion-collection-card__property">
+                                    <div class="notion-checkbox"><svg viewBox="0 0 14 14"><polygon points="5.5 11.9993304 14 3.49933039 12.5 2 5.5 8.99933039 1.5 4.9968652 0 6.49933039"></polygon></svg></div>
+                                    <span class="notion-semantic-string">Featured</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
