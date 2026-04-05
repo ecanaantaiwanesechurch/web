@@ -41,7 +41,6 @@
 
   function bootstrap() {
     window.addEventListener('popstate', updateNavbar);
-    window.addEventListener('hashchange', updateNavbar);
 
     // Override history.pushState to detect navigation
     const originalPushState = history.pushState;
@@ -51,31 +50,66 @@
       return ret;
     };
 
+    // Handle language button clicks (registered once on document)
+    document.addEventListener('click', function(e) {
+      const link = e.target.closest('a');
+      if (link) {
+        const isLanguageButton = link.textContent.trim() === 'English' || link.textContent.trim() === '中文';
+
+        if (isLanguageButton) {
+          e.preventDefault();
+          const isCurrentlyEn = getCurrentLanguage();
+          const newLang = isCurrentlyEn ? 'zh' : 'en';
+          localStorage.setItem('lang', newLang);
+
+          // Compute target from current path, not stale rendered href
+          const currentPath = window.location.pathname;
+          const mapping = isCurrentlyEn ? toZhPaths : toEnPaths;
+          const targetPath = mapping[currentPath] || currentPath;
+
+          if (targetPath !== currentPath) {
+            window.location.href = targetPath;
+          } else {
+            // Same path, just re-render navbar in new language
+            state.lastRenderedLanguage = null;
+            updateNavbar();
+          }
+        }
+      }
+
+      // Close mobile menu when clicking outside
+      if (state.mobileMenuOpen && !e.target.closest('#mobile-menu') && !e.target.closest('#mobile-menu-toggle')) {
+        toggleMobileMenu();
+      }
+    });
+
+    // Close mobile menu on window resize
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 768 && state.mobileMenuOpen) {
+        toggleMobileMenu();
+      }
+    });
+
     updateNavbar();
   }
 
   function getCurrentLanguage() {
-    // Always check current URL for language, don't cache this
-    return window.location.hash === '#en' || window.location.pathname.startsWith('/en');
+    const stored = localStorage.getItem('lang');
+    if (stored) return stored === 'en';
+    // No preference — detect from browser and persist
+    const lang = navigator.language || navigator.userLanguage;
+    const isEn = !(lang == null || lang.toLowerCase().startsWith('zh'));
+    localStorage.setItem('lang', isEn ? 'en' : 'zh');
+    return isEn;
   }
 
   function getItemUrl(item, isEn) {
     if (item.language) {
       const currentPath = window.location.pathname;
-      // Language button shows opposite language
-      // If currently English (isEn=true), button shows "中文" and should go to Chinese (no hash)
-      // If currently Chinese (isEn=false), button shows "English" and should go to English (#en)
       const mapping = isEn ? toZhPaths : toEnPaths;
-      let url = mapping[currentPath] || currentPath;
-      const finalUrl = isEn ? url : `${url}#en`;
-      return finalUrl;
+      return mapping[currentPath] || currentPath;
     }
-
-    let url = isEn ? item.enLink || item.zhLink : item.zhLink || item.enLink;
-    if (isEn && url && !url.startsWith('http')) {
-      url = `${url}#en`;
-    }
-    return url;
+    return isEn ? item.enLink || item.zhLink : item.zhLink || item.enLink;
   }
 
   function createDropdownItem(item, isEn) {
@@ -421,6 +455,22 @@
     if (!navContainer) return;
 
     const isEn = getCurrentLanguage();
+    const currentPath = window.location.pathname;
+
+    // Home page redirect
+    if (currentPath === '/') {
+      window.location.pathname = isEn ? '/en' : '/zh';
+      return;
+    }
+
+    // Mapped path redirect — ensure path matches language preference
+    if (isEn && toEnPaths[currentPath]) {
+      window.location.pathname = toEnPaths[currentPath];
+      return;
+    } else if (!isEn && toZhPaths[currentPath]) {
+      window.location.pathname = toZhPaths[currentPath];
+      return;
+    }
 
     // Check if we need to re-render (language changed)
     if (state.lastRenderedLanguage === isEn && navContainer.innerHTML) {
@@ -494,47 +544,6 @@
 
     updateFooterIcons();
 
-    // Handle language button clicks
-    navContainer.addEventListener('click', function(e) {
-      const link = e.target.closest('a');
-      if (link) {
-        // Check if this is a language toggle button
-        const isLanguageButton = link.textContent.trim() === 'English' || link.textContent.trim() === '中文';
-
-        if (isLanguageButton) {
-          e.preventDefault(); // Prevent default navigation
-
-          const targetUrl = new URL(link.href);
-          const currentUrl = new URL(window.location.href);
-
-          // Only update if URL is different
-          if (targetUrl.pathname !== currentUrl.pathname || targetUrl.hash !== currentUrl.hash) {
-            // Check if only hash is different (same page)
-            if (targetUrl.pathname === currentUrl.pathname) {
-              // Just update the hash without page reload
-              window.location.hash = targetUrl.hash;
-            } else {
-              // Different page, navigate normally
-              window.location.href = link.href;
-            }
-          }
-        }
-      }
-    });
-
-    // Close mobile menu when clicking outside (with event delegation)
-    document.addEventListener('click', function(e) {
-      if (state.mobileMenuOpen && !e.target.closest('#mobile-menu') && !e.target.closest('#mobile-menu-toggle')) {
-        toggleMobileMenu();
-      }
-    });
-
-    // Close mobile menu on window resize
-    window.addEventListener('resize', function() {
-      if (window.innerWidth >= 768 && state.mobileMenuOpen) {
-        toggleMobileMenu();
-      }
-    });
   }
 
   function updateFooterIcons() {
