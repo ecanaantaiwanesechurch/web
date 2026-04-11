@@ -3,7 +3,13 @@
     "allow": [
       "Bash(gcloud functions list:*)",
       "Bash(gcloud functions describe:*)",
-      "Bash(gcloud functions add-invoker-policy-binding:*)"
+      "Bash(gcloud functions add-invoker-policy-binding:*)",
+      "Bash(gcloud functions:*)",
+      "Bash(gcloud projects:*)",
+      "Bash(gcloud logging:*)",
+      "Bash(gcloud run:*)",
+      "Bash(gcloud identity:*)",
+      "Bash(do echo:*)"
     ]
   }
 }

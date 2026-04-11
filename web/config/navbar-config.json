@@ -139,19 +139,14 @@
               "enLink": "/missions/mission-support"
             },
             {
-              "en": "2025 STM Directory",
-              "zh": "2025 短宣名錄",
-              "enLink": "/missions/2025-stm-directory"
+              "en": "2026 STM Support Letters",
+              "zh": "2026 短宣代禱",
+              "enLink": "/events/2026-stm-support"
             },
             {
-              "en": "2025 STM Support Letters",
-              "zh": "2025 短宣代禱",
-              "enLink": "/missions/2025-stm-support-letters"
-            },
-            {
-              "en": "2025 STM Updates",
-              "zh": "2025 STM 最新消息",
-              "enLink": "/missions/2025-stm-updates"
+              "en": "Past STM",
+              "zh": "歷年短宣",
+              "enLink": "/missions/past-stm"
             }
           ]
         }
