@@ -218,7 +218,7 @@ async function fetchCalendarEvents(auth, spreadsheetId, tab, type = 'ministry') 
 
   // Filter based on type - different required fields
   if (type === 'fellowship') {
-    return events.filter(n => n.churchActivity || n.fellowshipActivity);
+    return events.filter(n => n.fellowshipActivity && n.fellowshipActivity !== '-');
   } else {
     return events.filter(n => n.eventName);
   }
