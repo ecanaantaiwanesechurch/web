@@ -67,3 +67,26 @@ functions.http('syncCalendar', async (req, res) => {
     res.send('Sync Calendar Failed.');
   }
 });
+
+functions.http('syncPhotosAndCalendar', async (req, res) => {
+  logAuth(req, 'syncPhotosAndCalendar');
+  const results = [];
+
+  try {
+    await syncPhotos();
+    results.push('Photos: Done');
+  } catch (error) {
+    console.log(error);
+    results.push('Photos: Failed');
+  }
+
+  try {
+    await syncCalendar(req.body);
+    results.push('Calendar: Done');
+  } catch (error) {
+    console.log(error);
+    results.push('Calendar: Failed');
+  }
+
+  res.send(results.join('. '));
+});
