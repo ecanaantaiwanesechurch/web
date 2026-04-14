@@ -11,6 +11,12 @@
           "zhLink": "/about-us/our-story"
         },
         {
+          "en": "Upcoming Events",
+          "zh": "近期活動",
+          "enLink": "/invitation/english",
+          "zhLink": "/invitation"
+        },
+        {
           "en": "Careers",
           "zh": "徵人啟事",
           "enLink": "/about-us/careers"
