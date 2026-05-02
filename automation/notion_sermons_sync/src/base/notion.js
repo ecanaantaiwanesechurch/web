@@ -26,6 +26,13 @@ const ministryMap = {
   'All': ['Taiwanese Ministry', 'Mandarin Ministry', 'English Ministry'],
 };
 
+function expandMinistries(codes) {
+  const list = Array.isArray(codes)
+    ? codes
+    : (codes || '').split(',').map(n => n.trim()).filter(Boolean);
+  return [...new Set(list.flatMap(c => ministryMap[c] || []))];
+}
+
 async function createNotionClient() {
   const tokens = await readFileAsJson('notion_token.json');
   // Initializing a client
@@ -47,7 +54,7 @@ async function createVideoTestimonyRecord(notion, database_id, record, highlight
     videoPlayerBlock(record.videoLink)
   ];
 
-  const ministries = ministryMap[record.ministry];
+  const ministries = expandMinistries(record.ministry);
   const propEntries = [
     [ 'Name', titleBlock(record.topic) ],
     [ 'Category', selectBlock('Testimony') ],
@@ -80,7 +87,7 @@ async function createSermonRecord(notion, database_id, record, highlight) {
   if (record.description) {
     children.push(paragraphBlock(record.description));
   }
-  const ministries = ministryMap[record.ministry];
+  const ministries = expandMinistries(record.ministry);
 
   const propEntries = [
     [ 'Name', titleBlock(record.topic) ],

@@ -3,7 +3,8 @@ import { google } from 'googleapis';
 const arrayKeys = {
   tags: 1,
   speakers: 1,
-  verses: 1
+  verses: 1,
+  ministry: 1
 };
 
 async function fetchSundaySchoolSheetRecords(auth, spreadsheetId, tab) {
@@ -54,7 +55,7 @@ async function fetchSheetRecords(auth, spreadsheetId, tab, lastCol = 'R') {
   return rows
     .map((row, index) => { return rowToRecord(row, index, valueMap) })
     .filter(n => n)
-    .filter(n => n.topic && n.ministry && n.videoLink && !n.imported);
+    .filter(n => n.topic && n.ministry?.length && n.videoLink && !n.imported);
 }
 
 async function markRecordIsImported(auth, spreadsheetId, tab, index, lastCol, pageId) {
