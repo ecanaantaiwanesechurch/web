@@ -46,8 +46,8 @@
           "zhLink": "/sermons"
         },
         {
-          "en": "2025 All Church Retreat",
-          "zh": "2025 全教會退修會",
+          "en": "All Church Retreat",
+          "zh": "全教會退修會",
           "enLink": "https://retreat.ecanaan.org/"
         }
       ]
@@ -126,6 +126,11 @@
               "en": "Announcements",
               "zh": "最新公告",
               "enLink": "/ministries/childrens-ministry/announcements"
+            },
+            {
+              "en": "2026 VBS Summer Camp",
+              "zh": "2026 VBS 夏令營",
+              "enLink": "https://vbs.ecanaan.org"
             }
           ]
         },
