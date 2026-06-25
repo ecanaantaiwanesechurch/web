@@ -10,7 +10,8 @@
       "Bash(gcloud run:*)",
       "Bash(gcloud identity:*)",
       "Bash(do echo:*)",
-      "Bash(gcloud scheduler:*)"
+      "Bash(gcloud scheduler:*)",
+      "WebSearch"
     ]
   }
 }

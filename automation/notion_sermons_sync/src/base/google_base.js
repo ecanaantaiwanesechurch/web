@@ -8,6 +8,7 @@ const SCOPES = [
   'https://www.googleapis.com/auth/drive.metadata.readonly',
   'https://www.googleapis.com/auth/drive.readonly',
   'https://www.googleapis.com/auth/drive.photos.readonly',
+  'https://www.googleapis.com/auth/calendar.readonly',
   // 'https://www.googleapis.com/auth/photoslibrary.readonly'
 ];
 const TOKEN_FILE = 'token.json';

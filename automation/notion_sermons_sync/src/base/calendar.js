@@ -125,6 +125,7 @@ function fellowshipEventCardHtml(event) {
   const hasFellowshipActivity = event.fellowshipActivity && event.fellowshipActivity.trim();
   const hasLeader = event.leader && event.leader.trim();
   const hasDetail = event.detail && event.detail.trim();
+  const hasTime = event.time && event.time.trim();
 
   // Use Church Activity as main title, Fellowship Activity as subtitle
   const mainTitle = event.churchActivity || event.fellowshipActivity || 'Event';
@@ -139,6 +140,7 @@ function fellowshipEventCardHtml(event) {
         </div>
         <h3 class="dui-card-title text-lg mb-2" style="color: #37352F">${mainTitle}</h3>
         ${subtitle ? `<p class="text-sm mb-3 italic" style="color: #37352F; opacity: 0.6">${subtitle}</p>` : ''}
+        ${hasTime ? `<div class="text-sm mb-2" style="color: #37352F; opacity: 0.6">${event.time}</div>` : ''}
         ${(hasLeader || hasDetail) ? `
           <div class="space-y-2">
             ${hasLeader ? `
@@ -270,9 +272,13 @@ function calendarHtml(events, metadata, type = 'ministry') {
 
   ${monthSections}
 
+  ${metadata.calendarId ? `
+  <div class="mt-12 mb-16">
+    <a href="https://calendar.google.com/calendar/render?cid=${metadata.calendarId}" target="_blank" style="color: #5d3881; font-size: 0.85rem">+ Add to my Google Calendar</a>
+  </div>` : `
   <div class="mt-12 mb-16 text-center">
     <p class="text-sm" style="color: #37352F; opacity: 0.5">${metadata.created && metadata.created !== 'N/A' ? `Created on ${metadata.created} | ` : ''}Updated on ${metadata.updated}</p>
-  </div>
+  </div>`}
 </main>
 ${scrollScript}
   `.trim();

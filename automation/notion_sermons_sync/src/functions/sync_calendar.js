@@ -19,19 +19,66 @@ async function syncCalendar(body = {}) {
   const auth = await gBase.authorizeServiceAccount();
   const notion = await nWorker.createNotionClient();
 
-  // Fetch config with fallback
-  let configs = await gWorker.fetchCalendarConfig(auth, CONFIG_SHEET_ID, CONFIG_TAB);
-  if (!configs || configs.length === 0) {
-    console.log('No valid config from sheet, using local fallback config');
-    configs = defaultCalendarConfig;
+  // Manual single-record override (for testing) - process just one gcal calendar
+  // from the request body and skip the config sheet entirely.
+  let configs;
+  if (body.calendarId && body.notionPage) {
+    configs = [{
+      type: 'gcal',
+      eventsSheet: body.calendarId, // calendar id
+      notionPage: body.notionPage,
+      title: body.title || '',
+      eventsTab: '',
+      metadataTab: ''
+    }];
+    console.log('Manual override: processing single gcal record from request body');
   } else {
-    console.log('Using config from Google Sheet');
+    // Fetch config with fallback
+    configs = await gWorker.fetchCalendarConfig(auth, CONFIG_SHEET_ID, CONFIG_TAB);
+    if (!configs || configs.length === 0) {
+      console.log('No valid config from sheet, using local fallback config');
+      configs = defaultCalendarConfig;
+    } else {
+      console.log('Using config from Google Sheet');
+    }
   }
 
   // Process each config
   for (const config of configs) {
     try {
       console.log(`Processing calendar config for Notion page: ${config.notionPage}`);
+
+      // Google Calendar API source
+      if (config.type === 'gcal') {
+        const events = await gWorker.fetchGoogleCalendarEvents(auth, config.eventsSheet);
+        if (events.length === 0) {
+          console.log(`No Google Calendar events found for ${config.eventsSheet}`);
+          continue;
+        }
+
+        const today = new Date();
+        const metadata = {
+          title: config.title || 'Event Calendar',
+          subtitle: '',
+          created: null,
+          updated: `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`,
+          mode: 'static', // no date filtering (API already windowed) and no auto-scroll script
+          padding: 'none', // leading-aligned, matching the sheet-based calendar pages
+          monthNotes: {},
+          calendarId: config.eventsSheet // drives the "Add to my Google Calendar" footer link
+        };
+
+        console.log(`Found ${events.length} Google Calendar events. Generating calendar HTML...`);
+
+        const html = calendarHtml(events, metadata, 'fellowship');
+        // Scheduled runs refresh at most once/day; manual override always writes for testing.
+        const stamp = body.calendarId ? today.toISOString() : today.toISOString().slice(0, 10);
+        await nWorker.updateCalendar(notion, html, metadata, config.notionPage, stamp);
+
+        console.log(`Google Calendar updated successfully for ${config.eventsSheet}\n`);
+        await sleep(350);
+        continue;
+      }
 
       // Fetch sheet modified time
       const sheetModifiedTime = await gWorker.fetchSheetModifiedTime(auth, config.eventsSheet);
