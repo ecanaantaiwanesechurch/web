@@ -11,7 +11,9 @@
       "Bash(npm view:*)",
       "WebFetch(domain:daisyui.com)",
       "Bash(grep:*)",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "mcp__claude_ai_Google_Drive__read_file_content",
+      "mcp__claude_ai_Google_Drive__get_file_metadata"
     ],
     "deny": [],
     "ask": []

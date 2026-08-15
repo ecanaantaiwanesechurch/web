@@ -4,15 +4,27 @@ const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const shortDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+// Sheets mix "M/D/YYYY" and "M/D/YY". The Date constructor maps years 0-99 to
+// 1900-1999, so expand 2-digit years to the 2000s before building any date.
+function parseYear(value) {
+  const year = parseInt(value);
+  return year < 100 ? 2000 + year : year;
+}
+
 function parseDateString(dateStr) {
   // Handle arrow format (cross-month): "1/30/2026 -> 2/2/2026"
   if (dateStr.includes('->')) {
     const [startStr, endStr] = dateStr.split('->').map(s => s.trim());
-    const [startMonth, startDay, startYear] = startStr.split('/').map(s => parseInt(s));
-    const [endMonth, endDay, endYear] = endStr.split('/').map(s => parseInt(s));
+    const [startMonthPart, startDayPart, startYearPart] = startStr.split('/');
+    const [endMonthPart, endDayPart, endYearPart] = endStr.split('/');
+    const startMonth = parseInt(startMonthPart);
+    const startDay = parseInt(startDayPart);
+    const startYear = parseYear(startYearPart);
+    const endDay = parseInt(endDayPart);
+    const endYear = parseYear(endYearPart);
 
     const startDate = new Date(startYear, startMonth - 1, startDay);
-    const endDate = new Date(endYear, endMonth - 1, endDay);
+    const endDate = new Date(endYear, parseInt(endMonthPart) - 1, endDay);
 
     return {
       startDate,
@@ -28,7 +40,7 @@ function parseDateString(dateStr) {
   // Parse simple or dash format
   const [month, dayPart, year] = dateStr.split('/');
   const monthNum = parseInt(month);
-  const yearNum = parseInt(year);
+  const yearNum = parseYear(year);
 
   // Handle dash format (same month): "18-19"
   if (dayPart.includes('-')) {
