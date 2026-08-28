@@ -22,8 +22,6 @@
   }
 
   function bootstrap() {
-    if (!allowedPaths[window.location.pathname]) { return; }
-
     (function(history) {
       var _pushState = history.pushState;
       history.pushState = function() {
@@ -33,10 +31,34 @@
       };
     })(window.history);
 
+    window.addEventListener('popstate', setupAlbums);
+
+    if (window.MutationObserver) {
+      // pushState fires before the new markup lands, so watch the DOM as well
+      const rootObserver = new MutationObserver(scheduleSetup);
+      rootObserver.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+      });
+    }
+
     setupAlbums()
   }
 
+  let setupScheduled = false;
+
+  function scheduleSetup() {
+    if (setupScheduled) { return; }
+    setupScheduled = true;
+    requestAnimationFrame(() => {
+      setupScheduled = false;
+      setupAlbums();
+    });
+  }
+
   function setupAlbums() {
+    if (!allowedPaths[window.location.pathname]) { return; }
+
     targets.forEach(async n => {
       try {
         await setupAlbum(n);
@@ -48,6 +70,9 @@
 
   async function setupAlbum(target) {
     if (typeof Swiper === 'undefined') { return; }
+
+    const container = document.getElementById(`swiper-${target}`);
+    if (!container || container.classList.contains('swiper-initialized')) { return; }
 
     const swiper = new Swiper(`#swiper-${target}`, {
       spaceBetween: 12,

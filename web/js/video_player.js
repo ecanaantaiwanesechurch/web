@@ -34,6 +34,17 @@
 
   // DOM observation
 
+  let updateScheduled = false;
+
+  function scheduleUpdate() {
+    if (updateScheduled) { return; }
+    updateScheduled = true;
+    requestAnimationFrame(() => {
+      updateScheduled = false;
+      updatePlayer();
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", bootstrap);
   } else {
@@ -41,17 +52,13 @@
   }
 
   function bootstrap() {
-    if (MutationObserver) {
-      const root = document.getElementsByClassName('super-root')[0];
-      if (root) {
-        const rootObserver = new MutationObserver(() => {
-          updatePlayer();
-        });
-        rootObserver.observe(root, {
-          childList: true,
-          subtree: true
-        })
-      }
+    if (window.MutationObserver) {
+      // Not .super-root: client side navigation replaces it and detaches the observer
+      const rootObserver = new MutationObserver(scheduleUpdate);
+      rootObserver.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+      });
     }
 
     updatePlayer();

@@ -90,7 +90,28 @@
       }
     });
 
+    if (window.MutationObserver) {
+      // pushState fires before the new markup lands, so watch the DOM as well
+      const rootObserver = new MutationObserver(scheduleSync);
+      rootObserver.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+      });
+    }
+
     updateNavbar();
+  }
+
+  let syncScheduled = false;
+
+  function scheduleSync() {
+    if (syncScheduled) { return; }
+    syncScheduled = true;
+    requestAnimationFrame(() => {
+      syncScheduled = false;
+      updateNavbar();
+      updateFooterIcons();
+    });
   }
 
   function getCurrentLanguage() {
@@ -554,6 +575,12 @@
     if (footerIconContainer.innerHTML.includes('tithe.ly')) {
       return;
     }
+
+    // One watcher per footer element, a new one arrives with each navigation
+    if (footerIconContainer.getAttribute('data-giving-watch') != null) {
+      return;
+    }
+    footerIconContainer.setAttribute('data-giving-watch', '1');
 
     let hydrationComplete = false;
     let timeoutId = null;
