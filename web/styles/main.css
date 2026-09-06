@@ -198,7 +198,7 @@ h3 {
 }
 
 .highlighted-background a{
-    padding: 1rem 2rem !important;
+    padding: .7rem 1.6rem !important;
     border: none !important;
     opacity: 1 !important;
     border-radius: var(--callout-border-radii) !important;
@@ -211,7 +211,6 @@ h3 {
 
 .highlighted-background.bg-blue a{
     background-color: var(--color-blue) !important;
-    -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--blue-h), var(--blue-s), var(--blue-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -219,13 +218,11 @@ h3 {
 
 .highlighted-background.bg-blue a:hover{
     background-color: hsla(var(--blue-h), var(--blue-s), calc(var(--blue-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--blue-h), var(--blue-s), var(--blue-l), 0.5) !important;
 
 }
 
 .highlighted-background.bg-brown a{
     background-color: var(--color-brown) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--brown-h), var(--brown-s), var(--brown-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -233,14 +230,12 @@ h3 {
 
 .highlighted-background.bg-brown a:hover{
     background-color: hsla(var(--brown-h), var(--brown-s), calc(var(--brown-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--brown-h), var(--brown-s), var(--brown-l), 0.5) !important;
 
 }
 
 
 .highlighted-background.bg-orange a{
     background-color: var(--color-orange) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--orange-h), var(--orange-s), var(--orange-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -248,13 +243,11 @@ h3 {
 
 .highlighted-background.bg-orange a:hover{
     background-color: hsla(var(--orange-h), var(--orange-s), calc(var(--orange-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--orange-h), var(--orange-s), var(--orange-l), 0.5) !important;
 
 }
 
 .highlighted-background.bg-red a{
     background-color: var(--color-red) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--red-h), var(--red-s), var(--red-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -262,14 +255,12 @@ h3 {
 
 .highlighted-background.bg-red a:hover{
     background-color: hsla(var(--red-h), var(--red-s), calc(var(--red-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--red-h), var(--red-s), var(--red-l), 0.5) !important;
 
 }
 
 
 .highlighted-background.bg-yellow a{
     background-color: var(--color-yellow) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--yellow-h), var(--yellow-s), var(--yellow-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -277,14 +268,12 @@ h3 {
 
 .highlighted-background.bg-yellow a:hover{
     background-color: hsla(var(--yellow-h), var(--yellow-s), calc(var(--yellow-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--yellow-h), var(--yellow-s), var(--yellow-l), 0.5) !important;
 
 }
 
 
 .highlighted-background.bg-green a{
     background-color: var(--color-green) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--green-h), var(--green-s), var(--green-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -292,14 +281,12 @@ h3 {
 
 .highlighted-background.bg-green a:hover{
     background-color: hsla(var(--green-h), var(--green-s), calc(var(--green-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--green-h), var(--green-s), var(--green-l), 0.5) !important;
 
 }
 
 
 .highlighted-background.bg-purple a{
     background-color: var(--color-purple) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--purple-h), var(--purple-s), var(--purple-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -307,13 +294,11 @@ h3 {
 
 .highlighted-background.bg-purple a:hover{
     background-color: hsla(var(--purple-h), var(--purple-s), calc(var(--purple-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--purple-h), var(--purple-s), var(--purple-l), 0.5) !important;
 
 }
 
 .highlighted-background.bg-pink a{
     background-color: var(--color-pink) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--pink-h), var(--pink-s), var(--pink-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -321,13 +306,11 @@ h3 {
 
 .highlighted-background.bg-pink a:hover{
     background-color: hsla(var(--pink-h), var(--pink-s), calc(var(--pink-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--pink-h), var(--pink-s), var(--pink-l), 0.5) !important;
 
 }
 
 .highlighted-background.bg-gray a{
     background-color: var(--color-gray) !important;
-      -webkit-box-shadow: 0em 1em 1em 0em hsla(var(--gray-h), var(--gray-s), var(--gray-l), 0.3) !important;
     transition: 0.2s !important;
 
 }
@@ -335,7 +318,6 @@ h3 {
 
 .highlighted-background.bg-gray a:hover{
     background-color: hsla(var(--gray-h), var(--gray-s), calc(var(--gray-l) + 10%)) !important;
-      -webkit-box-shadow: 0em 2em 2em 0em hsla(var(--gray-h), var(--gray-s), var(--gray-l), 0.5) !important;
 
 }
 

@@ -30,6 +30,8 @@ split across `js/` and `styles/`. Each is wired up by an `@import` in
 `src/css/input.css` and an `import` in `js/main.js`. Code forked from a third
 party carries a `VENDOR.md` recording the source and our changes.
 - `modules/carousel/` - events carousel, forked from Super's snippet
+- `modules/sermon-block/` - Sunday Messages block on the homepages
+- `modules/service-times/` - service times grid on the homepages
 
 ## Tailwind Configuration
 

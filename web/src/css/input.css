@@ -3,6 +3,8 @@
 @import "../../styles/gallery.css";
 @import "../../styles/directory.css";
 @import "../../modules/carousel/carousel.css";
+@import "../../modules/sermon-block/sermon-block.css";
+@import "../../modules/service-times/service-times.css";
 @plugin "daisyui" {
   prefix: "dui-";
 }
