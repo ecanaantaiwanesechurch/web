@@ -1,6 +1,6 @@
-import gBase from './src/base/google_base.js';
-import gDrive from './src/base/google_drive.js';
-import { galleryHtml } from './src/base/gallery.js';
+import gBase from '../src/base/google_base.js';
+import gDrive from '../src/base/google_drive.js';
+import { galleryHtml } from '../src/base/gallery.js';
 
 import { argv, exit } from 'node:process';
 

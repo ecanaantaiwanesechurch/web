@@ -39,7 +39,7 @@ async function fetchSundaySchoolSheetRecords(auth, spreadsheetId, tab) {
 //    rowIndex: 2
 //  }
 //
-async function fetchSheetRecords(auth, spreadsheetId, tab, lastCol = 'R') {
+async function fetchAllSheetRecords(auth, spreadsheetId, tab, lastCol = 'R') {
   const sheets = google.sheets({ version: 'v4', auth });
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId,
@@ -54,7 +54,12 @@ async function fetchSheetRecords(auth, spreadsheetId, tab, lastCol = 'R') {
   const valueMap = createHeaderMap(rows.shift());
   return rows
     .map((row, index) => { return rowToRecord(row, index, valueMap) })
-    .filter(n => n)
+    .filter(n => n);
+}
+
+async function fetchSheetRecords(auth, spreadsheetId, tab, lastCol = 'R') {
+  const records = await fetchAllSheetRecords(auth, spreadsheetId, tab, lastCol);
+  return records
     .filter(n => n.topic && n.ministry?.length && n.videoLink && !n.imported);
 }
 
@@ -402,6 +407,7 @@ async function fetchCalendarMetadata(auth, spreadsheetId, tab) {
 
 export default {
   fetchSheetRecords,
+  fetchAllSheetRecords,
   fetchSundaySchoolSheetRecords,
   markRecordIsImported,
   fetchSchoolConfigSheet,

@@ -1,4 +1,4 @@
-import nWorker from './src/notion.js';
+import nWorker from '../src/base/notion.js';
 import { argv, exit } from 'node:process';
 
 const databaseId = argv[2];

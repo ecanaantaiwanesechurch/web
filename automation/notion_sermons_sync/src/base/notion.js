@@ -2,6 +2,7 @@ import { Client } from '@notionhq/client';
 
 import { readFileAsJson } from './fs_utils.js';
 import { galleryHtml } from './gallery.js';
+import { videoCover } from './video_thumbnail.js';
 import { sleep } from './utils.js';
 
 import {
@@ -66,9 +67,11 @@ async function createVideoTestimonyRecord(notion, database_id, record, highlight
     [ 'Video Link', urlBox(record.videoLink) ]
   ].filter(n => !!n[1]);
 
+  const cover = await videoCover(record.videoLink);
+
   const pageBody = {
     parent: { database_id },
-    cover: { external: { url: 'https://www.notion.so/images/page-cover/gradients_8.png' } },
+    cover,
     icon: null,
     properties: Object.fromEntries(propEntries),
     children
@@ -103,9 +106,11 @@ async function createSermonRecord(notion, database_id, record, highlight) {
     [ 'Weekly Verse', richText(record.weeklyVerse) ],
   ].filter(n => !!n[1]);
 
+  const cover = await videoCover(record.videoLink);
+
   const pageBody = {
     parent: { database_id },
-    cover: { external: { url: 'https://www.notion.so/images/page-cover/gradients_8.png' } },
+    cover,
     icon: null,
     properties: Object.fromEntries(propEntries),
     children
@@ -212,6 +217,14 @@ async function updateSermonHighlight(notion, database_id) {
   if (latestMM.properties?.Highlight?.checkbox === false) {
     return latestMM;
   }
+}
+
+async function updatePageCover(notion, pageId, cover) {
+  const response = await notion.pages.update({
+    page_id: pageId,
+    cover
+  });
+  return response.id;
 }
 
 async function updateRecordProperty(notion, pageId, properties) {
@@ -463,5 +476,6 @@ export default {
   updateAlumb,
   updateMMPage,
   updateSermonHighlight,
+  updatePageCover,
   updateCalendar,
 };

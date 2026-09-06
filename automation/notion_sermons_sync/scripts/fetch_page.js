@@ -1,4 +1,4 @@
-import nWorker from './src/base/notion.js';
+import nWorker from '../src/base/notion.js';
 import { argv, exit } from 'node:process';
 
 const pageId = argv[2];
