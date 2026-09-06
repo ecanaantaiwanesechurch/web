@@ -1,0 +1,164 @@
+/* Events carousel, forked from Super's snippet - see VENDOR.md.
+ * Coupled to carousel.js: it writes .active, these rules style it. */
+
+/* --- vendored, keep diffable against upstream --- */
+
+.notion-callout.bg-brown-light {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  border-radius: 0px !important;
+}
+
+.notion-callout.bg-brown-light .notion-callout__content {
+  margin: 0 !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-gallery {
+  position: relative !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  margin: auto !important;
+  border-top: 0 !important;
+  aspect-ratio: 16 / 11 !important;
+  display: block !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-gallery .notion-collection-card {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  transition: opacity 0.4s ease !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-gallery .notion-collection-card.active {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+  border-radius: var(--image-border-radii) !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card__cover,
+.notion-callout.bg-brown-light .notion-collection-card__cover img {
+  min-height: 100% !important;
+  height: 100% !important;
+  width: 100% !important;
+  border-radius: 0px !important;
+}
+
+.theme-dark .notion-callout.bg-brown-light .notion-collection-card__content {
+  color: var(--color-text-default) !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card__content {
+  position: absolute !important;
+  width: 100% !important;
+  bottom: 0 !important;
+  color: var(--color-bg-default) !important;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(1, 1, 1, .4);
+  backdrop-filter: blur(2px);
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 200px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-button.left {
+  left: 10px;
+}
+
+.carousel-button.right {
+  right: 10px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+  border-radius: 60px;
+}
+
+.carousel-indicators span {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, .6);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.carousel-indicators span.active {
+  background: #fff;
+}
+
+/* --- our fixes --- */
+
+/* carousel.js is async; before it runs no card is .active and every caption
+ * would stack at bottom:0. */
+.notion-callout.bg-brown-light .notion-collection-card:not(.active) .notion-collection-card__content {
+  visibility: hidden !important;
+}
+
+/* Was a flat rgba(50,50,50,.7) bar - flyers print their own date into the
+ * artwork and it bled through. Near-max across the text, fading only above it. */
+.notion-callout.bg-brown-light .notion-collection-card__content {
+  background: linear-gradient(to top,
+      rgba(52, 52, 56, .80) 0%,
+      rgba(52, 52, 56, .74) 58%,
+      rgba(52, 52, 56, .42) 82%,
+      rgba(52, 52, 56, 0) 100%) !important;
+  padding: 20px 18px 14px !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card__content .notion-property__title {
+  color: #fff !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .55) !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card__content .date {
+  color: rgba(255, 255, 255, .92) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .55) !important;
+}
+
+/* super:hide_title checkbox. Super only emits properties the view shows, so it
+ * stays visible in Notion and is hidden here. */
+.notion-callout.bg-brown-light .notion-collection-card__property.property-6b646f3e {
+  display: none !important;
+}
+
+/* Checked means the flyer already carries the text, so drop the caption. */
+.notion-callout.bg-brown-light
+  .notion-collection-card:has(.property-6b646f3e .notion-checkbox.checked)
+  .notion-collection-card__content {
+  display: none !important;
+}
+
+/* Centred dots landed on the caption text. */
+.carousel-indicators {
+  left: auto !important;
+  right: 14px !important;
+  bottom: 16px !important;
+  transform: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  padding: 0 !important;
+}

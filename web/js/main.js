@@ -2,3 +2,4 @@
 import './navbar.js';
 import './album.js';
 import './video_player.js';
+import '../modules/carousel/carousel.js';

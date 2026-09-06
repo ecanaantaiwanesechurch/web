@@ -22,7 +22,14 @@ npm run build  # Compiles Tailwind: src/css/input.css → static/component.css
 **CSS Organization**:
 - `src/css/input.css` - Tailwind source with custom utilities
 - `static/component.css` - Generated output (never edit directly)
-- `styles/` - Legacy custom CSS (carousel.css, gallery.css, main.css)
+- `styles/` - Legacy custom CSS (gallery.css, main.css, directory.css)
+
+**Modules** (`modules/<name>/`):
+Features whose CSS and JS must change together live in one folder rather than
+split across `js/` and `styles/`. Each is wired up by an `@import` in
+`src/css/input.css` and an `import` in `js/main.js`. Code forked from a third
+party carries a `VENDOR.md` recording the source and our changes.
+- `modules/carousel/` - events carousel, forked from Super's snippet
 
 ## Tailwind Configuration
 
