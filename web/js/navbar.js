@@ -54,7 +54,7 @@
     document.addEventListener('click', function(e) {
       const link = e.target.closest('a');
       if (link) {
-        const isLanguageButton = link.textContent.trim() === 'English' || link.textContent.trim() === '中文';
+        const isLanguageButton = link.hasAttribute('data-language-toggle');
 
         if (isLanguageButton) {
           e.preventDefault();
@@ -184,7 +184,7 @@
       const url = getItemUrl(item, isEn);
       return `
         <li class="relative">
-          <a href="${url || '#'}"
+          <a href="${url || '#'}" data-language-toggle
              class="px-1 lg:px-4 py-3 text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200 text-sm lg:text-lg whitespace-nowrap">
             ${text}
           </a>
@@ -235,7 +235,7 @@
       const url = getItemUrl(item, isEn);
       return `
         <li>
-          <a href="${url || '#'}"
+          <a href="${url || '#'}" data-language-toggle
              class="block px-4 py-3 text-gray-700 hover:bg-gray-50 ${borderClass} text-base">
             ${text}
           </a>

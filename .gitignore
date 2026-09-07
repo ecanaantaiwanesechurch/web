@@ -139,3 +139,5 @@ notion_token.json
 # Electron
 tools/dist/
 tools/node_modules/
+
+*.swp
