@@ -1,23 +1,33 @@
-/* Service times grid, marked by a grey callout wrapping the column lists.
- * CSS only - nothing here needs JS. */
+/* Service times grid.
+ *
+ * Marked by a grey block wrapping the service columns. Both forms are accepted:
+ * a grey quote (this page builds every section from quotes) or a grey callout.
+ * Notion names them differently - quotes get bg-gray, callouts bg-gray-light.
+ *
+ * Every rule also requires a column list inside, so a grey block of plain text
+ * is left alone.
+ */
 
-.notion-callout.bg-gray-light {
+.notion-quote.bg-gray:has(.notion-column-list),
+.notion-callout.bg-gray-light:has(.notion-column-list) {
   background: transparent !important;
   border: 0 !important;
   padding: 0 !important;
-  display: block !important;
+  margin: 0 0 18px !important;
 }
 
-.notion-callout.bg-gray-light .notion-callout__icon {
+.notion-callout.bg-gray-light:has(.notion-column-list) .notion-callout__icon {
   display: none !important;
 }
 
-.notion-callout.bg-gray-light .notion-callout__content {
+.notion-callout.bg-gray-light:has(.notion-column-list) .notion-callout__content {
   margin: 0 !important;
 }
 
-/* Notion emits one column-list per row of services, so the row gap has to be a
- * margin between lists - `gap` only reaches columns inside the same list. */
+/* Notion emits one column-list per row of services. When each row is its own
+ * grey block the spacing between rows is the block's margin, not `gap`.
+ */
+.notion-quote.bg-gray .notion-column-list,
 .notion-callout.bg-gray-light .notion-column-list {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
@@ -25,10 +35,12 @@
   margin: 0 0 18px !important;
 }
 
+.notion-quote.bg-gray .notion-column-list:last-child,
 .notion-callout.bg-gray-light .notion-column-list:last-child {
   margin-bottom: 0 !important;
 }
 
+.notion-quote.bg-gray .notion-column,
 .notion-callout.bg-gray-light .notion-column {
   width: auto !important;
   margin: 0 !important;
@@ -38,10 +50,12 @@
   background: color-mix(in srgb, var(--color-purple) 5%, transparent) !important;
 }
 
+.notion-quote.bg-gray .notion-column .notion-heading__anchor,
 .notion-callout.bg-gray-light .notion-column .notion-heading__anchor {
   display: none !important;
 }
 
+.notion-quote.bg-gray .notion-column h3.notion-heading,
 .notion-callout.bg-gray-light .notion-column h3.notion-heading {
   margin: 0 0 .5em !important;
   font-size: 20px !important;
@@ -49,6 +63,7 @@
   line-height: 1.3 !important;
 }
 
+.notion-quote.bg-gray .notion-column .notion-text,
 .notion-callout.bg-gray-light .notion-column .notion-text {
   margin: 0 !important;
   font-size: .9rem !important;
@@ -57,6 +72,7 @@
 }
 
 /* Watch links were low-contrast grey and did not read as tappable. */
+.notion-quote.bg-gray .notion-column .notion-link,
 .notion-callout.bg-gray-light .notion-column .notion-link {
   color: var(--color-purple) !important;
   font-size: .84rem !important;
@@ -65,16 +81,19 @@
 }
 
 @media (max-width: 640px) {
+  .notion-quote.bg-gray .notion-column-list,
   .notion-callout.bg-gray-light .notion-column-list {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
     margin-bottom: 12px !important;
   }
 
+  .notion-quote.bg-gray .notion-column,
   .notion-callout.bg-gray-light .notion-column {
     padding: 14px 16px !important;
   }
 
+  .notion-quote.bg-gray .notion-column h3.notion-heading,
   .notion-callout.bg-gray-light .notion-column h3.notion-heading {
     font-size: 17px !important;
   }
