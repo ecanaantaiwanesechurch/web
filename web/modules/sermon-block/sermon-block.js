@@ -41,21 +41,28 @@
       .map(m => [ classForId(m[1]), m[2] ]);
   }
 
-  // The page embeds the view's schema, which is the only place property names appear.
-  function propertyNames() {
+  // The page embeds each collection's config; it is the only place the property
+  // names and the view's own name appear.
+  function collectionConfig() {
     const html = document.documentElement.innerHTML;
 
     for (const match of html.matchAll(/visibleColumns/g)) {
       const entries = schemaAt(html, match.index);
-      if (entries.some(([ , name ]) => name === SCHEMA_MARKER)) {
-        return Object.fromEntries(entries);
-      }
+      if (!entries.some(([ , name ]) => name === SCHEMA_MARKER)) { continue; }
+
+      const around = html.slice(Math.max(0, match.index - 2600), match.index)
+        .replace(/\\"/g, '"');
+
+      return {
+        byClass: Object.fromEntries(entries),
+        viewName: (/"views":\[\{[^]*?"name":"([^"]*)"/.exec(around) || [])[1] || '',
+      };
     }
 
-    return {};
+    return { byClass: {}, viewName: '' };
   }
 
-  const byClass = propertyNames();
+  const { byClass, viewName } = collectionConfig();
 
   function stamp(root) {
     root.querySelectorAll('.notion-collection-card__property').forEach(prop => {
@@ -81,7 +88,7 @@
   // Notion's date format is a property-level setting shared by both views, so /zh
   // renders in English unless we restate it.
   function localiseDates(root) {
-    if (root.closest('.super-content')?.id !== 'page-index') { return; }
+    if (root.closest('.super-content')?.id !== 'page-zh') { return; }
 
     find(root, 'Date').forEach(el => {
       if (el.dataset.localised) { return; }
@@ -105,10 +112,19 @@
     root.style.setProperty('--sermon-date', uniform ? `"${dates[0]}"` : '""');
   }
 
+  // Super renders the source database name here, which both languages share.
+  function useViewName(root) {
+    if (!viewName) { return; }
+
+    const label = root.querySelector('.notion-collection__header .notion-semantic-string');
+    if (label && label.textContent.trim() !== viewName) { label.textContent = viewName; }
+  }
+
   function apply() {
     document.querySelectorAll(ROOT).forEach(root => {
       stamp(root);
       relabel(root);
+      useViewName(root);
       localiseDates(root);
       headingDate(root);
     });
