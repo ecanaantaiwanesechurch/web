@@ -221,7 +221,12 @@
   color: #fff;
 }
 
-/* --- mobile: a 210px thumbnail takes half a 390px viewport --- */
+/* --- mobile: a 210px thumbnail takes half a 390px viewport ---
+ *
+ * Sizes are set against the page's 19.2px body text: the title sits just below
+ * it and the supporting lines a step under that, so the rows do not read as
+ * fine print next to the section heading.
+ */
 
 @media (max-width: 640px) {
   .notion-callout.bg-purple-light .notion-collection-gallery {
@@ -234,30 +239,44 @@
     align-items: flex-start !important;
   }
 
+  /* Fluid so a 390px phone keeps room for the title while wider phones
+   * get a thumbnail worth looking at. */
   .notion-callout.bg-purple-light .notion-collection-card__cover {
-    width: 112px !important;
+    width: clamp(128px, 34%, 150px) !important;
     border-radius: 9px !important;
   }
 
   .notion-callout.bg-purple-light .notion-collection-card__content {
-    gap: 4px !important;
+    gap: 5px !important;
   }
 
   .notion-callout.bg-purple-light .notion-property__title {
-    font-size: 1.04rem !important;
+    font-size: 1.18rem !important;
     line-height: 1.3 !important;
   }
 
-  .notion-callout.bg-purple-light [data-prop="Ministry"] .notion-pill {
-    font-size: .8rem !important;
+  .notion-callout.bg-purple-light [data-prop="Ministry"] .notion-pill,
+  .notion-callout.bg-purple-light .property-453b497d .notion-pill {
+    font-size: .88rem !important;
   }
 
-  .notion-callout.bg-purple-light [data-prop="Speakers"] .notion-pill {
-    font-size: .85rem !important;
+  .notion-callout.bg-purple-light [data-prop="Speakers"] .notion-pill,
+  .notion-callout.bg-purple-light .property-58475265 .notion-pill {
+    font-size: .95rem !important;
+  }
+
+  .notion-callout.bg-purple-light [data-prop="Date"],
+  .notion-callout.bg-purple-light .property-47583d56 {
+    font-size: .88rem !important;
   }
 
   .notion-callout.bg-purple-light .notion-text {
     margin-top: 1em !important;
-    font-size: .98rem !important;
+    font-size: 1.05rem !important;
+  }
+
+  .notion-callout.bg-purple-light .notion-text a {
+    padding: .38em 1em;
+    font-size: .92rem;
   }
 }

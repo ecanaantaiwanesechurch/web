@@ -1970,25 +1970,32 @@ h3 {
     align-items: flex-start !important;
   }
   .notion-callout.bg-purple-light .notion-collection-card__cover {
-    width: 112px !important;
+    width: clamp(128px, 34%, 150px) !important;
     border-radius: 9px !important;
   }
   .notion-callout.bg-purple-light .notion-collection-card__content {
-    gap: 4px !important;
+    gap: 5px !important;
   }
   .notion-callout.bg-purple-light .notion-property__title {
-    font-size: 1.04rem !important;
+    font-size: 1.18rem !important;
     line-height: 1.3 !important;
   }
-  .notion-callout.bg-purple-light [data-prop="Ministry"] .notion-pill {
-    font-size: .8rem !important;
+  .notion-callout.bg-purple-light [data-prop="Ministry"] .notion-pill, .notion-callout.bg-purple-light .property-453b497d .notion-pill {
+    font-size: .88rem !important;
   }
-  .notion-callout.bg-purple-light [data-prop="Speakers"] .notion-pill {
-    font-size: .85rem !important;
+  .notion-callout.bg-purple-light [data-prop="Speakers"] .notion-pill, .notion-callout.bg-purple-light .property-58475265 .notion-pill {
+    font-size: .95rem !important;
+  }
+  .notion-callout.bg-purple-light [data-prop="Date"], .notion-callout.bg-purple-light .property-47583d56 {
+    font-size: .88rem !important;
   }
   .notion-callout.bg-purple-light .notion-text {
     margin-top: 1em !important;
-    font-size: .98rem !important;
+    font-size: 1.05rem !important;
+  }
+  .notion-callout.bg-purple-light .notion-text a {
+    padding: .38em 1em;
+    font-size: .92rem;
   }
 }
 .notion-quote.bg-gray:has(.notion-column-list), .notion-callout.bg-gray-light:has(.notion-column-list) {
@@ -2054,10 +2061,16 @@ h3 {
     margin-bottom: 12px !important;
   }
   .notion-quote.bg-gray .notion-column, .notion-callout.bg-gray-light .notion-column {
-    padding: 14px 16px !important;
+    padding: 16px 18px !important;
   }
   .notion-quote.bg-gray .notion-column h3.notion-heading, .notion-callout.bg-gray-light .notion-column h3.notion-heading {
-    font-size: 17px !important;
+    font-size: 19px !important;
+  }
+  .notion-quote.bg-gray .notion-column .notion-text, .notion-callout.bg-gray-light .notion-column .notion-text {
+    font-size: 1rem !important;
+  }
+  .notion-quote.bg-gray .notion-column .notion-link, .notion-callout.bg-gray-light .notion-column .notion-link {
+    font-size: .92rem !important;
   }
 }
 .navbar {

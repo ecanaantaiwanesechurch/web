@@ -80,6 +80,8 @@
   text-decoration: none !important;
 }
 
+/* One card per row on mobile, so the type can sit closer to the page's 19.2px
+ * body text instead of the size the two-up desktop columns need. */
 @media (max-width: 640px) {
   .notion-quote.bg-gray .notion-column-list,
   .notion-callout.bg-gray-light .notion-column-list {
@@ -90,11 +92,21 @@
 
   .notion-quote.bg-gray .notion-column,
   .notion-callout.bg-gray-light .notion-column {
-    padding: 14px 16px !important;
+    padding: 16px 18px !important;
   }
 
   .notion-quote.bg-gray .notion-column h3.notion-heading,
   .notion-callout.bg-gray-light .notion-column h3.notion-heading {
-    font-size: 17px !important;
+    font-size: 19px !important;
+  }
+
+  .notion-quote.bg-gray .notion-column .notion-text,
+  .notion-callout.bg-gray-light .notion-column .notion-text {
+    font-size: 1rem !important;
+  }
+
+  .notion-quote.bg-gray .notion-column .notion-link,
+  .notion-callout.bg-gray-light .notion-column .notion-link {
+    font-size: .92rem !important;
   }
 }
