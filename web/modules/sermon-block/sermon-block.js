@@ -34,28 +34,40 @@
   const find = (root, name, within = '') =>
     root.querySelectorAll(`${within}[data-prop="${name}"], ${within}${FALLBACK[name]}`);
 
-  function schemaAt(html, at) {
-    const chunk = html.slice(at, at + 4000).replace(/\\"/g, '"');
-    return [...chunk.matchAll(/\{"id":"(.*?)","name":"(.*?)","type":"(.*?)"/g)]
-      .filter(m => m[1] !== 'title')
-      .map(m => [ classForId(m[1]), m[2] ]);
+  // visibleColumns holds one object per property, back to back. Reading them as a
+  // contiguous run stops at the array's close, so a short schema cannot spill into
+  // whatever collection the payload lists next.
+  function schemaAt(text, at) {
+    const entry = /\{"id":"([^"]*)","name":"([^"]*)","type":"([^"]*)"[^{}]*\},?/y;
+    entry.lastIndex = text.indexOf('[', at) + 1;
+
+    const entries = [];
+    for (let m; (m = entry.exec(text));) {
+      if (m[1] !== 'title') { entries.push([ classForId(m[1]), m[2] ]); }
+    }
+
+    return entries;
   }
 
   // The page embeds each collection's config; it is the only place the property
-  // names and the view's own name appear.
+  // names and the view's own name appear. Both live inside the same views payload,
+  // so read them from one slice of it rather than searching outwards from the
+  // schema - block order on the page is not ours to rely on.
   function collectionConfig() {
-    const html = document.documentElement.innerHTML;
+    const html = document.documentElement.innerHTML.replace(/\\"/g, '"');
+    const views = [...html.matchAll(/"views":\[\{/g)].map(m => m.index);
 
-    for (const match of html.matchAll(/visibleColumns/g)) {
-      const entries = schemaAt(html, match.index);
+    for (let i = 0; i < views.length; i++) {
+      const view = html.slice(views[i], views[i + 1] ?? html.length);
+      const at = view.indexOf('visibleColumns');
+      if (at === -1) { continue; }
+
+      const entries = schemaAt(view, at);
       if (!entries.some(([ , name ]) => name === SCHEMA_MARKER)) { continue; }
-
-      const around = html.slice(Math.max(0, match.index - 2600), match.index)
-        .replace(/\\"/g, '"');
 
       return {
         byClass: Object.fromEntries(entries),
-        viewName: (/"views":\[\{[^]*?"name":"([^"]*)"/.exec(around) || [])[1] || '',
+        viewName: (/"name":"([^"]*)"/.exec(view.slice(0, at)) || [])[1] || '',
       };
     }
 
