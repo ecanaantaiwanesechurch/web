@@ -73,10 +73,10 @@ async function authorize() {
  * Authorize using a service account key file.
  * Used for Sheets/Drive access (all functions except photos).
  */
-async function authorizeServiceAccount() {
+async function authorizeServiceAccount(extraScopes = []) {
   const auth = new google.auth.GoogleAuth({
     keyFile: filePath(SERVICE_ACCOUNT_FILE),
-    scopes: SCOPES,
+    scopes: [...SCOPES, ...extraScopes],
   });
   return auth.getClient();
 }

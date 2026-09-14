@@ -4,6 +4,7 @@ import { syncSundaySchools } from './src/functions/sync_sunday_school.js';
 import { syncVideos } from './src/functions/sync_videos.js';
 import { syncPhotos } from './src/functions/sync_photos.js';
 import { syncCalendar } from './src/functions/sync_calendar.js';
+import { syncYouTubeSermons } from './src/functions/sync_youtube_sermons.js';
 import { parseJwt } from './src/base/utils.js';
 
 
@@ -21,6 +22,17 @@ functions.http('syncSermons', async (req, res) => {
   } catch(error) {
     console.log(error);
     res.send('Sync Sermons Failed');
+  }
+});
+
+functions.http('syncYouTubeSermons', async (req, res) => {
+  logAuth(req, `syncYouTubeSermons ${JSON.stringify(req.body)}`);
+  try {
+    const results = await syncYouTubeSermons(req.body);
+    res.json(results);
+  } catch(error) {
+    console.log(error);
+    res.send('Sync YouTube Sermons Failed.');
   }
 });
 

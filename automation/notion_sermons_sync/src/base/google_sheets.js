@@ -82,6 +82,46 @@ async function markRecordIsImported(auth, spreadsheetId, tab, index, lastCol, pa
   return result;
 }
 
+async function fetchSheetRows(auth, spreadsheetId, tab, lastCol = 'R') {
+  const sheets = google.sheets({ version: 'v4', auth });
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    range: `'${tab}'!A1:${lastCol}`,
+    valueRenderOption: 'UNFORMATTED_VALUE',
+  });
+  const [header = [], ...rows] = res.data.values || [];
+  return { header, rows };
+}
+
+async function insertRowAtTop(auth, spreadsheetId, tab, values) {
+  const sheets = google.sheets({ version: 'v4', auth });
+  const meta = await sheets.spreadsheets.get({ spreadsheetId, fields: 'sheets.properties(sheetId,title)' });
+  const sheet = meta.data.sheets.find(s => s.properties.title === tab);
+  if (!sheet) {
+    throw new Error(`Tab ${tab} not found`);
+  }
+
+  // inheritFromBefore: false copies date format and dropdowns from the row below the header
+  await sheets.spreadsheets.batchUpdate({
+    spreadsheetId,
+    requestBody: {
+      requests: [{
+        insertDimension: {
+          range: { sheetId: sheet.properties.sheetId, dimension: 'ROWS', startIndex: 1, endIndex: 2 },
+          inheritFromBefore: false,
+        },
+      }],
+    },
+  });
+
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: `'${tab}'!A2`,
+    valueInputOption: 'RAW',
+    requestBody: { values: [values] },
+  });
+}
+
 function rowToRecord(row, index, valueMap) {
   if (row.length == 0) {
     return null;
@@ -410,6 +450,8 @@ export default {
   fetchAllSheetRecords,
   fetchSundaySchoolSheetRecords,
   markRecordIsImported,
+  fetchSheetRows,
+  insertRowAtTop,
   fetchSchoolConfigSheet,
   fetchCalendarConfig,
   fetchCalendarEvents,
