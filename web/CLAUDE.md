@@ -32,6 +32,7 @@ party carries a `VENDOR.md` recording the source and our changes.
 - `modules/carousel/` - events carousel, forked from Super's snippet
 - `modules/sermon-block/` - Sunday Messages block on the homepages
 - `modules/service-times/` - service cards on the homepages and the service information page
+- `modules/footer/` - site footer, rendered in place of Super's footer
 
 ## Tailwind Configuration
 

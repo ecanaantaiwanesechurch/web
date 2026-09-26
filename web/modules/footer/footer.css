@@ -1,0 +1,141 @@
+/* Site footer rendered by footer.js; Super's own footer is hidden once ours is in place. */
+.has-canaan-footer .super-footer {
+  display: none !important;
+}
+
+.canaan-footer {
+  background: #f7f6f9;
+  border-top: 1px solid #e6e3ea;
+  padding: 28px 0 22px;
+  color: #4b4b55;
+  font-family: Inter, 'Noto Sans TC', sans-serif;
+  font-size: 14px;
+}
+
+.canaan-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.canaan-footer a:hover {
+  text-decoration: underline;
+}
+
+.canaan-footer__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.canaan-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
+}
+
+.canaan-footer__brand svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.canaan-footer__names {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.canaan-footer__name {
+  color: #1e1e1e;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.canaan-footer__names--zh .canaan-footer__name {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.06em;
+}
+
+.canaan-footer__sub {
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.canaan-footer__icons {
+  display: flex;
+  gap: 10px;
+}
+
+.canaan-footer__icons a {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 1px solid #e6e3ea;
+  color: #4b4b55;
+}
+
+.canaan-footer__icons a:hover {
+  color: #563c71;
+  border-color: #563c71;
+}
+
+.canaan-footer__icons svg {
+  width: 18px;
+  height: 18px;
+}
+
+.canaan-footer__contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 18px;
+}
+
+.canaan-footer__contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.canaan-footer__contact svg {
+  width: 16px;
+  height: 16px;
+  color: #563c71;
+}
+
+.canaan-footer__copy {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #e6e3ea;
+  font-size: 12.5px;
+  color: #6b6b75;
+}
+
+@media (max-width: 640px) {
+  .canaan-footer {
+    text-align: center;
+  }
+
+  .canaan-footer__top {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .canaan-footer__brand {
+    text-align: left;
+  }
+
+  .canaan-footer__contact {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+}
