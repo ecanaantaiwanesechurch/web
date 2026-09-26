@@ -161,7 +161,7 @@
   padding: 0 !important;
   background: transparent !important;
   border: 0 !important;
-  color: var(--color-text-default) !important;
+  color: var(--color-purple) !important;
   font-size: .92rem !important;
   font-weight: 600 !important;
 }
@@ -173,7 +173,7 @@
   height: 1em;
   margin-right: .55em;
   border-radius: 2px;
-  background: var(--color-text-default);
+  background: var(--color-purple);
 }
 
 .notion-callout.bg-purple-light [data-prop="Speakers"] .notion-pill {

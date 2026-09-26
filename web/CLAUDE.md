@@ -31,7 +31,7 @@ split across `js/` and `styles/`. Each is wired up by an `@import` in
 party carries a `VENDOR.md` recording the source and our changes.
 - `modules/carousel/` - events carousel, forked from Super's snippet
 - `modules/sermon-block/` - Sunday Messages block on the homepages
-- `modules/service-times/` - service times grid on the homepages
+- `modules/service-times/` - service cards on the homepages and the service information page
 
 ## Tailwind Configuration
 

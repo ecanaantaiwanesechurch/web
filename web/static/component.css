@@ -1904,7 +1904,7 @@ h3 {
   padding: 0 !important;
   background: transparent !important;
   border: 0 !important;
-  color: var(--color-text-default) !important;
+  color: var(--color-purple) !important;
   font-size: .92rem !important;
   font-weight: 600 !important;
 }
@@ -1915,7 +1915,7 @@ h3 {
   height: 1em;
   margin-right: .55em;
   border-radius: 2px;
-  background: var(--color-text-default);
+  background: var(--color-purple);
 }
 .notion-callout.bg-purple-light [data-prop="Speakers"] .notion-pill {
   padding: 0 !important;
@@ -2012,7 +2012,8 @@ h3 {
 }
 .notion-quote.bg-gray .notion-column-list, .notion-callout.bg-gray-light .notion-column-list {
   display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
+  grid-auto-flow: column !important;
+  grid-auto-columns: minmax(0, 1fr) !important;
   gap: 18px !important;
   margin: 0 0 18px !important;
 }
@@ -2024,7 +2025,9 @@ h3 {
   margin: 0 !important;
   padding: 18px 20px !important;
   border-radius: 14px !important;
-  text-align: center !important;
+  text-align: left !important;
+  display: flex !important;
+  flex-direction: column !important;
   background: var(--color-purple) !important;
   @supports (color: color-mix(in lab, red, red)) {
     background: color-mix(in srgb, var(--color-purple) 5%, transparent) !important;
@@ -2048,14 +2051,109 @@ h3 {
     color: color-mix(in srgb, var(--color-text-default) 76%, white) !important;
   }
 }
+.notion-quote.bg-gray .notion-column > .notion-text:has(+ .notion-heading__anchor), .notion-callout.bg-gray-light .notion-column > .notion-text:has(+ .notion-heading__anchor) {
+  margin-bottom: 2px !important;
+  font-size: .8rem !important;
+  font-weight: 600 !important;
+  color: var(--color-purple) !important;
+}
 .notion-quote.bg-gray .notion-column .notion-link, .notion-callout.bg-gray-light .notion-column .notion-link {
   color: var(--color-purple) !important;
   font-size: .84rem !important;
   font-weight: 500 !important;
   text-decoration: none !important;
 }
+.notion-quote.bg-gray .notion-column > .notion-text:has(.highlighted-background), .notion-callout.bg-gray-light .notion-column > .notion-text:has(.highlighted-background) {
+  margin-top: auto !important;
+  padding-top: 14px !important;
+}
+.notion-quote.bg-gray .notion-column .highlighted-background .notion-link, .notion-callout.bg-gray-light .notion-column .highlighted-background .notion-link {
+  padding: .5rem 1rem !important;
+  color: var(--color-bg-default) !important;
+  font-weight: 600 !important;
+}
+.notion-quote.bg-gray:has(.notion-column-list) > .notion-semantic-string:not(:empty) {
+  display: block !important;
+  margin: 10px 0 12px !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+}
+.notion-quote.bg-gray:has(> .notion-semantic-string:not(:empty)) .notion-column {
+  background: var(--color-bg-default) !important;
+  border: 1px solid var(--color-purple) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border: 1px solid color-mix(in srgb, var(--color-purple) 16%, transparent) !important;
+  }
+}
+.notion-quote.bg-gray:has(.notion-column-list) + .notion-quote:not(.bg-gray) {
+  margin-top: 6px !important;
+  text-align: center !important;
+}
+.notion-quote.bg-gray:has(.notion-column-list) + .notion-quote:not(.bg-gray) .highlighted-background.bg-purple {
+  background: transparent !important;
+}
+.notion-quote.bg-gray:has(.notion-column-list) + .notion-quote:not(.bg-gray) .highlighted-background.bg-purple a {
+  padding: .55rem 1.3rem !important;
+  border: 1px solid var(--color-purple) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border: 1px solid color-mix(in srgb, var(--color-purple) 35%, transparent) !important;
+  }
+  background: var(--color-bg-default) !important;
+  color: var(--color-purple) !important;
+  font-size: .95rem !important;
+  font-weight: 600 !important;
+}
+.notion-quote.bg-gray:has(.notion-column-list) + .notion-quote:not(.bg-gray) .highlighted-background.bg-purple a:hover {
+  background: var(--color-purple) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-purple) 6%, var(--color-bg-default)) !important;
+  }
+}
+.notion-quote.bg-gray .notion-column-list:has(.notion-image), .notion-callout.bg-gray-light .notion-column-list:has(.notion-image) {
+  padding: 18px !important;
+  border-radius: 14px !important;
+  background: var(--color-purple) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-purple) 5%, transparent) !important;
+  }
+}
+.notion-quote.bg-gray .notion-column-list:has(.notion-image) .notion-column, .notion-callout.bg-gray-light .notion-column-list:has(.notion-image) .notion-column {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+.notion-quote.bg-gray .notion-column-list:has(.notion-image) .notion-column > .notion-text:has(+ .notion-heading__anchor), .notion-callout.bg-gray-light .notion-column-list:has(.notion-image) .notion-column > .notion-text:has(+ .notion-heading__anchor) {
+  align-self: flex-start !important;
+  width: fit-content !important;
+  margin-bottom: 8px !important;
+  padding: 6px 10px !important;
+  border: 3px solid var(--color-purple) !important;
+  border-radius: 10px !important;
+  background: var(--color-bg-default) !important;
+  font-size: .85rem !important;
+  font-weight: 700 !important;
+}
+.notion-quote.bg-gray .notion-column .notion-image, .notion-callout.bg-gray-light .notion-column .notion-image {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 0 10px !important;
+}
+.notion-quote.bg-gray .notion-column .notion-image img, .notion-callout.bg-gray-light .notion-column .notion-image img {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3 / 2 !important;
+  object-fit: cover !important;
+  border-radius: 10px !important;
+}
+@media (min-width: 641px) {
+  .notion-quote.bg-gray .notion-column-list:has(.notion-image), .notion-callout.bg-gray-light .notion-column-list:has(.notion-image) {
+    grid-template-columns: minmax(0, 1.25fr) !important;
+  }
+}
 @media (max-width: 640px) {
   .notion-quote.bg-gray .notion-column-list, .notion-callout.bg-gray-light .notion-column-list {
+    grid-auto-flow: row !important;
     grid-template-columns: 1fr !important;
     gap: 12px !important;
     margin-bottom: 12px !important;
