@@ -3,6 +3,21 @@
   display: none !important;
 }
 
+/* Super pads the page by 30vh when its own footer is off; use its with-footer spacing instead. */
+.has-canaan-footer .notion-root {
+  padding-bottom: 5vh !important;
+}
+
+.has-canaan-footer .static-renderer.mobile .notion-root {
+  padding-bottom: 45px !important;
+}
+
+@media (max-width: 546px) {
+  .has-canaan-footer .notion-root {
+    padding-bottom: 45px !important;
+  }
+}
+
 .canaan-footer {
   background: #f7f6f9;
   border-top: 1px solid #e6e3ea;
