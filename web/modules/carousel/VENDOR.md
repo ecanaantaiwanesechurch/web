@@ -23,12 +23,14 @@ no other marker, so any brown-light callout containing a gallery becomes a carou
 
 ## Changes from upstream
 
-`carousel.js` — behaviour identical, so it can still be diffed against Super's:
+`carousel.js`:
 
 - wrapped as `'use strict'` + arrow IIFE to match `js/album.js`, `js/video_player.js`
 - `innerHTML` template literals → plain strings
 - removed `onMove`, which upstream defines as a no-op (`if (!isDragging) return;`
   and nothing else) along with its `touchmove` listener. No functional change.
+- marks cards whose image is portrait with `.portrait`, adds `.carousel-cover` to
+  the image wrapper and passes the image as `--cover-url` for the blurred backdrop.
 
 `carousel.css` — vendored rules kept in section 1, our fixes in section 2:
 
@@ -44,6 +46,11 @@ no other marker, so any brown-light callout containing a gallery becomes a carou
   gallery view shows, so the checkbox stays visible in Notion and is hidden here.
 - `.carousel-indicators` moved to the bar's right edge; centred dots landed on
   top of the caption text.
+- 16:9 on desktop (16:11 kept on mobile); 16:11 took most of a laptop screen.
+- portrait posters are shown whole (`contain`) instead of cropped. With
+  `super:hide_title` checked they sit on a blurred copy of themselves; unchecked,
+  desktop splits the slide into poster left and title, date and a
+  "Learn more →" / "詳細資訊 →" label right.
 
 ## Property hashes
 

@@ -114,6 +114,19 @@
     cards.forEach(card => {
       card.setAttribute('draggable', 'false');
     });
+
+    // Portrait posters don't fit the landscape frame; carousel.css shows them whole.
+    cards.forEach(card => {
+      const img = card.querySelector('img.notion-collection-card__cover');
+      if (!img) { return; }
+      const markPortrait = () => {
+        if (img.naturalWidth >= img.naturalHeight) { return; }
+        card.classList.add('portrait');
+        img.parentElement.classList.add('carousel-cover');
+        img.parentElement.style.setProperty('--cover-url', 'url("' + (img.currentSrc || img.src) + '")');
+      };
+      if (img.complete) { markPortrait(); } else { img.addEventListener('load', markPortrait, { once: true }); }
+    });
   };
 
   const initializeAllGalleries = () => {

@@ -37,7 +37,7 @@
   width: auto !important;
   margin: 0 !important;
   padding: 18px 20px !important;
-  border-radius: 14px !important;
+  border-radius: 12px !important;
   text-align: left !important;
   display: flex !important;
   flex-direction: column !important;
@@ -135,7 +135,7 @@
 .notion-quote.bg-gray .notion-column-list:has(.notion-image),
 .notion-callout.bg-gray-light .notion-column-list:has(.notion-image) {
   padding: 18px !important;
-  border-radius: 14px !important;
+  border-radius: 12px !important;
   background: color-mix(in srgb, var(--color-purple) 5%, transparent) !important;
 }
 

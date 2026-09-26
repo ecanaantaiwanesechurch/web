@@ -162,3 +162,124 @@
   backdrop-filter: none !important;
   padding: 0 !important;
 }
+
+/* Match the 12px corners of the service and sermon cards. */
+.notion-callout.bg-brown-light .notion-collection-gallery,
+.notion-callout.bg-brown-light .notion-collection-gallery .notion-collection-card.active {
+  border-radius: 12px !important;
+}
+
+@media (min-width: 641px) {
+  .notion-callout.bg-brown-light .notion-collection-gallery {
+    aspect-ratio: 16 / 9 !important;
+  }
+}
+
+/* Portrait posters (.portrait, set by carousel.js) show whole over a blurred copy. */
+.notion-callout.bg-brown-light .notion-collection-card.portrait .carousel-cover {
+  position: relative !important;
+  display: block !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: #222 !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card.portrait .carousel-cover::before {
+  content: '';
+  position: absolute;
+  inset: -40px;
+  background: var(--cover-url) center / cover no-repeat;
+  filter: blur(28px) brightness(.85);
+}
+
+/* Sized to the poster rather than the frame, so the radius lands on its corners. */
+.notion-callout.bg-brown-light .notion-collection-card.portrait img.notion-collection-card__cover {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: auto !important;
+  min-height: 0 !important;
+  height: calc(100% - 36px) !important;
+  margin: 18px auto !important;
+  border-radius: 10px !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card.portrait .notion-collection-card__content {
+  z-index: 2 !important;
+}
+
+/* With a caption on desktop: poster left, title, date and a button right. */
+@media (min-width: 641px) {
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .carousel-cover {
+    background: color-mix(in srgb, var(--color-purple) 6%, #fff) !important;
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .carousel-cover::before {
+    display: none;
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) img.notion-collection-card__cover {
+    margin: 18px 0 18px 56px !important;
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .notion-collection-card__content {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 44% !important;
+    right: 6% !important;
+    width: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    background: none !important;
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .notion-collection-card__content .notion-property__title {
+    color: var(--color-text-default) !important;
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+    text-shadow: none !important;
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .notion-collection-card__content .date {
+    margin-top: 8px !important;
+    color: var(--color-purple) !important;
+    font-size: 1.1rem !important;
+    text-shadow: none !important;
+  }
+
+  /* The whole card is already a link; this only labels it. */
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .notion-collection-card__content::after {
+    content: 'Learn more →';
+    align-self: flex-start;
+    margin-top: 18px;
+    padding: .55rem 1.1rem;
+    border-radius: 8px;
+    background: var(--color-purple);
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 600;
+  }
+
+  .page__zh .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .notion-collection-card__content::after {
+    content: '詳細資訊 →';
+  }
+
+  /* White dots vanish on the light split background. */
+  .notion-callout.bg-brown-light .notion-collection-gallery:has(.portrait.active) .carousel-indicators span {
+    background: color-mix(in srgb, var(--color-purple) 30%, transparent);
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-gallery:has(.portrait.active) .carousel-indicators span.active {
+    background: var(--color-purple);
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-gallery:has(.portrait.active .property-6b646f3e .notion-checkbox.checked) .carousel-indicators span {
+    background: rgba(255, 255, 255, .6);
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-gallery:has(.portrait.active .property-6b646f3e .notion-checkbox.checked) .carousel-indicators span.active {
+    background: #fff;
+  }
+}
