@@ -98,3 +98,20 @@ This is a bilingual (Chinese/English) church website with automated content mana
 - Path translations between `/zh` and `/en` routes
 - Menu item ordering differs by language using `enOrder` property
 - Content synced from Google Sheets supports both languages
+
+## Church Vision (2026 CTCC Vision Refresh)
+
+**Healthy Intergenerational Faith Community · 健康的跨世代信仰群體**
+
+**Missional · Intergenerational · Family · Centered in Christ**: Make disciples together, serve as a family, and bring Christ to Silicon Valley and the world. This is the direction guiding the church's decisions, ministries, and priorities over the next decade.
+
+- **Missional**: We don't wait for people to come to us. We go to where God has placed us. (Matthew 28:19-20)
+- **Intergenerational**: One church with many generations, cultures, and languages. (Psalm 78:4)
+- **Family**: People don't simply attend... they belong. (Ephesians 2:19-21)
+- **Centered in Christ**: Christ is not part of our vision; He is the center of it. (Colossians 1:18)
+
+### What this means for the website
+- **Missional**: Write for newcomers and neighbors, not only members. Make it easy to find where, when, and how to join.
+- **Intergenerational**: Serve every generation, culture, and language. Keep Taiwanese, Mandarin, and English ministries equally visible, and write for both kids' parents and seniors.
+- **Family**: Show people belonging together (photos, fellowships, events), not just a schedule of services.
+- **Centered in Christ**: Keep content pointing to Christ, not to programs.
