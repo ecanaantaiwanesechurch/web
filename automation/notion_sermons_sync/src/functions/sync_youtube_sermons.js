@@ -51,8 +51,9 @@ async function syncYouTubeSermons(options = {}) {
     .map(r => toIsoDate(r[dateCol])));
 
   const results = [];
-  // Oldest first so the newest video ends up on the top row
-  for (const video of [...videos].reverse()) {
+  const toInsert = [];
+  // Newest first so a re-stream wins over an earlier stream with the same date
+  for (const video of videos) {
     const record = parseVideo(video, config.ministry);
 
     if (!record.date) {
@@ -78,11 +79,16 @@ async function syncYouTubeSermons(options = {}) {
       continue;
     }
 
-    if (!config.dryRun) {
+    existingDates.add(record.date);
+    toInsert.push(values);
+    results.push({ status: config.dryRun ? 'dry-run' : 'inserted', record, values });
+  }
+
+  // Oldest first so the newest video ends up on the top row
+  if (!config.dryRun) {
+    for (const values of toInsert.reverse()) {
       await gWorker.insertRowAtTop(auth, config.sheet, config.tabName, values);
     }
-    existingDates.add(record.date);
-    results.push({ status: config.dryRun ? 'dry-run' : 'inserted', record, values });
   }
 
   console.log(JSON.stringify(results, null, 2));
