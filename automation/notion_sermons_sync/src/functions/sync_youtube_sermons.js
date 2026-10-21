@@ -2,6 +2,7 @@ import gBase from '../base/google_base.js';
 import gWorker from '../base/google_sheets.js';
 import gDrive from '../base/google_drive.js';
 import ytWorker from '../base/youtube.js';
+import { syncSermons } from './sync_sermons.js';
 
 const defaultConfig = {
   playlistId: 'PLCbKBj7iUSEDErpxscgLCIhp7c1L8MCbZ',
@@ -85,10 +86,11 @@ async function syncYouTubeSermons(options = {}) {
   }
 
   // Oldest first so the newest video ends up on the top row
-  if (!config.dryRun) {
+  if (!config.dryRun && toInsert.length > 0) {
     for (const values of toInsert.reverse()) {
       await gWorker.insertRowAtTop(auth, config.sheet, config.tabName, values);
     }
+    await syncSermons({ sheet: config.sheet, tabName: config.tabName });
   }
 
   console.log(JSON.stringify(results, null, 2));
