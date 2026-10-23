@@ -33,6 +33,7 @@ party carries a `VENDOR.md` recording the source and our changes.
 - `modules/sermon-block/` - Sunday Messages block on the homepages
 - `modules/service-times/` - service cards on the homepages and the service information page
 - `modules/footer/` - site footer, rendered in place of Super's footer
+- `modules/photo-browser/` - images in a blue callout become a browsable gallery
 
 ## Tailwind Configuration
 

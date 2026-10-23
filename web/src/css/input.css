@@ -6,6 +6,7 @@
 @import "../../modules/sermon-block/sermon-block.css";
 @import "../../modules/service-times/service-times.css";
 @import "../../modules/footer/footer.css";
+@import "../../modules/photo-browser/photo-browser.css";
 @plugin "daisyui" {
   prefix: "dui-";
 }
