@@ -26,6 +26,7 @@
   const state = {
     mobileMenuOpen: false,
     lastRenderedLanguage: null,
+    hreflang: null,
     cachedElements: {},
     resizeTimeout: null
   };
@@ -476,6 +477,26 @@
     });
   }
 
+  function updateHreflang(currentPath) {
+    const zhPath = toZhPaths[currentPath] || (toEnPaths[currentPath] && currentPath);
+    const enPath = toEnPaths[currentPath] || (toZhPaths[currentPath] && currentPath);
+    const tags = zhPath && enPath ? [['zh-Hant', zhPath], ['en', enPath], ['x-default', enPath]] : [];
+    const signature = tags.map((tag) => tag.join(' ')).join('|');
+    const existing = document.head.querySelectorAll('link[data-hreflang]');
+    if (state.hreflang === signature && existing.length === tags.length) return;
+
+    existing.forEach((link) => link.remove());
+    tags.forEach(([lang, path]) => {
+      const link = document.createElement('link');
+      link.rel = 'alternate';
+      link.hreflang = lang;
+      link.href = window.location.origin + path;
+      link.setAttribute('data-hreflang', '');
+      document.head.appendChild(link);
+    });
+    state.hreflang = signature;
+  }
+
   function updateNavbar() {
     const navContainer = document.getElementById('navbar-container');
     if (!navContainer) return;
@@ -497,6 +518,8 @@
       window.location.pathname = toZhPaths[currentPath];
       return;
     }
+
+    updateHreflang(currentPath);
 
     // Check if we need to re-render (language changed)
     if (state.lastRenderedLanguage === isEn && navContainer.innerHTML) {
