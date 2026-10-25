@@ -113,7 +113,7 @@
     });
   }
 
-  const isCrawler = /bot|crawl|spider/i.test(globalThis.navigator?.userAgent);
+  const isCrawler = /bot|crawl|spider|inspectiontool/i.test(globalThis.navigator?.userAgent);
 
   function getCurrentLanguage() {
     if (isCrawler) {
