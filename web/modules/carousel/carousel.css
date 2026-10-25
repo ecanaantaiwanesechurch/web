@@ -210,8 +210,17 @@
 
 /* With a caption on desktop: poster left, title, date and a button right. */
 @media (min-width: 641px) {
-  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .carousel-cover {
+  /* Flex rather than a fixed left offset, so the text clears posters of any ratio. */
+  .notion-callout.bg-brown-light .notion-collection-card.portrait.active:not(:has(.property-6b646f3e .notion-checkbox.checked)) {
+    display: flex !important;
+    height: 100% !important;
+    gap: 44px;
     background: color-mix(in srgb, var(--color-purple) 6%, #fff) !important;
+  }
+
+  .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .carousel-cover {
+    flex: none !important;
+    background: none !important;
   }
 
   .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .carousel-cover::before {
@@ -223,10 +232,10 @@
   }
 
   .notion-callout.bg-brown-light .notion-collection-card.portrait:not(:has(.property-6b646f3e .notion-checkbox.checked)) .notion-collection-card__content {
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 44% !important;
-    right: 6% !important;
+    position: relative !important;
+    inset: auto !important;
+    flex: 1 !important;
+    margin-right: 6% !important;
     width: auto !important;
     display: flex !important;
     flex-direction: column !important;
