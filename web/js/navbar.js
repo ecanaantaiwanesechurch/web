@@ -113,7 +113,13 @@
     });
   }
 
+  const isCrawler = /bot|crawl|spider/i.test(globalThis.navigator?.userAgent);
+
   function getCurrentLanguage() {
+    if (isCrawler) {
+      const path = window.location.pathname;
+      return path === '/en' || path.startsWith('/en/') || toZhPaths[path] != null;
+    }
     const stored = localStorage.getItem('lang');
     if (stored) return stored === 'en';
     // No preference — detect from browser and persist
