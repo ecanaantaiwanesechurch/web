@@ -46,6 +46,40 @@
   object-fit: cover!important;
 }
 
+/* Small and medium galleries: every cover fills one 4:3 frame. */
+.notion-collection-gallery:is(.small, .medium):not(.notion-callout *) {
+  gap: 24px !important;
+}
+
+.notion-collection-gallery:is(.small, .medium):not(.notion-callout *) .notion-collection-card {
+  height: auto !important;
+  border-radius: 14px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .08) !important;
+  transition: transform .16s ease, box-shadow .16s ease !important;
+}
+
+.notion-collection-gallery:is(.small, .medium):not(.notion-callout *) .notion-collection-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .12) !important;
+}
+
+.notion-collection-gallery:is(.small, .medium):not(.notion-callout *) img.notion-collection-card__cover:not(.player) {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 4 / 3 !important;
+  object-fit: cover !important;
+  /* Only covers narrower than 4:3 crop vertically; top keeps flyer headlines in view. */
+  object-position: center top !important;
+}
+
+.notion-collection-gallery:is(.small, .medium):not(.notion-callout *) .notion-collection-card__content {
+  min-height: 0 !important;
+  padding: 14px 18px 16px !important;
+}
+
 .notion-property__title {
   margin-bottom: 0.5em;
 }

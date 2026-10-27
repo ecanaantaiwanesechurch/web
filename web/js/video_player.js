@@ -7,7 +7,7 @@
     '/en/gatherings/sermons',
     '/growth/videos',
     '/fellowships/mm/nfl/nfl-videos',
-    '/events/*-mm-gospel-night',
+    '/events/*gospel-night',
     'srcdoc'
   ];
 
