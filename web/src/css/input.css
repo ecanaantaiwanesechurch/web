@@ -92,3 +92,10 @@
 .swiper-wrapper {
   align-items: center;
 }
+
+/* 680px is where Super stacks columns */
+@media (max-width: 680px) {
+  .notion-column:has(> .notion-image):not(.notion-quote.bg-gray *, .notion-callout.bg-gray-light *) {
+    order: -1;
+  }
+}

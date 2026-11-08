@@ -2658,6 +2658,11 @@ html.photo-viewer-open {
 .swiper-wrapper {
   align-items: center;
 }
+@media (max-width: 680px) {
+  .notion-column:has(> .notion-image):not(.notion-quote.bg-gray *, .notion-callout.bg-gray-light *) {
+    order: -1;
+  }
+}
 @layer base {
   :where(:root),:root:has(input.dui-theme-controller[value=light]:checked),[data-theme=light] {
     color-scheme: light;
