@@ -29,8 +29,9 @@ no other marker, so any brown-light callout containing a gallery becomes a carou
 - `innerHTML` template literals → plain strings
 - removed `onMove`, which upstream defines as a no-op (`if (!isDragging) return;`
   and nothing else) along with its `touchmove` listener. No functional change.
-- marks cards whose image is portrait with `.portrait`, adds `.carousel-cover` to
-  the image wrapper and passes the image as `--cover-url` for the blurred backdrop.
+- marks cards whose image is portrait with `.portrait`, or wider than 2:1 with
+  `.wide`, adds `.carousel-cover` to the image wrapper and passes the image as
+  `--cover-url` for the blurred backdrop.
 
 `carousel.css` — vendored rules kept in section 1, our fixes in section 2:
 
@@ -51,6 +52,8 @@ no other marker, so any brown-light callout containing a gallery becomes a carou
   `super:hide_title` checked they sit on a blurred copy of themselves; unchecked,
   desktop splits the slide into poster left and title, date and a
   "Learn more →" / "詳細資訊 →" label right.
+- extra-wide banners (wider than 2:1) are shown whole across the slide, centred
+  over a blurred copy of themselves, with the caption over the bottom.
 
 ## Property hashes
 

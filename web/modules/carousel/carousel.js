@@ -115,17 +115,23 @@
       card.setAttribute('draggable', 'false');
     });
 
-    // Portrait posters don't fit the landscape frame; carousel.css shows them whole.
+    // Portrait posters and extra-wide banners don't fit the frame; carousel.css shows them whole.
     cards.forEach(card => {
       const img = card.querySelector('img.notion-collection-card__cover');
       if (!img) { return; }
-      const markPortrait = () => {
-        if (img.naturalWidth >= img.naturalHeight) { return; }
-        card.classList.add('portrait');
+      const markShape = () => {
+        const ratio = img.naturalWidth / img.naturalHeight;
+        if (ratio < 1) {
+          card.classList.add('portrait');
+        } else if (ratio > 2) {
+          card.classList.add('wide');
+        } else {
+          return;
+        }
         img.parentElement.classList.add('carousel-cover');
         img.parentElement.style.setProperty('--cover-url', 'url("' + (img.currentSrc || img.src) + '")');
       };
-      if (img.complete) { markPortrait(); } else { img.addEventListener('load', markPortrait, { once: true }); }
+      if (img.complete) { markShape(); } else { img.addEventListener('load', markShape, { once: true }); }
     });
   };
 

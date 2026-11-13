@@ -208,6 +208,39 @@
   z-index: 2 !important;
 }
 
+/* Extra-wide banners (.wide, set by carousel.js) show whole, centred over a blurred copy. */
+.notion-callout.bg-brown-light .notion-collection-card.wide .carousel-cover {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: #222 !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card.wide .carousel-cover::before {
+  content: '';
+  position: absolute;
+  inset: -40px;
+  background: var(--cover-url) center / cover no-repeat;
+  filter: blur(28px) brightness(.85);
+}
+
+.notion-callout.bg-brown-light .notion-collection-card.wide img.notion-collection-card__cover {
+  position: relative !important;
+  z-index: 1 !important;
+  display: block !important;
+  width: calc(100% - 36px) !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  border-radius: 10px !important;
+}
+
+.notion-callout.bg-brown-light .notion-collection-card.wide .notion-collection-card__content {
+  z-index: 2 !important;
+}
+
 /* With a caption on desktop: poster left, title, date and a button right. */
 @media (min-width: 641px) {
   /* Flex rather than a fixed left offset, so the text clears posters of any ratio. */
