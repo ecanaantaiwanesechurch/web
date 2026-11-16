@@ -2288,15 +2288,24 @@ h3 {
   background: transparent !important;
 }
 .notion-quote.bg-gray .notion-column-list:has(.notion-image) .notion-column > .notion-text:has(+ .notion-heading__anchor), .notion-callout.bg-gray-light .notion-column-list:has(.notion-image) .notion-column > .notion-text:has(+ .notion-heading__anchor) {
+  display: inline-flex !important;
+  align-items: center !important;
   align-self: flex-start !important;
   width: fit-content !important;
   margin-bottom: 8px !important;
-  padding: 6px 10px !important;
-  border: 3px solid var(--color-purple) !important;
-  border-radius: 10px !important;
-  background: var(--color-bg-default) !important;
-  font-size: .85rem !important;
-  font-weight: 700 !important;
+  padding: 6px 12px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--color-purple) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-purple) 11%, white) !important;
+  }
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+}
+.notion-quote.bg-gray .notion-column-list:has(.notion-image) .notion-column > .notion-text:has(+ .notion-heading__anchor) *, .notion-callout.bg-gray-light .notion-column-list:has(.notion-image) .notion-column > .notion-text:has(+ .notion-heading__anchor) * {
+  line-height: 1 !important;
 }
 .notion-quote.bg-gray .notion-column .notion-image, .notion-callout.bg-gray-light .notion-column .notion-image {
   width: 100% !important;
