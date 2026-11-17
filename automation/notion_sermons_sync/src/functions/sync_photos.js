@@ -47,10 +47,30 @@ const defaultConfig = {
       zh: '兒童舞蹈團',
       en: 'Children Dance Team',
       fileId: '1zzqHz6o0GqqMiVeyT9_oZJh9HDXEZomt',
+    },
+    {
+      key: 'gospel2026',
+      zh: '2026 福音晚會',
+      en: '2026 Gospel Night',
+      fileId: '1oGmZgqdseg3-OxfKDhgYpti4dXNgTatX',
+      limit: 300,
+      sort: 'taken',
+    },
+    {
+      key: 'mmgospel2025',
+      zh: '2025 華語福音晚會',
+      en: '2025 Mandarin Gospel Night',
+      fileId: '1qokEYRfo316dqqzDtYHO2dqmqd1_OCpZ',
+      limit: 300,
+      sort: 'taken',
     }
   ],
   // Pages scanned for `<!-- cc-photo-album: ... -->` code blocks
-  pages: ['140ba8467b7a80b4ada4c51047ad9b67'],
+  pages: [
+    '140ba8467b7a80b4ada4c51047ad9b67', // /photos
+    '3c9ba8467b7a808dbd93ffa736104a6c', // /events/2026-gospel-night
+    '264ba8467b7a807faf7ef1505c3723a9', // /events/2025-mm-gospel-night
+  ],
 };
 
 async function syncPhotos(options = {}) {

@@ -164,6 +164,25 @@
     if (e.key === 'Escape') { closeViewer(); }
   });
 
+  function makeTile(p, label, eager) {
+    const t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'cc-photo-album__tile' + (p.v ? ' is-video' : '');
+    t.setAttribute('aria-label', label);
+    const img = image();
+    img.loading = eager ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    img.width = p.w;
+    img.height = p.h;
+    img.srcset = srcset(p);
+    img.src = url(p.id, 800);
+    img.addEventListener('load', () => t.classList.add('is-loaded'), { once: true });
+    t.append(img);
+    if (p.v) { t.insertAdjacentHTML('beforeend', PLAY); }
+    t.cc = p;
+    return t;
+  }
+
   function build(root) {
     let data;
     try {
@@ -174,6 +193,14 @@
     }
     const albums = (data.albums || []).filter((a) => a.photos && a.photos.length);
     if (albums.length === 0) { return; }
+    if (data.layout === 'wall') {
+      buildWall(root, albums[0]);
+    } else {
+      buildTabs(root, albums);
+    }
+  }
+
+  function buildTabs(root, albums) {
     root.classList.add('is-ready', 'cc-photo-album--tabs');
 
     const tabs = document.createElement('div');
@@ -190,21 +217,8 @@
     const tiles = new Map();
 
     function tile(p, i) {
-      const t = document.createElement('button');
-      t.type = 'button';
-      t.className = 'cc-photo-album__tile' + (p.v ? ' is-video' : '');
-      t.setAttribute('aria-label', `${i + 1} / ${state.album.photos.length}`);
-      const img = image();
-      img.loading = i < 4 ? 'eager' : 'lazy';
-      img.decoding = 'async';
-      img.width = p.w;
-      img.height = p.h;
-      img.srcset = srcset(p);
-      img.src = url(p.id, 800);
-      img.addEventListener('load', () => t.classList.add('is-loaded'), { once: true });
-      img.addEventListener('error', () => state.drop(p), { once: true });
-      t.append(img);
-      if (p.v) { t.insertAdjacentHTML('beforeend', PLAY); }
+      const t = makeTile(p, `${i + 1} / ${state.album.photos.length}`, i < 4);
+      t.firstChild.addEventListener('error', () => state.drop(p), { once: true });
       t.addEventListener('click', () => openViewer(state, state.album.photos.indexOf(p)));
       return t;
     }
@@ -243,11 +257,7 @@
         const photos = this.album.photos.slice(0, this.shown);
         const current = [...grid.children];
         const tilesFor = photos.map((p, i) => {
-          if (!tiles.has(p)) {
-            const t = tile(p, i);
-            t.cc = p;
-            tiles.set(p, t);
-          }
+          if (!tiles.has(p)) { tiles.set(p, tile(p, i)); }
           return tiles.get(p);
         });
         // Growing the same album only appends, so the page never jumps.
@@ -346,6 +356,74 @@
 
     root.cc = state;
     state.select(albums[0]);
+  }
+
+  // Two rows that scroll sideways, for one album placed as a page section.
+  function buildWall(root, album) {
+    root.classList.add('is-ready', 'cc-photo-album--wall');
+    const t = COPY[currentLang()];
+    const photos = album.photos;
+    const track = document.createElement('div');
+    track.className = 'cc-photo-album__track';
+    const rows = document.createElement('div');
+    rows.className = 'cc-photo-album__rows';
+    const lines = [0, 1].map(() => {
+      const line = document.createElement('div');
+      line.className = 'cc-photo-album__row';
+      rows.append(line);
+      return { line, length: 0 };
+    });
+    track.append(rows);
+    const prev = button('cc-photo-album__wall-nav cc-photo-album__wall-nav--prev', t.prev, ARROW.prev);
+    const next = button('cc-photo-album__wall-nav cc-photo-album__wall-nav--next', t.next, ARROW.next);
+    const progress = document.createElement('div');
+    progress.className = 'cc-photo-album__progress';
+    const bar = document.createElement('i');
+    progress.append(bar);
+    root.append(track, prev, next, progress);
+
+    const tiles = new Map();
+    const state = {
+      root,
+      album,
+      label() {},
+      reveal(index) {
+        const tile = tiles.get(photos[index]);
+        if (tile) { tile.scrollIntoView({ inline: 'center', block: 'nearest' }); }
+      },
+    };
+
+    // Each photo joins the shorter row, so both rows stay about the same length.
+    photos.forEach((p, i) => {
+      const tile = makeTile(p, `${i + 1} / ${photos.length}`, i < 8);
+      tile.style.setProperty('--r', (p.w / p.h).toFixed(4));
+      tile.firstChild.sizes = `${Math.ceil(180 * p.w / p.h)}px`;
+      tile.firstChild.addEventListener('error', () => {
+        photos.splice(photos.indexOf(p), 1);
+        tile.remove();
+        update();
+      }, { once: true });
+      tile.addEventListener('click', () => openViewer(state, photos.indexOf(p)));
+      tiles.set(p, tile);
+      const line = lines[0].length <= lines[1].length ? lines[0] : lines[1];
+      line.line.append(tile);
+      line.length += p.w / p.h;
+    });
+
+    function update() {
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+      bar.style.width = `${Math.max(6, (track.scrollLeft + track.clientWidth) / track.scrollWidth * 100)}%`;
+    }
+    const step = () => track.clientWidth * 0.85;
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    new ResizeObserver(update).observe(track);
+
+    root.cc = state;
+    update();
   }
 
   function apply() {
