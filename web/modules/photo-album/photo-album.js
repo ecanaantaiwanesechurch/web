@@ -9,8 +9,8 @@
   const PAGE = 12;
   const GAP = 8;
   const COPY = {
-    zh: { more: '顯示更多', video: '在 Google Drive 播放', close: '關閉', prev: '上一張', next: '下一張' },
-    en: { more: 'Show more', video: 'Play in Google Drive', close: 'Close', prev: 'Previous', next: 'Next' },
+    zh: { more: '顯示更多', play: '播放影片', close: '關閉', prev: '上一張', next: '下一張' },
+    en: { more: 'Show more', play: 'Play video', close: 'Close', prev: 'Previous', next: 'Next' },
   };
   const ARROW = {
     prev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14 6 8 12 14 18"/></svg>',
@@ -75,37 +75,61 @@
     const prev = button('cc-photo-album__viewer-nav cc-photo-album__viewer-nav--prev', t.prev, ARROW.prev);
     const next = button('cc-photo-album__viewer-nav cc-photo-album__viewer-nav--next', t.next, ARROW.next);
     const close = button('cc-photo-album__viewer-close', t.close, '×');
-    const video = document.createElement('a');
-    video.className = 'cc-photo-album__viewer-video';
-    video.target = '_blank';
-    video.rel = 'noopener';
+    const play = button('cc-photo-album__viewer-play', t.play, '<svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0l10 6-10 6z"/></svg>');
     const counter = document.createElement('div');
     counter.className = 'cc-photo-album__viewer-counter';
-    el.append(img, prev, next, close, video, counter);
+    el.append(img, play, prev, next, close, counter);
     document.body.append(el);
 
     prev.addEventListener('click', () => go(-1));
     next.addEventListener('click', () => go(1));
     close.addEventListener('click', closeViewer);
+    play.addEventListener('click', playVideo);
+    img.addEventListener('click', () => { if (viewer.el.classList.contains('is-video')) { playVideo(); } });
     el.addEventListener('click', (e) => { if (e.target === el) { closeViewer(); } });
     onSwipe(el, go);
 
-    viewer = { el, img, video, counter };
+    viewer = { el, img, counter, frame: null };
     return viewer;
   }
 
   function paintViewer() {
     const { photos, index } = active;
     const p = photos[index];
+    stopVideo();
     viewer.img.src = url(p.id, 1200);
-    const full = image(fullUrl(p));
-    full.onload = () => { if (active && active.photos[active.index] === p) { viewer.img.src = full.src; } };
+    if (!p.v) {
+      const full = image(fullUrl(p));
+      full.onload = () => { if (active && active.photos[active.index] === p) { viewer.img.src = full.src; } };
+    }
     [-1, 1].forEach((d) => image(fullUrl(photos[(index + d + photos.length) % photos.length])));
     viewer.counter.textContent = `${index + 1} / ${photos.length}`;
-    viewer.video.textContent = '▶ ' + COPY[currentLang()].video;
-    viewer.video.href = `https://drive.google.com/file/d/${p.id}/view`;
     viewer.el.classList.toggle('is-video', !!p.v);
     viewer.el.classList.toggle('is-single', photos.length < 2);
+  }
+
+  // Drive's player loads only on demand; files are shared "anyone with the link".
+  function playVideo() {
+    if (!active || viewer.frame) { return; }
+    const p = active.photos[active.index];
+    const frame = document.createElement('iframe');
+    frame.className = 'cc-photo-album__viewer-frame';
+    frame.src = `https://drive.google.com/file/d/${p.id}/preview?autoplay=1`;
+    frame.allow = 'autoplay; fullscreen';
+    frame.allowFullscreen = true;
+    frame.style.aspectRatio = `${p.w} / ${p.h}`;
+    frame.style.width = `min(94vw, ${(80 * p.w / p.h).toFixed(2)}vh)`;
+    viewer.el.prepend(frame);
+    viewer.frame = frame;
+    viewer.el.classList.add('is-playing');
+  }
+
+  function stopVideo() {
+    if (viewer && viewer.frame) {
+      viewer.frame.remove();
+      viewer.frame = null;
+    }
+    if (viewer) { viewer.el.classList.remove('is-playing'); }
   }
 
   function openViewer(state, index) {
@@ -125,6 +149,7 @@
   function closeViewer() {
     if (!viewer || !active) { return; }
     viewer.el.classList.remove('is-open');
+    stopVideo();
     document.documentElement.classList.remove('cc-photo-album-lock');
     const { state, index } = active;
     active = null;

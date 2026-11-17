@@ -222,22 +222,43 @@ html.cc-photo-album-lock {
   display: none;
 }
 
-.cc-photo-album__viewer-video {
-  position: absolute;
-  bottom: 52px;
-  left: 50%;
-  display: none;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, .14);
-  color: #fff !important;
-  font-size: 13px;
-  text-decoration: none !important;
-  transform: translateX(-50%);
+.cc-photo-album__viewer-frame {
+  display: block;
+  max-height: 80vh;
+  border: 0;
+  border-radius: 4px;
+  background: #000;
 }
 
-.cc-photo-album__viewer.is-video .cc-photo-album__viewer-video {
-  display: block;
+.cc-photo-album__viewer.is-video > img {
+  cursor: pointer;
+}
+
+.cc-photo-album__viewer.is-playing > img,
+.cc-photo-album__viewer:not(.is-video) .cc-photo-album__viewer-play,
+.cc-photo-album__viewer.is-playing .cc-photo-album__viewer-play {
+  display: none;
+}
+
+.cc-photo-album__viewer .cc-photo-album__viewer-play {
+  top: 50%;
+  left: 50%;
+  width: 76px;
+  height: 76px;
+  background: rgba(0, 0, 0, .55);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .85);
+  transform: translate(-50%, -50%);
+}
+
+.cc-photo-album__viewer .cc-photo-album__viewer-play:hover {
+  background: rgba(86, 60, 113, .85);
+}
+
+.cc-photo-album__viewer .cc-photo-album__viewer-play svg {
+  width: 26px;
+  height: 26px;
+  margin-left: 5px;
+  fill: #fff;
 }
 
 .cc-photo-album__viewer-counter {
@@ -250,8 +271,15 @@ html.cc-photo-album-lock {
   transform: translateX(-50%);
 }
 
+/* Swipes over Drive's player never reach the page, so videos keep the arrows on phones. */
 @media (max-width: 640px) {
+  .cc-photo-album__viewer:not(.is-video) .cc-photo-album__viewer-nav {
+    display: none;
+  }
+
   .cc-photo-album__viewer-nav {
-    display: none !important;
+    top: auto;
+    bottom: 8px;
+    transform: none;
   }
 }
