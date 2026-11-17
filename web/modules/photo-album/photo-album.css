@@ -1,0 +1,257 @@
+/* Photo album: `.cc-photo-album` blocks from the photos sync.
+ * Coupled to photo-album.js - it builds the markup, these rules style it. */
+
+.cc-photo-album {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.cc-photo-album button {
+  font: inherit;
+  color: inherit;
+}
+
+.cc-photo-album__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.cc-photo-album__tabs[hidden] {
+  display: none;
+}
+
+.cc-photo-album__tab {
+  flex: none;
+  padding: 8px 16px;
+  border: 1px solid #e6e3ea;
+  border-radius: 999px;
+  background: #fff;
+  color: #4b4b55 !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+
+.cc-photo-album__tab:hover {
+  background: #f7f6f9;
+  color: var(--color-purple, #563c71) !important;
+}
+
+.cc-photo-album__tab.is-active {
+  background: #efe9f5;
+  border-color: #d9cce6;
+  color: var(--color-purple, #563c71) !important;
+  font-weight: 600;
+}
+
+.cc-photo-album__count {
+  margin-left: 6px;
+  font-weight: 400;
+  opacity: .6;
+}
+
+.cc-photo-album__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cc-photo-album__tile {
+  position: relative;
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f6f4f2;
+  cursor: zoom-in;
+}
+
+.cc-photo-album__tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .35s, transform .4s;
+}
+
+.cc-photo-album__tile.is-loaded img {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .cc-photo-album__tile:hover img {
+    transform: scale(1.03);
+  }
+}
+
+.cc-photo-album__play {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .55);
+}
+
+.cc-photo-album__play svg {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+  fill: #fff;
+}
+
+.cc-photo-album__more {
+  display: block;
+  margin: 24px auto 0;
+  padding: 10px 22px;
+  border: 1px solid #e9e5e3;
+  border-radius: 999px;
+  background: #fff;
+  font-size: 14px !important;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cc-photo-album__more:hover {
+  background: #f6f4f2;
+}
+
+.cc-photo-album__more[hidden] {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .cc-photo-album__tabs {
+    gap: 6px;
+  }
+
+  .cc-photo-album__tab {
+    padding: 6px 12px;
+    font-size: 13px !important;
+  }
+
+  .cc-photo-album__count {
+    margin-left: 4px;
+  }
+
+  .cc-photo-album__grid {
+    gap: 4px;
+  }
+
+  .cc-photo-album__tile {
+    border-radius: 6px;
+  }
+}
+
+/* Viewer */
+
+html.cc-photo-album-lock {
+  overflow: hidden;
+}
+
+.cc-photo-album__viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, .96);
+}
+
+.cc-photo-album__viewer.is-open {
+  display: flex;
+}
+
+.cc-photo-album__viewer > img {
+  max-width: 94vw;
+  max-height: 86vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.cc-photo-album__viewer button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cc-photo-album__viewer button:hover {
+  background: rgba(255, 255, 255, .22);
+}
+
+.cc-photo-album__viewer button svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cc-photo-album__viewer-nav--prev {
+  left: 16px;
+}
+
+.cc-photo-album__viewer-nav--next {
+  right: 16px;
+}
+
+.cc-photo-album__viewer-close {
+  top: 16px;
+  right: 16px;
+}
+
+.cc-photo-album__viewer.is-single .cc-photo-album__viewer-nav {
+  display: none;
+}
+
+.cc-photo-album__viewer-video {
+  position: absolute;
+  bottom: 52px;
+  left: 50%;
+  display: none;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  color: #fff !important;
+  font-size: 13px;
+  text-decoration: none !important;
+  transform: translateX(-50%);
+}
+
+.cc-photo-album__viewer.is-video .cc-photo-album__viewer-video {
+  display: block;
+}
+
+.cc-photo-album__viewer-counter {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  color: #bbb;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 640px) {
+  .cc-photo-album__viewer-nav {
+    display: none !important;
+  }
+}

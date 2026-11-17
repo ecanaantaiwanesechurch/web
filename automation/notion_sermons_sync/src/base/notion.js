@@ -1,7 +1,6 @@
 import { Client } from '@notionhq/client';
 
 import { readFileAsJson } from './fs_utils.js';
-import { galleryHtml } from './gallery.js';
 import { videoCover } from './video_thumbnail.js';
 import { sleep } from './utils.js';
 
@@ -337,68 +336,6 @@ async function createSundaySchoolRecord(notion, database_id, record, isEnglish) 
   return res.id;
 }
 
-async function updateAlumb(notion, album, pageId) {
-  const title = album.album.albumTitle;
-  console.log(`Updating album ${title}`);
-
-  // find the first column_list
-  const blocks = await notion.blocks.children.list({
-    block_id: pageId,
-    page_size: 30,
-  });
-
-  // find the target section
-  const target = blocks?.results?.find(r => {
-    return r.type === 'code' && r.code?.rich_text?.[0]?.plain_text?.includes(title);
-  });
-
-  if (!target) {
-    console.error(`Not able to find album section for ${title}`);
-    return;
-  }
-
-  const content = target.code?.rich_text[0]?.text?.content || '';
-  const reg = /%%(.*)%%(.*)%%(.*)%%/.exec(content);
-  const pageLastItemName = reg?.[1] || '_NO';
-  const pageLastItemTime = reg?.[2] || '_NO';
-  const pageLastItemCount = reg?.[3] || '_NO';
-
-  const items = album.items || [];
-  const lastItem = items[items.length - 1];
-  const lastItemName = lastItem?.id || 'NA';
-  const lastItemTime = lastItem?.imageMediaMetadata?.time || 'NA';
-  const lastItemCount = `${items.length}`;
-
-  if (pageLastItemName === lastItemName &&
-    pageLastItemTime === lastItemTime &&
-    pageLastItemCount === lastItemCount) {
-    console.error(`${title} has no new photos ${lastItemCount}. skipped.`);
-    return;
-  }
-
-  const html = galleryHtml(album);
-  const itemLine = `<!-- %%${lastItemName}%%${lastItemTime}%%${lastItemCount}%% -->`;
-
-  await sleep(350);
-
-  const newText = `super-embed:  <!-- ${title} -->\n${itemLine}\n${html}`;
-  const chunks = chunkString(newText, 2000);
-  const rich_text = chunks.map(n => {
-    return {
-      text: { content: `${n}` }
-    }
-  })
-
-  const response = await notion.blocks.update({
-    block_id: target.id,
-    code: {
-      rich_text
-    }
-  });
-
-  console.log(`Updating album ${title} Done. ${album.items?.length} ${response.id}`);
-}
-
 async function updateCalendar(notion, html, metadata, pageId, sheetModifiedTime) {
   console.log(`Updating Event Calendar`);
 
@@ -473,7 +410,6 @@ export default {
   createVideoTestimonyRecord,
   createSermonRecord,
   createSundaySchoolRecord,
-  updateAlumb,
   updateMMPage,
   updateSermonHighlight,
   updatePageCover,

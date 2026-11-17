@@ -23,7 +23,7 @@ npm run "deploy schools|sermons|videos|photos"
 - `notion.js` - Main Notion API client with CRUD operations
 - `google_sheets.js` - Google Sheets data reading/updating
 - `google_photos.js` - Photo album management
-- `gallery.js` - HTML generation for embedded galleries
+- `photo_album.js` - fills `cc-photo-album` code blocks with Drive album data
 - `notion_blocks.js` - Notion block builders (titles, columns, etc.)
 
 **Sync Functions** (`src/functions/`):
@@ -50,5 +50,5 @@ npm run "deploy schools|sermons|videos|photos"
 - Updates Mandarin ministry page with weekly verse and video
 
 **Photo Galleries**:
-- Generate HTML embedded in Notion code blocks
-- Track last item metadata to detect updates
+- Code blocks containing `<!-- cc-photo-album: <keys> -->` on the configured pages get album JSON from Drive
+- A data hash in the block skips unchanged albums; `web/modules/photo-album/` renders it

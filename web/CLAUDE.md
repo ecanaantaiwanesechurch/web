@@ -14,7 +14,6 @@ npm run build  # Compiles Tailwind: src/css/input.css → static/component.css
 
 **Key Files**:
 - `js/navbar.js` - Bilingual navigation system (zh/en language switching)
-- `js/album.js` - Photo gallery interactions and carousel
 - `js/video_player.js` - Video playback functionality
 - `js/landing.js` - Homepage interactions
 - `js/highlight.js` - Content highlighting features
@@ -34,12 +33,13 @@ party carries a `VENDOR.md` recording the source and our changes.
 - `modules/service-times/` - service cards on the homepages and the service information page
 - `modules/footer/` - site footer, rendered in place of Super's footer
 - `modules/photo-browser/` - images in a blue callout become a browsable gallery
+- `modules/photo-album/` - Drive albums synced into `cc-photo-album` code blocks, shown as tabs over a photo grid
 
 ## Tailwind Configuration
 
 - Uses DaisyUI plugin for component library
 - Custom spacing: `smenu` for mobile menu width calculations
-- Content paths include both local JS and automation gallery generator
+- Content paths include both local JS and the automation calendar generator
 - Theme extensions for church branding
 
 ## Navigation System

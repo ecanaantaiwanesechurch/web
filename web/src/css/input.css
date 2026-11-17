@@ -7,11 +7,11 @@
 @import "../../modules/service-times/service-times.css";
 @import "../../modules/footer/footer.css";
 @import "../../modules/photo-browser/photo-browser.css";
+@import "../../modules/photo-album/photo-album.css";
 @plugin "daisyui" {
   prefix: "dui-";
 }
 @source "./js/**/*.js";
-@source "../../../automation/notion_sermons_sync/src/base/gallery.js";
 @source "../../../automation/notion_sermons_sync/src/base/calendar.js";
 
 @theme {
@@ -85,12 +85,6 @@
 .hidden.md\\:block ul li button,
 .hidden.md\\:block ul li div {
   white-space: nowrap;
-}
-
-/* Swiper photo galleries */
-
-.swiper-wrapper {
-  align-items: center;
 }
 
 /* 680px is where Super stacks columns */

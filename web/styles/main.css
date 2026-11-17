@@ -691,9 +691,6 @@ h3 {
   --color-bg-brown: hsla( var(--brown-h), var(--brown-s), var(--brown-l), 0.1) !important;
   --color-bg-gray: hsla( var(--gray-h), var(--gray-s), var(--gray-l), 0.1) !important;
   --callout-border: 1.5px solid #E9E9E7;
-  --swiper-scrollbar-bg-color: rgba(255, 255, 255, 0.1);
-  --swiper-scrollbar-drag-bg-color: rgba(255, 255, 255, 0.5);
-  --swiper-navigation-color: white;
   --navbar-padding: 0;
 }
 
