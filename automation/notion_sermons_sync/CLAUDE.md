@@ -9,10 +9,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 npm run "test schools"   # Sunday school sync
 npm run "test sermons"   # Sermon sync  
 npm run "test videos"    # Video testimony sync
-npm run "test photos"    # Photo gallery sync
+npm run "test photos"    # Photo album sync only
+npm run "test photos-calendar"  # Photo albums + calendar sync
 
 # Deploy to Google Cloud Functions
-npm run "deploy schools|sermons|videos|photos"
+npm run "deploy schools|sermons|videos|photos-calendar"
 ```
 
 ## Architecture

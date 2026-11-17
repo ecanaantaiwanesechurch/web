@@ -46,11 +46,12 @@ cd automation/notion_sermons_sync/
 npm run "test schools"    # Test Sunday school sync locally
 npm run "test sermons"    # Test sermon sync locally
 npm run "test videos"     # Test video testimony sync locally
-npm run "test photos"     # Test photo gallery sync locally
+npm run "test photos"     # Test photo album sync locally
+npm run "test photos-calendar"  # Test photo albums + calendar sync locally
 npm run "test calendar"   # Test calendar sync locally
 
 # Deploy to Google Cloud Functions
-npm run "deploy schools|sermons|videos|photos|calendar"
+npm run "deploy schools|sermons|videos|photos-calendar"
 ```
 
 ### Configuration Editor
